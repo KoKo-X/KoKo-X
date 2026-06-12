@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="地域の個人店・職人店の魅力を、実際に会って聞いて、客目線で言語化するポータルサイト。初めてでも相談しやすいお店を、店主の人柄やこだわりまで紹介します。">
+  <meta property="og:title" content="地域の個人店応援ポータル">
+  <meta property="og:description" content="ただの掲載ではなく、人柄まで届く店舗紹介。AI時代に、ちゃんと見つかる個人店へ。">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/portal-hero.png">
+  <title>地域の個人店応援ポータル</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="./script.js" defer></script>
+</head>
+<body class="portal-page">
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="地域の個人店応援ポータル">
+      <span class="brand-mark" aria-hidden="true">P</span>
+      <span>地域の個人店応援ポータル</span>
+    </a>
+    <nav class="site-nav" aria-label="主要メニュー">
+      <a href="#stores">掲載店舗</a>
+      <a href="#categories">業種</a>
+      <a href="#stories">取材記事</a>
+      <a href="#pricing">料金方針</a>
+      <a href="#contact">相談</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="portal-hero" aria-labelledby="portal-title">
+      <img class="portal-hero-image" src="assets/portal-hero.png" alt="地域の店を訪ねて取材する様子のイメージ">
+      <div class="portal-hero-shade"></div>
+      <div class="portal-hero-content">
+        <p class="eyebrow">Local shops, real stories</p>
+        <h1 id="portal-title">地域の個人店と職人の魅力を、会いに行って伝える。</h1>
+        <p class="portal-lead">技術はある。でも伝え方が苦手。そんなお店の人柄、こだわり、相談しやすさを、実際に会って聞いた言葉と客目線でWebに残します。</p>
+        <div class="hero-actions" aria-label="主要な導線">
+          <a class="button primary" href="#stores">掲載店舗を見る</a>
+          <a class="button secondary" href="#contact">掲載を相談する</a>
+        </div>
+      </div>
+      <div class="portal-hero-note" aria-label="現在の制作状況">
+        <span>Phase 1</span>
+        <strong>バイク屋LP制作中</strong>
+        <p>建設会社LPと取材テンプレートも順次整備</p>
+      </div>
+    </section>
+
+    <section class="portal-intro section">
+      <div class="section-heading">
+        <p class="eyebrow">Concept</p>
+        <h2>検索で見つかるだけでなく、初めてでも相談したくなる場所へ。</h2>
+      </div>
+      <div class="value-grid">
+        <article>
+          <span class="card-number">01</span>
+          <h3>実際に会って聞く</h3>
+          <p>店主や代表者の言葉、現場の空気、仕事への姿勢を取材して整理します。</p>
+        </article>
+        <article>
+          <span class="card-number">02</span>
+          <h3>客目線で補足する</h3>
+          <p>初めて行く人が気になる料金、予約、相談しやすさ、安心材料を明確にします。</p>
+        </article>
+        <article>
+          <span class="card-number">03</span>
+          <h3>AI時代の情報設計</h3>
+          <p>自然文、FAQ、OGP、構造化データを整え、検索やAIにも拾われやすい母艦にします。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="stores" class="section stores-section">
+      <div class="section-heading with-action">
+        <div>
+          <p class="eyebrow">Featured shops</p>
+          <h2>まずは実案件として見せられる2件から。</h2>
+        </div>
+        <div class="filter-controls" aria-label="店舗カテゴリフィルター">
+          <button type="button" class="filter-button is-selected" data-filter="all">すべて</button>
+          <button type="button" class="filter-button" data-filter="bike">バイク</button>
+          <button type="button" class="filter-button" data-filter="construction">建設</button>
+        </div>
+      </div>
+
+      <div class="store-grid">
+        <article class="store-card" data-category="bike">
+          <a href="bike/nearby-bike-shop/index.html" aria-label="近所のバイク屋の詳細ページを見る">
+            <img src="assets/bike-shop-hero.png" alt="近所のバイク屋の整備工場イメージ">
+            <div class="store-card-body">
+              <span class="store-tag">バイク屋 / 制作中</span>
+              <h3>近所のバイク屋</h3>
+              <p>タイヤ交換、スクーター、日常整備の相談など、初めてのお客様の不安解消を中心にしたLP。</p>
+              <span class="text-link">詳細ページを見る</span>
+            </div>
+          </a>
+        </article>
+
+        <article class="store-card is-coming" data-category="construction">
+          <div class="store-card-media construction-media" aria-hidden="true">
+            <span>Build</span>
+          </div>
+          <div class="store-card-body">
+            <span class="store-tag">建設会社 / 次に制作</span>
+            <h3>地域の建設会社</h3>
+            <p>代表者紹介、施工実績、対応エリア、職人としてのこだわり、問い合わせ導線を重視するLP。</p>
+            <span class="text-link muted">構成案作成予定</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="categories" class="section category-section">
+      <div class="section-heading">
+        <p class="eyebrow">Categories</p>
+        <h2>職人系・生活密着型の個人店から広げる。</h2>
+      </div>
+      <div class="category-grid">
+        <a href="#stores">
+          <strong>バイク屋</strong>
+          <span>整備・修理・相談</span>
+        </a>
+        <a href="#stores">
+          <strong>車屋・板金屋</strong>
+          <span>修理・販売・鈑金</span>
+        </a>
+        <a href="#stores">
+          <strong>建設会社</strong>
+          <span>施工実績・対応エリア</span>
+        </a>
+        <a href="#stores">
+          <strong>飲食店</strong>
+          <span>定食・ラーメン・洋食</span>
+        </a>
+        <a href="#stores">
+          <strong>美容・整体</strong>
+          <span>雰囲気・人柄・予約</span>
+        </a>
+        <a href="#stores">
+          <strong>町工場</strong>
+          <span>技術・得意分野</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section process-section">
+      <div class="section-heading">
+        <p class="eyebrow">Flow</p>
+        <h2>掲載は、聞くところから始める。</h2>
+      </div>
+      <ol class="process-list">
+        <li>
+          <span>01</span>
+          <h3>訪問・ヒアリング</h3>
+          <p>店主の想い、得意分野、お客様への姿勢を実際に聞きます。</p>
+        </li>
+        <li>
+          <span>02</span>
+          <h3>客目線で整理</h3>
+          <p>初めての人が不安に思う点を、料金・予約・対応範囲まで含めて整えます。</p>
+        </li>
+        <li>
+          <span>03</span>
+          <h3>Webページ化</h3>
+          <p>スマホで読みやすく、GoogleマップやSNSへ自然につながるページにします。</p>
+        </li>
+        <li>
+          <span>04</span>
+          <h3>公開・改善</h3>
+          <p>掲載後も軽微な修正や情報更新を行い、信頼できる公式情報として育てます。</p>
+        </li>
+      </ol>
+    </section>
+
+    <section id="stories" class="section stories-section">
+      <div class="section-heading">
+        <p class="eyebrow">Stories</p>
+        <h2>店舗ページは、店主の言葉が中心になる。</h2>
+      </div>
+      <div class="story-layout">
+        <article class="story-feature">
+          <p class="eyebrow">Interview template</p>
+          <h3>「この人に任せてみたい」を作る取材項目</h3>
+          <p>開業のきっかけ、仕事へのこだわり、初めて来る人へのメッセージ、得意な依頼、運営者から見た印象。掲載前の不安を減らすために、事前に知りたい情報をひとつずつ言葉にします。</p>
+        </article>
+        <div class="story-list">
+          <article>
+            <span>安心材料</span>
+            <h3>料金目安・予約・持ち込み可否</h3>
+          </article>
+          <article>
+            <span>人柄</span>
+            <h3>店主の想い・大切にしている価値観</h3>
+          </article>
+          <article>
+            <span>検索性</span>
+            <h3>FAQ・自然文・構造化データ</h3>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" class="section pricing-section">
+      <div class="section-heading">
+        <p class="eyebrow">Transparency</p>
+        <h2>料金と契約は、最初に分かる形にする。</h2>
+      </div>
+      <div class="pricing-grid">
+        <article>
+          <h3>初期制作</h3>
+          <p>第1号・第2号は実績作りとして無料または低価格で対応する可能性あり。作業範囲、写真、文章、修正回数を事前に明確化。</p>
+        </article>
+        <article>
+          <h3>月額掲載</h3>
+          <p>将来的には月額数千円程度の掲載モデルを検討。保守、軽微修正、掲載維持費を含めた分かりやすい設計へ。</p>
+        </article>
+        <article>
+          <h3>追加オプション</h3>
+          <p>追加取材、写真追加、SNS投稿文、Googleビジネスプロフィール整備、LP追加、施工実績ページなど。</p>
+        </article>
+      </div>
+      <p class="pricing-note">無料取材と誤解させて後から請求する形式は行いません。初期費用、月額費用、無料範囲、有料範囲、解約条件を必ず明示します。</p>
+    </section>
+
+    <section id="contact" class="section portal-contact">
+      <div>
+        <p class="eyebrow">Start</p>
+        <h2>まずは、1店舗をちゃんと伝わる形に。</h2>
+        <p>巨大なポータルを先に完成させるのではなく、バイク屋LPと建設会社LPを実績として見せられる状態にします。そこから掲載店舗一覧、地域別、カテゴリ別、取材記事へ広げます。</p>
+      </div>
+      <div class="contact-actions">
+        <a class="button primary" href="bike/nearby-bike-shop/index.html">バイク屋LPを見る</a>
+        <span class="button secondary is-disabled" aria-disabled="true">掲載相談先は準備中</span>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>地域の個人店応援ポータル</p>
+    <p>ただの掲載ではなく、人柄まで届く店舗紹介。</p>
+  </footer>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "地域の個人店応援ポータル",
+      "description": "地域の個人店・職人店の魅力を実際に会って聞き、客目線で言語化して発信するポータルサイトです。",
+      "url": "./",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "./?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+  </script>
+</body>
+</html>

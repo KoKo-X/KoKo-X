@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Engine Scroll Background Test</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <canvas id="engine-canvas" aria-hidden="true"></canvas>
+
+    <main class="page-shell">
+      <section class="hero section">
+        <p class="eyebrow">Scroll responsive prototype</p>
+        <h1>Engine Background Test</h1>
+        <p>
+          スクロールしていない時は低回転でアイドリングし、スクロール量が増えると
+          ピストンとクランクが吹け上がるテストページです。
+        </p>
+      </section>
+
+      <section class="section narrow">
+        <p class="eyebrow">Concept</p>
+        <h2>2D engine cutaway</h2>
+        <p>
+          背景のCanvasは固定配置で、ページコンテンツとは分離しています。
+          後で既存のバイクショップHPに移植しやすいよう、描画処理は
+          <code>engine.js</code> 側にまとめています。
+        </p>
+      </section>
+
+      <section class="section narrow">
+        <p class="eyebrow">Cycle</p>
+        <h2>Intake, compression, power, exhaust</h2>
+        <p>
+          クランク角720度を1サイクルとして、吸気、圧縮、燃焼、排気の色と粒子表現を
+          切り替えています。点火タイミングではプラグから短い火花が出ます。
+        </p>
+      </section>
+
+      <section class="section stats">
+        <div>
+          <span>Idle</span>
+          <strong>Low RPM</strong>
+        </div>
+        <div>
+          <span>Scroll</span>
+          <strong>Throttle Up</strong>
+        </div>
+        <div>
+          <span>Render</span>
+          <strong>Canvas 2D</strong>
+        </div>
+      </section>
+
+      <section class="section narrow outro">
+        <p class="eyebrow">Next step</p>
+        <h2>Shop background ready</h2>
+        <p>
+          この方向で見た目が合えば、透明度、配置、サイズ、回転数だけ調整して
+          既存ページの背景レイヤーとして取り込めます。
+        </p>
+      </section>
+    </main>
+
+    <script src="engine.js"></script>
+  </body>
+</html>

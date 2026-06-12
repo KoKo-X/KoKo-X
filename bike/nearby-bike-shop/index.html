@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="千葉県・東葛エリア周辺で、タイヤ交換、日常点検、スクーターの相談がしやすいバイク屋を紹介。初めてでも相談しやすい地域密着型の整備店です。">
+  <meta property="og:title" content="スクーターも相談しやすい地域のバイク屋 | 地域の個人店応援ポータル">
+  <meta property="og:description" content="タイヤ交換や日常整備を相談しやすい、地域密着型のバイク整備店を紹介します。">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="../../assets/bike-shop-hero.png">
+  <title>スクーターも相談しやすい地域のバイク屋 | 地域の個人店応援ポータル</title>
+  <link rel="stylesheet" href="./shop.css?v=theme-compare-1">
+  <script src="./shop.js?v=theme-compare-1" defer></script>
+  <script src="./shop-engine-background.js?v=theme-compare-1" defer></script>
+</head>
+<body class="shop_page">
+  <canvas id="shop-engine-canvas" class="shop_engine_canvas" aria-hidden="true"></canvas>
+  <header class="shop_header">
+    <a class="brand shop_brand" href="../../index.html" aria-label="個人店ポータルのトップページへ戻る">
+      <span>ヤマゲンモータース</span>
+    </a>
+    <div class="shop_header_actions">
+      <button class="theme_compare_toggle" type="button" aria-pressed="false">
+        <span class="theme_compare_toggle_label">白系で見る</span>
+      </button>
+      <a class="portal_byline" href="../../index.html">個人店ポータルへ戻る</a>
+    </div>
+  </header>
+
+  <nav class="shop_menu_bar" aria-label="店舗ページメニュー">
+    <div class="shop_menu_scroller">
+      <a href="#points">3つのポイント</a>
+      <a href="#about">お店紹介</a>
+      <a href="#services">相談できること</a>
+      <a href="#interview">人柄と想い</a>
+      <a href="#faq">FAQ</a>
+      <a href="#basic_info">店舗基本情報</a>
+      <a href="#contact">問い合わせ</a>
+    </div>
+  </nav>
+
+  <main id="top">
+    <div class="bike_scroll_track" aria-hidden="true">
+      <span class="track_flag start_flag">
+        <img src="../../assets/scroll-start-flag.png" alt="">
+      </span>
+      <span class="track_road"></span>
+      <span class="track_flag goal_flag">
+        <img src="../../assets/scroll-goal-flag.png" alt="">
+      </span>
+      <span class="scroll_bike">
+        <img src="../../assets/scroll-bike.png" alt="">
+      </span>
+    </div>
+
+    <section class="shop_hero" aria-labelledby="hero_title">
+      <div class="hero_visual">
+      <picture>
+        <source media="(max-width: 620px)" srcset="../../assets/bike-shop-hero-mobile.png">
+        <img class="hero_image" src="../../assets/bike-shop-hero.png" alt="地域の小さなバイク整備工場のイメージ">
+      </picture>
+      </div>
+      <div class="hero_overlay"></div>
+      <div class="hero_content">
+        <p class="shop_hero_eyebrow">千葉県 我孫子市</p>
+        <h1 id="hero_title">ヤマゲンモータース</h1>
+        <p class="hero_lead">交換、整備、点検、車両購入など、<br>
+          どなた様でも気軽に相談・依頼が出来る、<br>
+          経験豊富で頼れるバイクショップ！
+        </p>
+      </div>
+    </section>
+
+    <section id="points" class="assurance_section" aria-labelledby="assurance_title">
+      <div class="assurance_heading">
+        <p class="eyebrow">3つのポイント</p>
+      </div>
+      <div class="assurance_grid">
+        <article data-point="01">
+          <h3>豊富な経験と確かな技術</h3>
+          <p>数々の修理や整備を手掛けた確かな技術。真心こめてお客様の大切なバイクに安心と安全を提供致します。
+          </p>
+          <svg class="route_mark" viewBox="0 0 120 128" aria-hidden="true" focusable="false">
+            <path class="route_outer" d="M38 8H82C99 8 111 21 111 38C111 76 88 104 60 119C32 104 9 76 9 38C9 21 21 8 38 8Z"></path>
+            <path class="route_inner" d="M39 15H81C95 15 105 26 105 39C105 72 84 98 60 111C36 98 15 72 15 39C15 26 25 15 39 15Z"></path>
+            <text class="route_number" x="60" y="66">01</text>
+            <text class="route_label" x="60" y="91">POINT</text>
+          </svg>
+        </article>
+        <article data-point="02">
+          <h3>初めてでも相談しやすい</h3>
+          <p>初めていらっしゃる方や、バイク初心者の方でも安心して相談できるように努めております。</p>
+          <svg class="route_mark" viewBox="0 0 120 128" aria-hidden="true" focusable="false">
+            <path class="route_outer" d="M38 8H82C99 8 111 21 111 38C111 76 88 104 60 119C32 104 9 76 9 38C9 21 21 8 38 8Z"></path>
+            <path class="route_inner" d="M39 15H81C95 15 105 26 105 39C105 72 84 98 60 111C36 98 15 72 15 39C15 26 25 15 39 15Z"></path>
+            <text class="route_number" x="60" y="66">02</text>
+            <text class="route_label" x="60" y="91">POINT</text>
+          </svg>
+        </article>
+        <article data-point="03">
+          <h3>スクーターも大型も全て対応</h3>
+          <p>通勤や仕事で使用するスクーターから大型バイクまで、全てのジャンルのバイクに対応しております。些細な不調からカスタムまで、遠慮なくご相談下さい！</p>
+          <svg class="route_mark" viewBox="0 0 120 128" aria-hidden="true" focusable="false">
+            <path class="route_outer" d="M38 8H82C99 8 111 21 111 38C111 76 88 104 60 119C32 104 9 76 9 38C9 21 21 8 38 8Z"></path>
+            <path class="route_inner" d="M39 15H81C95 15 105 26 105 39C105 72 84 98 60 111C36 98 15 72 15 39C15 26 25 15 39 15Z"></path>
+            <text class="route_number" x="60" y="66">03</text>
+            <text class="route_label" x="60" y="91">POINT</text>
+          </svg>
+        </article>
+      </div>
+    </section>
+
+    <section id="about" class="section shop_section about_section">
+      <div class="section_copy">
+        <p class="eyebrow">お店紹介</p>
+        <h2>バイクに詳しくない人でも相談しやすい、町のバイク屋。</h2>
+        <p>バイク屋は、初めて行く人にとって少し入りづらい場所に見えることがあります。料金目安が分からない、どこまで相談していいか分からない、スクーターを見てもらえるのか不安になる人も少なくありません。</p>
+        <p>だからこそ、このページでは来店前に知りたい情報を整理しています。仕事や通勤で使うバイクなど、日常で使うバイクの困りごとも相談しやすいお店として紹介します。</p>
+        <p>安全に乗るための整備、点検、消耗品交換、ちょっとした不安の相談やカスタムの相談まで。身近なバイク生活を支える整備店として、店主の人柄や対応の雰囲気まで伝えていきます。</p>
+      </div>
+    </section>
+
+    <section id="services" class="section shop_section">
+      <div class="section_panel">
+        <div class="section_heading">
+          <p class="eyebrow">相談できること</p>
+        </div>
+        <div class="service_grid">
+          <article class="service_card">
+            <h3>修理・整備・部品交換</h3>
+            <p>エンジンまわりの不調、オイル交換、ブレーキ、バッテリー、タイヤなど、日常的な整備から各種部品交換まで相談できます。走っていて気になる音や違和感も、まずは気軽に相談できます。</p>
+          </article>
+
+          <article class="service_card">
+            <h3>車両購入の相談</h3>
+            <p>これからバイクを探したい方や、用途に合う車両を選びたい方の相談にも対応。通勤、買い物、趣味のツーリングなど、乗り方に合わせた車両選びを相談できます。</p>
+          </article>
+
+          <article class="service_card">
+            <h3>カスタム相談</h3>
+            <p>見た目を変えたい、乗りやすくしたい、パーツを取り付けたいなど、バイクのカスタム相談にも対応。安全性や使いやすさも考えながら、自分らしい一台づくりを相談できます。</p>
+          </article>
+
+          <article class="service_card">
+            <h3>その他バイクのお困りごと</h3>
+            <p>原因が分からない不調や、どこに相談すればいいか迷う内容もまずは相談できます。車種や症状、気になっていることを伝えるだけでも、次に何をすればよいか整理しやすくなります。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="interview" class="section interview_showcase" aria-labelledby="interview_title">
+      <div class="section_heading interview_intro">
+        <p id="interview_title" class="eyebrow">取材で見えた人柄と店主の想い</p>
+      </div>
+      <div class="interview_layout">
+        <article class="owner_voice">
+          <p class="interview_card_label">店主の想い</p>
+          <h3>地域で頼れるバイク屋として、どんな相談に向き合っていくのか。</h3>
+          <p>このページでは、取材前の段階で断定できない情報を無理に打ち出すのではなく、来店前に知りたい内容を整理しています。</p>
+          <p>店主の詳しい想い、得意分野、開業理由、初めて来る人へのメッセージは、取材後に本人の言葉を交えて追加していきます。</p>
+          <aside class="owner_voice_topics">
+            <ul>
+              <li><strong>開業のきっかけ</strong><span>テスト文章。</span></li>
+              <li><strong>店主が目指している事</strong><span>テスト文章。</span></li>
+              <li><strong>お客様へ贈るひとこと</strong><span>テスト文章。</span></li>
+            </ul>
+          </aside>
+        </article>
+        <article class="operator_card">
+          <p class="interview_card_label">ポータル運営者が取材して感じたこと</p>
+          <h3>爽やかな笑顔が絶えず、<br>”誰でも相談しやすい”安心感と、<br>揺るぎない仕事への”情熱”</h3>
+          <p>運営者が実際に店主と話してみて感じたのは、初めての人でも声をかけやすい柔らかな人柄です。急な訪問でも笑顔でお出迎えしてくれました。</p>
+          <p>この仕事がとても好きな事がひしひしと伝わり、修理や整備や些細な相談にも真摯に向き合う姿勢が、仕事への熱意としてまっすぐに伝わってきました。</p>
+          <p>バイクに詳しくない人やショップに慣れていない人にとっては「店主がどんな人か少し見えること」自体が安心材料になると思い、ここに執筆しました。</p>
+          <p>整備担当者がコロコロ変わる大型店舗にはない魅力がここには沢山あり、行きつけのショップを探している人には特にベストマッチだと思います。</p>
+          <p>日常整備の相談先を探している地域の方や他の地域の方にも、是非届いてほしい一軒だと感じました！</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="faq" class="section faq_section" aria-labelledby="faq_title">
+      <div class="section_panel">
+        <div class="section_heading faq_heading">
+          <p id="faq_title" class="eyebrow">FAQ</p>
+        </div>
+        <div class="faq_list">
+          <details>
+            <summary>初めてでも相談できますか？</summary>
+            <p>はい。バイクに詳しくない人でも相談しやすいお店として紹介しています。正式な問い合わせ方法や来店の流れは、取材後に掲載します。</p>
+          </details>
+          <details>
+            <summary>予約は必要ですか？</summary>
+            <p>現時点では確認中です。来店前の事前連絡を推奨する形で掲載予定ですが、正式な案内は取材後に更新します。</p>
+          </details>
+          <details>
+            <summary>料金は事前に分かりますか？</summary>
+            <p>代表的な作業の料金目安や、見積もり時に確認したい内容は、店主確認後に掲載します。未確認の料金は断定して掲載しません。</p>
+          </details>
+          <details>
+            <summary>どんな内容を問い合わせ時に伝えればいいですか？</summary>
+            <p>車種、年式が分かれば年式、相談内容、症状、いつ頃から気になるか、希望日時を伝えると相談が進みやすくなります。タイヤ交換の場合は、タイヤサイズが分かるとさらにスムーズです。</p>
+          </details>
+          <details>
+            <summary>原付やスクーターでも見てもらえますか？</summary>
+            <p>スクーターや通勤バイクなど生活に近いバイクももちろん対応しております。お気軽にご相談下さい！</p>
+          </details>
+          <details>
+            <summary>持ち込み部品や持ち込みタイヤは対応できますか？</summary>
+            <p>対応可否は確認中です。持ち込み部品や持ち込みタイヤについては、正式確認後に掲載します。</p>
+          </details>
+          <details>
+            <summary>急な故障や不調でも相談できますか？</summary>
+            <p>急な不調の相談可否、対応できる時間帯、緊急対応の範囲は確認中です。正式確認後に分かりやすく掲載します。</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section id="basic_info" class="section shop_section basic_info_section" aria-labelledby="basic_info_title">
+      <div class="info_panel" aria-label="店舗基本情報">
+        <div class="section_heading">
+          <p id="basic_info_title" class="eyebrow">店舗基本情報</p>
+        </div>
+        <dl>
+          <div>
+            <dt>店舗名</dt>
+            <dd>ヤマゲンモータース</dd>
+          </div>
+          <div>
+            <dt>業種</dt>
+            <dd>バイクの整備・修理・交換・点検</dd>
+          </div>
+          <div>
+            <dt>所在地</dt>
+            <dd>〒270-1138 千葉県我孫子市下ケ戸４３８−８</dd>
+          </div>
+          <div>
+            <dt>営業時間</dt>
+            <dd>10:00～19:00</dd>
+          </div>
+          <div>
+            <dt>定休日</dt>
+            <dd>火曜日</dd>
+          </div>
+          <div>
+            <dt>予約</dt>
+            <dd>事前連絡推奨予定</dd>
+          </div>
+          <div>
+            <dt>支払い方法</dt>
+            <dd>現金</dd>
+          </div>
+        </dl>
+        <div class="map_embed" aria-label="Googleマップ">
+          <iframe
+            title="Googleマップ"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10875.51906798239!2d140.0502720746996!3d35.86589075763753!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x602279d238c0dd87%3A0x38cb0d0907d4570!2z44Ok44Oe44Ky44Oz44Oi44O844K_44O844K5!5e0!3m2!1sja!2sjp!4v1780625443720!5m2!1sja!2sjp"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact_section">
+      <div>
+        <p class="eyebrow">問い合わせ</p>
+        <h2>問い合わせ前に、伝える内容を少しだけ整理しておく。</h2>
+        <p>初めての相談でも話が進みやすいよう、問い合わせ前に伝えるとよい情報をまとめています。</p>
+        <ul class="contact_prep_list" aria-label="問い合わせ前に伝えるとよい情報">
+          <li>車種</li>
+          <li>年式が分かれば年式</li>
+          <li>相談内容</li>
+          <li>症状</li>
+          <li>いつ頃から気になるか</li>
+          <li>タイヤ交換の場合はサイズが分かればタイヤサイズ</li>
+          <li>希望日時</li>
+        </ul>
+      </div>
+      <div class="contact_actions">
+        <span class="button secondary is_disabled" aria-disabled="true">予約用Googleフォーム作成予定</span>
+        <a class="button primary" href="tel:080-3817-9154">080-3817-9154</a>
+        <a class="button secondary" href="https://maps.app.goo.gl/vxj6DcjCKBLnjG35A" target="_blank" rel="noopener">Googleマップ</a>
+        <span class="button secondary is_disabled" aria-disabled="true">Instagram URL確認中</span>
+        <span class="button secondary is_disabled" aria-disabled="true">LINE URL確認中</span>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site_footer">
+    <p>個人店応援ポータル</p>
+    <p>個人店の想いを、Webで伝わる形に。<br>個人店応援ポータルは個人店の未来の創造を<br>全身全霊でお手伝いします。</p>
+  </footer>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "MotorcycleRepairShop",
+      "name": "ヤマゲンモータース",
+      "description": "千葉県我孫子市で、バイクの整備・修理・交換・点検を相談しやすいバイクショップの紹介ページです。",
+      "image": "../../assets/bike-shop-hero.png",
+      "areaServed": "千葉県我孫子市",
+      "hasMap": "https://maps.app.goo.gl/vxj6DcjCKBLnjG35A",
+      "url": "./"
+    }
+  </script>
+</body>
+</html>

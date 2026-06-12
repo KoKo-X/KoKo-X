@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Engine WebGL Reproduction Test</title>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <canvas id="engine-gl-canvas" aria-hidden="true"></canvas>
+
+    <main class="page_shell">
+      <section class="hero_panel">
+        <p class="eyebrow">WebGL reproduction prototype</p>
+        <h1>Engine WebGL Test</h1>
+        <p>
+          Canvas 2D版と同じ方向性のエンジン背景を、WebGL2で再現する検証ページです。
+          ライブラリを足さず、線、塗り、粒子、グローをGPU側のプリミティブで描きます。
+        </p>
+      </section>
+
+      <section class="control_panel" aria-label="WebGL controls">
+        <label>
+          Render mode
+          <select id="render-mode">
+            <option value="optimized" selected>Optimized 30fps / DPR cap</option>
+            <option value="quality">Quality 60fps / DPR 2</option>
+            <option value="battery">Battery 24fps / DPR 1</option>
+          </select>
+        </label>
+
+        <label class="check_label">
+          <input id="glow-toggle" type="checkbox" checked>
+          Center radial glow
+        </label>
+
+        <dl class="metrics" aria-label="render metrics">
+          <div>
+            <dt>FPS</dt>
+            <dd id="metric-fps">--</dd>
+          </div>
+          <div>
+            <dt>Frame</dt>
+            <dd id="metric-frame">--</dd>
+          </div>
+          <div>
+            <dt>DPR</dt>
+            <dd id="metric-dpr">--</dd>
+          </div>
+          <div>
+            <dt>Particles</dt>
+            <dd id="metric-particles">--</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="text_panel">
+        <p class="eyebrow">Approach</p>
+        <h2>Canvas APIの線画を、WebGLの小さな図形に分解。</h2>
+        <p>
+          ピストン、クランク、バルブ、配管は太い線分や矩形ポリゴンとして描きます。
+          粒子と背景グローは円形シェーダーで描くため、Canvas 2DよりGPUに寄せた比較ができます。
+        </p>
+      </section>
+
+      <section class="text_panel right">
+        <p class="eyebrow">Same behavior</p>
+        <h2>スクロールで回転数が上がります。</h2>
+        <p>
+          Canvas最適化版と同じように、スクロール速度からRPMを上げます。
+          見た目の完全一致よりも、体感負荷と再現可能性の比較を優先したプロトタイプです。
+        </p>
+      </section>
+
+      <section class="text_panel">
+        <p class="eyebrow">Compare</p>
+        <h2>実機でCanvas版と横並び比較するための土台。</h2>
+        <p>
+          ここで明確に軽ければ、本番背景をWebGLへ寄せる価値があります。
+          逆に差が薄ければ、Canvas 2D最適化だけで十分かもしれません。
+        </p>
+      </section>
+    </main>
+
+    <script src="./engine-webgl.js"></script>
+  </body>
+</html>

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Engine Canvas Optimization Test</title>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <canvas id="engine-opt-canvas" aria-hidden="true"></canvas>
+
+    <main class="page_shell">
+      <section class="hero_panel">
+        <p class="eyebrow">Canvas optimization prototype</p>
+        <h1>Engine Canvas Test</h1>
+        <p>
+          本番LPには触らず、背景エンジンCanvasだけを最適化検証するページです。
+          見た目の要素は残したまま、FPS制御、DPR制御、静的背景キャッシュ、粒子プール、非表示時停止を試します。
+        </p>
+      </section>
+
+      <section class="control_panel" aria-label="Canvas optimization controls">
+        <label>
+          Render mode
+          <select id="render-mode">
+            <option value="optimized" selected>Optimized 30fps / DPR cap</option>
+            <option value="quality">Quality 60fps / DPR 2</option>
+            <option value="battery">Battery 24fps / DPR 1</option>
+          </select>
+        </label>
+
+        <label class="check_label">
+          <input id="glow-toggle" type="checkbox" checked>
+          Center radial glow
+        </label>
+
+        <dl class="metrics" aria-label="render metrics">
+          <div>
+            <dt>FPS</dt>
+            <dd id="metric-fps">--</dd>
+          </div>
+          <div>
+            <dt>Frame</dt>
+            <dd id="metric-frame">--</dd>
+          </div>
+          <div>
+            <dt>DPR</dt>
+            <dd id="metric-dpr">--</dd>
+          </div>
+          <div>
+            <dt>Particles</dt>
+            <dd id="metric-particles">--</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="text_panel">
+        <p class="eyebrow">What this tests</p>
+        <h2>同じCanvas 2Dでも、毎フレーム全部描かない。</h2>
+        <p>
+          グリッドのような静的背景はキャッシュし、動くエンジンと粒子だけを毎フレーム描画します。
+          タブ非表示時は停止し、スクロール時だけRPMを上げます。
+        </p>
+      </section>
+
+      <section class="text_panel right">
+        <p class="eyebrow">Scroll throttle</p>
+        <h2>スクロールすると回転数が上がります。</h2>
+        <p>
+          本番と同じ方向性で、スクロール速度に応じてピストンとクランクの動きを加速します。
+          描画頻度はモードごとに上限を持たせています。
+        </p>
+      </section>
+
+      <section class="text_panel">
+        <p class="eyebrow">Next decision</p>
+        <h2>実機で体感差を見てから本番へ移植。</h2>
+        <p>
+          このページで負荷感が軽くなるなら、同じ最適化を本番の背景Canvasへ移植できます。
+          見た目が変わりすぎる項目は、ここで切り分けて調整します。
+        </p>
+      </section>
+    </main>
+
+    <script src="./engine-optimized.js"></script>
+  </body>
+</html>
