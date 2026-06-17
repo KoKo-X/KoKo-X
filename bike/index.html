@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="バイク・車・整備カテゴリの地域店舗一覧。エリア、タグ、LPあり店舗で絞り込めます。">
+  <title>バイク・車・整備 | まちの手ざわりポータル</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <script src="/assets/js/main.js" defer></script>
+</head>
+<body data-page="category" data-category="bike">
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="まちの手ざわりポータルトップ">
+      <span class="brand-mark" aria-hidden="true">ま</span>
+      <span>まちの手ざわりポータル</span>
+    </a>
+    <nav class="site-nav" aria-label="主要メニュー">
+      <a href="/">トップ</a>
+      <a href="/bike/">バイク・車</a>
+      <a href="/lounge/">バー・ラウンジ</a>
+      <a href="/construction/">建築・職人</a>
+      <a href="/for-shops/">掲載希望の方</a>
+      <a href="/contact/">問い合わせ</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-hero" aria-labelledby="category-title">
+      <img class="hero-image" src="/assets/bike-shop-hero.png" alt="バイク整備工場のイメージ">
+      <div class="hero-shade"></div>
+      <div class="hero-content">
+        <p class="eyebrow">Bike, car and maintenance</p>
+        <h1 id="category-title" data-category-name>バイク・車・整備</h1>
+        <p class="hero-lead" data-category-description>日常の移動を支える整備店を紹介します。</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="category-intro">
+        <div class="section-heading">
+          <p class="eyebrow">Shops</p>
+          <h2>相談しやすい整備店を探す</h2>
+        </div>
+        <span class="result-count" data-result-count>0件</span>
+      </div>
+
+      <form class="filter-panel" aria-label="店舗検索フィルター">
+        <label class="field">
+          <span>キーワード検索</span>
+          <input type="search" data-filter-keyword placeholder="店名、住所、タグ">
+        </label>
+        <label class="field">
+          <span>エリア</span>
+          <select data-filter-area></select>
+        </label>
+        <label class="field">
+          <span>タグ</span>
+          <select data-filter-tag></select>
+        </label>
+        <label class="field">
+          <span>並び替え</span>
+          <select data-filter-sort>
+            <option value="created">新着順</option>
+            <option value="name">店名順</option>
+          </select>
+        </label>
+        <label class="check-field">
+          <input type="checkbox" data-filter-lp>
+          <span>LPあり店舗のみ</span>
+        </label>
+      </form>
+
+      <div class="store-grid" data-category-stores></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>まちの手ざわりポータル</p>
+    <nav aria-label="フッターメニュー">
+      <a href="/for-shops/">掲載希望の方</a>
+      <a href="/contact/">問い合わせ</a>
+    </nav>
+  </footer>
+</body>
+</html>
