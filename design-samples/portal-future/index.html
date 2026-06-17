@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Future Sample | まちの手ざわりポータル</title>
+  <link rel="stylesheet" href="./style.css?v=network-stability-1">
+  <script src="./demo.js?v=network-stability-1" defer></script>
+</head>
+<body>
+  <canvas id="staticNetworkCanvas" class="network-canvas static-network-canvas" aria-hidden="true"></canvas>
+  <canvas id="networkCanvas" class="network-canvas dynamic-network-canvas" aria-hidden="true"></canvas>
+
+  <header class="sample-header">
+    <a class="brand" href="../../">
+      <span class="brand-mark">ま</span>
+      <span>まちの手ざわりポータル</span>
+    </a>
+    <nav aria-label="サンプル内メニュー">
+      <a href="#search">探す</a>
+      <a href="#map">マップ</a>
+      <a href="#shops">店舗</a>
+      <a href="#for-shops">掲載</a>
+    </nav>
+    <button class="tilt-permission" type="button" data-tilt-permission hidden>リッチエフェクト表示</button>
+  </header>
+
+  <main>
+    <section class="hero" id="search">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">Local network portal</p>
+        <h1>地域の店と人を、線でつなぐ。</h1>
+        <p class="lead">点在している個人店・中小事業者・職人を、見つけやすく、訪ねやすく、相談しやすい情報ネットワークとして整理します。</p>
+        <form class="search-console" aria-label="店舗検索">
+          <label>
+            <span>Keyword</span>
+            <input type="search" placeholder="バイク修理、柏、解体">
+          </label>
+          <label>
+            <span>Area</span>
+            <select>
+              <option>千葉県北西部</option>
+              <option>我孫子・柏</option>
+              <option>松戸・流山</option>
+            </select>
+          </label>
+          <button type="button">接続する</button>
+        </form>
+      </div>
+
+      <div class="signal-panel reveal" aria-label="ポータルの概念図">
+        <div class="radar">
+          <span class="ring ring-1"></span>
+          <span class="ring ring-2"></span>
+          <span class="ring ring-3"></span>
+          <span class="node node-main">Portal</span>
+          <span class="node node-a">Bike</span>
+          <span class="node node-b">Lounge</span>
+          <span class="node node-c">Craft</span>
+          <span class="node node-d">User</span>
+          <svg viewBox="0 0 420 420" aria-hidden="true">
+            <path d="M210 210 L112 132 L298 106 L323 270 L132 304 Z"></path>
+            <path d="M112 132 L323 270 M298 106 L132 304"></path>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="section map-section" id="map">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Chiba north map concept</p>
+        <h2>千葉県の上半分に、掲載店のピンを立てる。</h2>
+        <p>実装時はGoogle Maps APIかMy Maps埋め込みに差し替え可能。ここではAPIキー不要のデザイン確認用として、マップ風UIで見せています。</p>
+      </div>
+
+      <div class="map-layout">
+        <div class="chiba-map reveal" aria-label="千葉県北部の掲載店マップ風サンプル">
+          <svg class="map-lines" viewBox="0 0 720 520" aria-hidden="true">
+            <path class="region" d="M250 52 C330 30 470 70 535 150 C605 235 610 340 560 428 C505 506 360 496 245 462 C125 426 74 332 92 230 C110 130 170 72 250 52Z"></path>
+            <path class="route" d="M190 170 C255 150 323 176 390 155 C452 136 492 165 522 208"></path>
+            <path class="route" d="M155 310 C240 275 322 292 410 262 C470 242 520 262 560 318"></path>
+            <path class="route thin" d="M300 82 C290 172 294 258 340 354 C360 398 397 440 452 474"></path>
+          </svg>
+
+          <button class="pin pin-bike active" type="button" data-shop="yamagen">
+            <span></span>
+            <strong>ヤマゲン</strong>
+          </button>
+          <button class="pin pin-lounge" type="button" data-shop="akari">
+            <span></span>
+            <strong>灯</strong>
+          </button>
+          <button class="pin pin-craft" type="button" data-shop="aoba">
+            <span></span>
+            <strong>青葉</strong>
+          </button>
+
+          <div class="scan-line" aria-hidden="true"></div>
+        </div>
+
+        <aside class="map-card reveal" data-map-card>
+          <span class="status">LPあり / 取材コメント</span>
+          <h3>ヤマゲンモータース</h3>
+          <p>バイク整備・修理相談。初めての人にも声をかけやすい町のバイク屋さん。</p>
+          <dl>
+            <div><dt>Area</dt><dd>千葉県我孫子市</dd></div>
+            <div><dt>Tags</dt><dd>バイク整備 / 地域密着</dd></div>
+          </dl>
+          <a href="../../bike/yamagenmotors/">店舗LPを見る</a>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="shops">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Featured cards</p>
+        <h2>店舗カードは、情報端末のように軽く、でも人の温度は残す。</h2>
+      </div>
+
+      <div class="shop-grid">
+        <article class="shop-card reveal">
+          <span class="card-number">01</span>
+          <h3>ヤマゲンモータース</h3>
+          <p>相談しやすいバイク整備店。LPあり店舗として詳しい人柄とサービスへ誘導。</p>
+          <div class="chips"><span>LPあり</span><span>バイク整備</span><span>我孫子</span></div>
+        </article>
+        <article class="shop-card reveal">
+          <span class="card-number">02</span>
+          <h3>ラウンジ灯</h3>
+          <p>初めてでも入りやすい雰囲気を、営業時間やコメントと一緒に整理。</p>
+          <div class="chips"><span>基本掲載</span><span>夜</span><span>柏</span></div>
+        </article>
+        <article class="shop-card reveal">
+          <span class="card-number">03</span>
+          <h3>青葉解体工業</h3>
+          <p>現場仕事の相談前に、対応姿勢や見積もり相談のしやすさを伝える。</p>
+          <div class="chips"><span>基本掲載</span><span>職人</span><span>松戸</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section process-section" id="for-shops">
+      <div class="section-heading reveal">
+        <p class="eyebrow">For local teams</p>
+        <h2>掲載店どうしの結束も、ユーザーとの出会いも、同じ線上にある。</h2>
+      </div>
+      <div class="process-rail">
+        <article class="reveal">
+          <span>01</span>
+          <h3>情報を整える</h3>
+          <p>住所、営業時間、相談できること、店主の想いを整理。</p>
+        </article>
+        <article class="reveal">
+          <span>02</span>
+          <h3>地域に配置する</h3>
+          <p>カテゴリ、エリア、マップ上の位置で見つけやすく。</p>
+        </article>
+        <article class="reveal">
+          <span>03</span>
+          <h3>訪問につなげる</h3>
+          <p>電話、Googleマップ、SNS、LPへ自然に誘導。</p>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
