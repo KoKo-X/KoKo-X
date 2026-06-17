@@ -1,6 +1,14 @@
+const siteRootUrl = new URL("../../", document.currentScript.src);
+
+const siteUrl = (path) => {
+  if (!path) return "";
+  if (/^(https?:|tel:|mailto:)/.test(path)) return path;
+  return new URL(path.replace(/^\//, ""), siteRootUrl).href;
+};
+
 const DATA_PATHS = {
-  stores: "/data/stores.json",
-  categories: "/data/categories.json",
+  stores: siteUrl("data/stores.json"),
+  categories: siteUrl("data/categories.json"),
 };
 
 const state = {
@@ -63,7 +71,7 @@ const createActionsHtml = (store, compact = false) => {
   if (store.hasLp) {
     return `
       <div class="card-actions">
-        <a class="button primary" href="${escapeHtml(store.lpUrl)}">詳しく見る</a>
+        <a class="button primary" href="${escapeHtml(siteUrl(store.lpUrl))}">詳しく見る</a>
         ${compact ? "" : mapButton}
         ${compact ? "" : phoneButton}
       </div>
@@ -134,8 +142,8 @@ const loadData = async () => {
 const initHeader = () => {
   const path = window.location.pathname;
   $$(".site-nav a").forEach((link) => {
-    const href = link.getAttribute("href");
-    const active = href === "/" ? path === "/" : path.startsWith(href);
+    const href = new URL(link.getAttribute("href"), window.location.href).pathname;
+    const active = href === siteRootUrl.pathname ? path === href : path.startsWith(href);
     link.classList.toggle("is-active", active);
   });
 };
@@ -145,7 +153,7 @@ const initHome = () => {
   if (categoryGrid) {
     categoryGrid.innerHTML = state.categories
       .map((category) => `
-        <a class="category-card" href="${escapeHtml(category.slug)}">
+        <a class="category-card" href="${escapeHtml(siteUrl(category.slug))}">
           <span>${escapeHtml(category.accent)}</span>
           <strong>${escapeHtml(category.name)}</strong>
           <small>${escapeHtml(category.summary)}</small>
@@ -183,7 +191,7 @@ const initHome = () => {
     if (category) {
       const categoryInfo = getCategory(category);
       const query = keyword ? `?q=${encodeURIComponent(keyword)}` : "";
-      window.location.href = `${categoryInfo.slug}${query}`;
+      window.location.href = `${siteUrl(categoryInfo.slug)}${query}`;
       return;
     }
 

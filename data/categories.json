@@ -2,7 +2,7 @@
   {
     "id": "bike",
     "name": "バイク・車・整備",
-    "slug": "/bike/",
+    "slug": "bike/",
     "description": "日常の移動を支えるバイク屋、車屋、整備店を紹介します。",
     "summary": "修理、点検、車両相談、カスタムなど",
     "accent": "整備"
@@ -10,7 +10,7 @@
   {
     "id": "lounge",
     "name": "バー・ラウンジ",
-    "slug": "/lounge/",
+    "slug": "lounge/",
     "description": "初めてでも入りやすい雰囲気や、店主・スタッフの人柄が伝わるお店を紹介します。",
     "summary": "会話、夜の憩い、落ち着いた時間",
     "accent": "夜"
@@ -18,7 +18,7 @@
   {
     "id": "construction",
     "name": "建築・解体・職人",
-    "slug": "/construction/",
+    "slug": "construction/",
     "description": "現場仕事を支える職人、解体、建築、外構、修繕の事業者を紹介します。",
     "summary": "住まい、現場、相談しやすい職人",
     "accent": "職人"
