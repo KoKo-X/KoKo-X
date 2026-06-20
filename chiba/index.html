@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="千葉県のお店を市町村やカテゴリから探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。">
+  <meta property="og:title" content="千葉県のお店案内 | まちの手ざわりポータル">
+  <meta property="og:description" content="千葉県のお店を市町村やカテゴリから探せる案内ページ。">
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="https://andynova821.github.io/Portal/chiba/">
+  <title>千葉県のお店案内 | まちの手ざわりポータル</title>
+  <link rel="stylesheet" href="../assets/css/style.css?v=map-ui-6">
+  <script src="../assets/js/main.js?v=map-ui-6" defer></script>
+</head>
+<body data-page="prefecture" data-prefecture-id="chiba">
+
+  <header class="site-header">
+    <a class="brand" href="../" aria-label="まちの手ざわりポータルトップ">
+      <span class="brand-mark" aria-hidden="true">ま</span>
+      <span>まちの手ざわりポータル</span>
+    </a>
+    <nav class="site-nav" aria-label="主要メニュー">
+      <a href="../">トップ</a>
+      <a href="../chiba/">千葉県から探す</a>
+      <a href="../bike/">バイク・車</a>
+      <a href="../lounge/">バー・ラウンジ</a>
+      <a href="../construction/">建築・職人</a>
+      <a href="../for-shops/">掲載希望の方</a>
+      <a href="../contact/">問い合わせ</a>
+    </nav>
+  </header>
+  <main>
+    <nav class="breadcrumb" aria-label="パンくずリスト">
+      <a href="../">トップ</a><span aria-hidden="true">/</span><span>千葉県のお店案内</span>
+    </nav>
+
+    <section class="area-directory-hero">
+      <div>
+        <p class="eyebrow">Chiba shop guide</p>
+        <h1>千葉県のお店案内</h1>
+        <p>市町村やカテゴリから、気になるお店を探せます。行く前に雰囲気や人柄、このお店のポイントまで確認できます。</p>
+      </div>
+      <a class="button secondary" href="../">トップページへ戻る</a>
+    </section>
+
+    <section class="section area-discovery-section" aria-labelledby="chiba-map-heading">
+      <div class="section-heading with-action">
+        <div>
+          <p class="eyebrow">Municipalities</p>
+          <h2 id="chiba-map-heading">市町村から探す</h2>
+          <p class="section-lead">地図の市町村エリア、または一覧から選んでください。</p>
+        </div>
+        <span class="area-summary" data-area-summary>市町村情報を読み込み中</span>
+      </div>
+      <div class="area-discovery-layout">
+        <div class="area-map-panel">
+          <div class="area-map-toolbar">
+            <strong>千葉県エリアマップ</strong>
+            <output data-area-map-status aria-live="polite">市町村に触れると掲載状況を確認できます</output>
+          </div>
+          <div class="area-map-viewport" data-area-map></div>
+          <p class="area-map-note">出典：国土交通省 国土数値情報（行政区域データ）を加工して作成</p>
+        </div>
+        <aside class="area-list-panel" aria-labelledby="area-list-title">
+          <div class="area-list-heading">
+            <p class="eyebrow">Area list</p>
+            <h3 id="area-list-title">市町村名から探す</h3>
+            <p>掲載中のエリアを先に表示し、全市町村は折りたたんで確認できます。</p>
+          </div>
+          <div class="area-list" data-area-list></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <p class="eyebrow">Categories</p>
+        <h2>カテゴリから探す</h2>
+      </div>
+      <div class="category-grid" data-prefecture-categories>
+        <a class="category-card" href="../bike/">
+          <span>整備</span>
+          <strong>バイク・車・整備</strong>
+          <small>修理、点検、車両相談、カスタムなど</small>
+        </a>
+        <a class="category-card" href="../lounge/">
+          <span>夜</span>
+          <strong>バー・ラウンジ</strong>
+          <small>会話、夜の憩い、落ち着いた時間</small>
+        </a>
+        <a class="category-card" href="../construction/">
+          <span>職人</span>
+          <strong>建築・解体・職人</strong>
+          <small>住まい、現場、相談しやすい職人</small>
+        </a></div>
+    </section>
+
+    <section class="section band-section">
+      <div class="section-heading">
+        <p class="eyebrow">New shops</p>
+        <h2>千葉県の新着掲載店舗</h2>
+      </div>
+      <div class="store-grid compact-grid" data-prefecture-new-stores></div>
+    </section>
+
+    <section class="section cta-strip">
+      <div>
+        <p class="eyebrow">For shops</p>
+        <h2>千葉県で掲載を希望するお店・事業者の方へ</h2>
+        <p>基本掲載や店舗専用LPについて相談できます。</p>
+      </div>
+      <a class="button primary" href="../for-shops/">掲載メニューを見る</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>まちの手ざわりポータル</p>
+    <nav aria-label="フッターメニュー">
+      <a href="../chiba/">千葉県のお店案内</a>
+      <a href="../for-shops/">掲載希望の方</a>
+      <a href="../contact/">問い合わせ</a>
+    </nav>
+  </footer>
+</body>
+</html>

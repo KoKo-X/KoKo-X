@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /design-samples/
+Disallow: /engine-scroll-test/
+Disallow: /engine-optimization-test/
+Disallow: /engine-webgl-test/
+
+Sitemap: https://andynova821.github.io/Portal/sitemap.xml
