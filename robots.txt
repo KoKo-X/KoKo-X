@@ -5,4 +5,4 @@ Disallow: /engine-scroll-test/
 Disallow: /engine-optimization-test/
 Disallow: /engine-webgl-test/
 
-Sitemap: https://andynova821.github.io/Portal/sitemap.xml
+Sitemap: https://koko-x.github.io/KoKo-X/sitemap.xml

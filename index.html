@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="千葉県のまちのお店をエリアから探せる案内サイト。行く前に、お店の人柄・雰囲気・このお店のポイントまで紹介します。">
-  <meta property="og:title" content="まちの手ざわりポータル">
-  <meta property="og:description" content="千葉県のエリアマップから、気になるまちのお店を探せる案内サイト。">
+  <meta name="description" content="KoKo X（ココクロス）は、行く前に雰囲気や人柄が少し見える地域のお店案内サイトです。「ここ、行ってみたい」と思える地域のお店との出会いを届けます。">
+  <meta property="og:title" content="KoKo X｜地域のお店と人が交わるお店案内サイト">
+  <meta property="og:description" content="「ここ！」と思える地域のお店と、そこに行きたい人が交わる場所。">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/portal-hero.png">
-  <link rel="canonical" href="https://andynova821.github.io/Portal/">
-  <title>まちの手ざわりポータル | 千葉県のお店をエリアから探す</title>
-  <link rel="stylesheet" href="assets/css/style.css?v=map-ui-6">
-  <script src="assets/js/main.js?v=map-ui-6" defer></script>
+  <link rel="canonical" href="https://koko-x.github.io/KoKo-X/">
+  <title>KoKo X（ココクロス）｜地域のお店と人が交わるお店案内サイト</title>
+  <link rel="stylesheet" href="style.css?v=structure-2">
+  <script src="assets/js/main.js?v=structure-2" defer></script>
   <script src="assets/js/network-background.js?v=portal-network-1" defer></script>
 </head>
 <body data-page="home">
@@ -19,9 +19,9 @@
   <canvas id="networkCanvas" class="network-canvas dynamic-network-canvas" aria-hidden="true"></canvas>
 
   <header class="site-header">
-    <a class="brand" href="./" aria-label="まちの手ざわりポータルトップ">
-      <span class="brand-mark" aria-hidden="true">ま</span>
-      <span>まちの手ざわりポータル</span>
+    <a class="brand" href="./" aria-label="KoKo X トップ">
+      <span class="brand-mark" aria-hidden="true">K</span>
+      <span class="brand-lockup"><strong class="brand-name">KoKo <span class="brand-x">X</span></strong><small>ココクロス</small></span>
     </a>
     <nav class="site-nav" aria-label="主要メニュー">
       <a href="./">トップ</a>
@@ -36,26 +36,14 @@
   </header>
 
   <main>
-    <section class="home-hero" aria-labelledby="home-title">
-      <img class="hero-image" src="assets/portal-hero.png" alt="地域の店を訪ねて取材する様子のイメージ">
-      <div class="hero-shade"></div>
+    <section class="home-hero compact-home-hero" aria-labelledby="home-title">
       <div class="hero-content">
-        <p class="eyebrow">Chiba local shop guide</p>
-        <h1 id="home-title">千葉県のまちのお店を、地域から探す。</h1>
-        <p class="hero-lead">行く前に、少しだけ雰囲気が分かる。まちのお店の人柄やポイントまで紹介する、お店案内サイトです。</p>
-        <form class="search-panel hero-search" data-top-search>
-          <label class="field">
-            <span>キーワード</span>
-            <input type="search" name="q" placeholder="例：バイク修理、柏、解体">
-          </label>
-          <label class="field select-field">
-            <span>カテゴリ</span>
-            <select name="category" data-top-category-select>
-              <option value="">すべて</option>
-            </select>
-          </label>
-          <button class="button primary" type="submit">探す</button>
-        </form>
+        <div class="hero-brand" aria-label="KoKo X ココクロス">
+          <strong>KoKo <span>X</span></strong>
+          <small>ココクロス</small>
+        </div>
+        <h1 id="home-title">「ここ！」と思える地域ならではのお店と、<br>そこに行きたい人が交わるきっかけを。</h1>
+        <p class="hero-lead">行く前に、お店の雰囲気や人柄が少し見える。<br>KoKo Xは、「ここ、行ってみたい」と思える地域のお店とのつながりを届ける、お店案内サイトです。</p>
       </div>
     </section>
 
@@ -94,26 +82,31 @@
 
     </section>
 
-    <section class="section top-results-section" data-top-results-wrap hidden>
-      <div class="section-heading with-action">
-        <div>
-          <p class="eyebrow">Search results</p>
-          <h2>検索結果</h2>
-        </div>
-        <button class="button ghost" type="button" data-clear-top-results>閉じる</button>
+    <section class="section home-search-section" aria-labelledby="keyword-search-title">
+      <div class="section-heading">
+        <p class="eyebrow">Keyword search</p>
+        <h2 id="keyword-search-title">キーワードから探す</h2>
+        <p class="section-lead">店名、地域、サービス、タグなどから検索できます。</p>
       </div>
-      <div class="store-grid compact-grid" data-top-results></div>
+      <form class="search-panel keyword-search-panel" data-top-search action="search/">
+        <label class="field">
+          <span>フリーワード</span>
+          <input type="search" name="q" placeholder="例：バイク修理、柏、解体" required>
+        </label>
+        <button class="button primary" type="submit">検索結果を見る</button>
+      </form>
     </section>
 
-    <section class="section">
+    <section class="section home-category-section">
       <div class="section-heading">
         <p class="eyebrow">Categories</p>
         <h2>カテゴリから探す</h2>
+        <p class="section-lead">気になるジャンルの専用ページへ移動します。</p>
       </div>
-      <div class="category-grid" data-categories-grid></div>
+      <div class="category-grid category-tile-grid" data-categories-grid></div>
     </section>
 
-    <section class="section band-section">
+    <section class="section band-section home-new-stores-section">
       <div class="section-heading with-action">
         <div>
           <p class="eyebrow">New shops</p>
@@ -121,45 +114,12 @@
         </div>
         <span class="small-note">実店舗とサンプル掲載を表示</span>
       </div>
-      <div class="store-grid compact-grid" data-new-stores></div>
-    </section>
-
-    <section class="section">
-      <div class="section-heading with-action">
-        <div>
-          <p class="eyebrow">Stories and points</p>
-          <h2>人柄やポイントまで分かるお店</h2>
-        </div>
-        <a class="text-link" href="bike/">カテゴリ一覧へ</a>
-      </div>
-      <div class="store-grid" data-featured-stores></div>
-    </section>
-
-    <section class="wide-band about-band">
-      <div class="section two-column">
-        <div class="section-heading">
-          <p class="eyebrow">About</p>
-          <h2>行く前に、お店の雰囲気や人柄が少し分かる。</h2>
-        </div>
-        <div class="about-copy">
-          <p>このサイトは、千葉県のまちのお店を地域から探し、気になるお店と出会うためのお店案内サイトです。</p>
-          <p>住所や営業時間だけでなく、どんな相談ができるのか、どんな雰囲気なのか、問い合わせ前に知っておきたい「このお店のポイント」まで、利用する人の目線でまとめます。</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section cta-strip">
-      <div>
-        <p class="eyebrow">For shops</p>
-        <h2>掲載を希望するお店・事業者の方へ</h2>
-        <p>一覧掲載は無料。店舗専用LPやGoogleマップ整備、SNS投稿文作成は有料オプションとして明朗会計で案内します。</p>
-      </div>
-      <a class="button primary" href="for-shops/">掲載メニューを見る</a>
+      <div class="store-grid compact-grid home-new-store-grid" data-new-stores></div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <p>まちの手ざわりポータル</p>
+    <p>KoKo X <span aria-hidden="true">─</span> ココクロス</p>
     <nav aria-label="フッターメニュー">
       <a href="chiba/">千葉県のお店案内</a>
       <a href="for-shops/">掲載希望の方</a>

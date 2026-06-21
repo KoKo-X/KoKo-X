@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="KoKo X（ココクロス）の掲載店舗を、店名、地域、サービス、タグなどのキーワードから検索できます。">
+  <meta name="robots" content="noindex,follow">
+  <link rel="canonical" href="https://koko-x.github.io/KoKo-X/search/">
+  <title>キーワード検索 | KoKo X（ココクロス）</title>
+  <link rel="stylesheet" href="./style.css?v=structure-2">
+  <script src="../assets/js/main.js?v=structure-2" defer></script>
+</head>
+<body data-page="search">
+  <header class="site-header">
+    <a class="brand" href="../" aria-label="KoKo X トップ">
+      <span class="brand-mark" aria-hidden="true">K</span>
+      <span class="brand-lockup"><strong class="brand-name">KoKo <span class="brand-x">X</span></strong><small>ココクロス</small></span>
+    </a>
+    <nav class="site-nav" aria-label="主要メニュー">
+      <a href="../">トップ</a>
+      <a href="../chiba/">千葉県から探す</a>
+      <a href="../bike/">バイク・車</a>
+      <a href="../lounge/">バー・ラウンジ</a>
+      <a href="../construction/">建築・職人</a>
+      <a href="../for-shops/">掲載希望の方</a>
+      <a href="../contact/">問い合わせ</a>
+    </nav>
+  </header>
+
+  <main>
+    <nav class="breadcrumb" aria-label="パンくずリスト">
+      <a href="../">トップ</a><span aria-hidden="true">/</span><span>キーワード検索</span>
+    </nav>
+
+    <section class="area-directory-hero search-page-hero">
+      <div>
+        <p class="eyebrow">Keyword search</p>
+        <h1 data-search-title>キーワード検索</h1>
+        <p>店名、地域、サービス、タグなどから掲載店舗を探せます。</p>
+      </div>
+      <span class="result-count" data-search-count>0件</span>
+    </section>
+
+    <section class="section search-results-section">
+      <form class="search-panel search-page-form" action="./">
+        <label class="field">
+          <span>フリーワード</span>
+          <input type="search" name="q" data-search-keyword placeholder="例：バイク修理、柏、解体" required>
+        </label>
+        <button class="button primary" type="submit">検索する</button>
+      </form>
+      <div class="store-grid search-result-grid" data-search-results></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>KoKo X <span aria-hidden="true">─</span> ココクロス</p>
+    <nav aria-label="フッターメニュー">
+      <a href="../chiba/">千葉県のお店案内</a>
+      <a href="../for-shops/">掲載希望の方</a>
+      <a href="../contact/">問い合わせ</a>
+    </nav>
+  </footer>
+</body>
+</html>

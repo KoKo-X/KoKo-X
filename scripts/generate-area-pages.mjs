@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(scriptDir, "..");
-const canonicalBase = "https://andynova821.github.io/Portal";
+const canonicalBase = "https://koko-x.github.io/KoKo-X";
 
 const readJson = async (relativePath) =>
   JSON.parse(await readFile(path.join(rootDir, relativePath), "utf8"));
@@ -41,8 +41,8 @@ const areas = sourceAreas.map((area) => {
     storeCount,
     hasStores: storeCount > 0,
     isIndexable: storeCount > 0,
-    metaTitle: `${area.name}のお店案内 | まちの手ざわりポータル`,
-    metaDescription: `${area.name}のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。`,
+    metaTitle: `${area.name}のお店案内 | KoKo X（ココクロス）`,
+    metaDescription: `KoKo X（ココクロス）で${area.name}のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。`,
   };
 });
 
@@ -54,9 +54,9 @@ await writeFile(
 
 const header = (prefix) => `
   <header class="site-header">
-    <a class="brand" href="${prefix}" aria-label="まちの手ざわりポータルトップ">
-      <span class="brand-mark" aria-hidden="true">ま</span>
-      <span>まちの手ざわりポータル</span>
+    <a class="brand" href="${prefix}" aria-label="KoKo X トップ">
+      <span class="brand-mark" aria-hidden="true">K</span>
+      <span class="brand-lockup"><strong class="brand-name">KoKo <span class="brand-x">X</span></strong><small>ココクロス</small></span>
     </a>
     <nav class="site-nav" aria-label="主要メニュー">
       <a href="${prefix}">トップ</a>
@@ -71,7 +71,7 @@ const header = (prefix) => `
 
 const footer = (prefix) => `
   <footer class="site-footer">
-    <p>まちの手ざわりポータル</p>
+    <p>KoKo X <span aria-hidden="true">─</span> ココクロス</p>
     <nav aria-label="フッターメニュー">
       <a href="${prefix}chiba/">千葉県のお店案内</a>
       <a href="${prefix}for-shops/">掲載希望の方</a>
@@ -91,14 +91,14 @@ const chibaHtml = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="千葉県のお店を市町村やカテゴリから探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。">
-  <meta property="og:title" content="千葉県のお店案内 | まちの手ざわりポータル">
-  <meta property="og:description" content="千葉県のお店を市町村やカテゴリから探せる案内ページ。">
+  <meta name="description" content="KoKo X（ココクロス）で千葉県のお店を市町村やカテゴリから探せます。行く前に雰囲気や人柄、このお店のポイントまで確認できます。">
+  <meta property="og:title" content="千葉県のお店案内 | KoKo X">
+  <meta property="og:description" content="「ここ！」と思える千葉県のお店との出会いを届ける案内ページ。">
   <meta property="og:type" content="website">
   <link rel="canonical" href="${canonicalBase}/chiba/">
-  <title>千葉県のお店案内 | まちの手ざわりポータル</title>
-  <link rel="stylesheet" href="../assets/css/style.css?v=map-ui-6">
-  <script src="../assets/js/main.js?v=map-ui-6" defer></script>
+  <title>千葉県のお店案内 | KoKo X（ココクロス）</title>
+  <link rel="stylesheet" href="./style.css?v=structure-2">
+  <script src="../assets/js/main.js?v=structure-2" defer></script>
 </head>
 <body data-page="prefecture" data-prefecture-id="chiba">
 ${header("../")}
@@ -110,8 +110,8 @@ ${header("../")}
     <section class="area-directory-hero">
       <div>
         <p class="eyebrow">Chiba shop guide</p>
-        <h1>千葉県のお店案内</h1>
-        <p>市町村やカテゴリから、気になるお店を探せます。行く前に雰囲気や人柄、このお店のポイントまで確認できます。</p>
+        <h1>KoKo Xで、千葉県のお店を地域から探す。</h1>
+        <p>行く前に雰囲気や人柄が少し見える。「ここ！」と思える地域のお店と、そこに行きたい人が交わるお店案内サイトです。</p>
       </div>
       <a class="button secondary" href="../">トップページへ戻る</a>
     </section>
@@ -180,7 +180,7 @@ await writeFile(path.join(rootDir, "chiba/index.html"), chibaHtml, "utf8");
 
 for (const area of areas) {
   const robots = area.isIndexable ? "" : '  <meta name="robots" content="noindex,follow">\n';
-  const lead = `${area.name}のお店を地域やカテゴリから探せます。初めてのお店選びに、少しの安心を届ける案内ページです。`;
+  const lead = `KoKo Xで${area.name}のお店を地域やカテゴリから探せます。行く前に雰囲気や人柄、このお店のポイントが少し見える案内ページです。`;
   const cityHtml = `<!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -192,8 +192,8 @@ ${robots}  <meta property="og:title" content="${escapeHtml(area.metaTitle)}">
   <meta property="og:type" content="website">
   <link rel="canonical" href="${canonicalBase}${area.url}">
   <title>${escapeHtml(area.metaTitle)}</title>
-  <link rel="stylesheet" href="../../assets/css/style.css?v=map-ui-6">
-  <script src="../../assets/js/main.js?v=map-ui-6" defer></script>
+  <link rel="stylesheet" href="../style.css?v=structure-2">
+  <script src="../../assets/js/main.js?v=structure-2" defer></script>
 </head>
 <body data-page="area" data-prefecture-id="chiba" data-area-id="${escapeHtml(area.id)}">
 ${header("../../")}

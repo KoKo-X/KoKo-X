@@ -1,0 +1,27 @@
+@import url("../assets/css/common.css?v=structure-2");
+
+/*
+ * キーワード検索ページ専用CSS
+ */
+
+h1 {
+  font-size: clamp(28px, 4vw, 42px);
+}
+
+h2 {
+  font-size: clamp(21px, 2.6vw, 30px);
+}
+
+h3 {
+  font-size: 20px;
+}
+
+@media (max-width: 760px) {
+  h1 {
+    font-size: clamp(24px, 7vw, 30px);
+  }
+
+  h2 {
+    font-size: clamp(19px, 5.5vw, 23px);
+  }
+}

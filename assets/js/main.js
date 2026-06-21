@@ -52,9 +52,12 @@ const sortStores = (stores, sortKey) => {
 const matchesKeyword = (store, keyword) => {
   const query = normalize(keyword);
   if (!query) return true;
+  const category = getCategory(store.category);
   const haystack = normalize([
     store.name,
     store.category,
+    category?.name,
+    category?.description,
     store.prefecture,
     store.city,
     store.area,
@@ -64,7 +67,16 @@ const matchesKeyword = (store, keyword) => {
     store.point,
     store.tags?.join(" "),
   ].join(" "));
-  return haystack.includes(query);
+  if (haystack.includes(query)) return true;
+  const canSegment = new Array(query.length + 1).fill(false);
+  canSegment[0] = true;
+  for (let start = 0; start < query.length; start += 1) {
+    if (!canSegment[start]) continue;
+    for (let end = start + 2; end <= query.length; end += 1) {
+      if (haystack.includes(query.slice(start, end))) canSegment[end] = true;
+    }
+  }
+  return canSegment[query.length];
 };
 
 const createTagHtml = (tags = []) =>
@@ -131,6 +143,26 @@ const createStoreCard = (store, options = {}) => {
   `;
 };
 
+const createHomeStoreCard = (store) => {
+  const category = getCategory(store.category);
+  const lpButton = store.hasLp && store.lpUrl
+    ? `<a class="button primary" href="${escapeHtml(siteUrl(store.lpUrl))}">専用LPを見る</a>`
+    : "";
+  return `
+    <article class="home-store-card" data-store-id="${escapeHtml(store.id)}">
+      <div class="home-store-location">${escapeHtml(store.city || store.area)}</div>
+      <h3>${escapeHtml(store.name)}</h3>
+      <p class="home-store-category">${escapeHtml(category?.name || store.category)}</p>
+      <div class="store-point">
+        <span>このお店のおすすめポイント</span>
+        <p>${escapeHtml(store.point || store.comment || "")}</p>
+      </div>
+      <div class="tag-list">${createTagHtml(store.tags)}</div>
+      ${lpButton ? `<div class="card-actions">${lpButton}</div>` : ""}
+    </article>
+  `;
+};
+
 const renderEmpty = (target, message) => {
   if (!target) return;
   target.innerHTML = `<div class="empty-state">${escapeHtml(message)}</div>`;
@@ -170,12 +202,21 @@ const initHeader = () => {
 
 const renderCategoryGrid = (target) => {
   if (!target) return;
+  const iconByCategory = {
+    bike: `<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M17 40h30l-5-13H28l-5 7h-7"/><circle cx="16" cy="43" r="8"/><circle cx="48" cy="43" r="8"/><path d="M31 27l-5-8h8"/></svg>`,
+    lounge: `<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M16 13h32L35 34v15h10v5H19v-5h10V34z"/><path d="M21 20h22"/></svg>`,
+    construction: `<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 50h40M18 50V24l14-11 14 11v26M26 50V36h12v14"/><path d="M46 18l6-6"/></svg>`,
+  };
+  const displayName = {
+    bike: "バイク・車",
+    lounge: "ラウンジ・バー",
+    construction: "建築・職人",
+  };
   target.innerHTML = state.categories
     .map((category) => `
-      <a class="category-card" href="${escapeHtml(siteUrl(category.slug))}">
-        <span>${escapeHtml(category.accent)}</span>
-        <strong>${escapeHtml(category.name)}</strong>
-        <small>${escapeHtml(category.summary)}</small>
+      <a class="category-card category-tile" href="${escapeHtml(siteUrl(category.slug))}">
+        <span class="category-tile-icon">${iconByCategory[category.id] || escapeHtml(category.accent)}</span>
+        <strong>${escapeHtml(displayName[category.id] || category.name)}</strong>
       </a>
     `)
     .join("");
@@ -231,6 +272,127 @@ const createAreaMapNode = async (counts, selectedAreaId = "") => {
     if (title) title.textContent = label;
   });
   return svg;
+};
+
+const initMapZoom = (target) => {
+  const svg = target.querySelector(".chiba-area-map");
+  if (!svg) return;
+  const controls = document.createElement("div");
+  controls.className = "area-map-zoom-controls";
+  controls.innerHTML = `
+    <button type="button" data-map-zoom-in aria-label="地図を拡大">＋</button>
+    <button type="button" data-map-zoom-out aria-label="地図を縮小">−</button>
+    <button type="button" data-map-zoom-reset aria-label="地図を元の大きさに戻す">全体</button>
+  `;
+  target.append(controls);
+
+  const pointers = new Map();
+  const minScale = 1;
+  const maxScale = 3.5;
+  let scale = 1;
+  let translateX = 0;
+  let translateY = 0;
+  let pinchStartDistance = 0;
+  let pinchStartScale = 1;
+  let panStart;
+  let gestureMoved = false;
+  let suppressClickUntil = 0;
+
+  const clampTranslation = () => {
+    const rect = target.getBoundingClientRect();
+    const maxX = rect.width * (scale - 1);
+    const maxY = rect.height * (scale - 1);
+    translateX = Math.min(0, Math.max(-maxX, translateX));
+    translateY = Math.min(0, Math.max(-maxY, translateY));
+  };
+  const applyTransform = () => {
+    clampTranslation();
+    svg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    target.classList.toggle("is-map-zoomed", scale > 1.01);
+    controls.querySelector("[data-map-zoom-out]").disabled = scale <= minScale;
+  };
+  const zoomAt = (nextScale, centerX, centerY) => {
+    const previousScale = scale;
+    scale = Math.min(maxScale, Math.max(minScale, nextScale));
+    if (scale === minScale) {
+      translateX = 0;
+      translateY = 0;
+    } else {
+      const ratio = scale / previousScale;
+      translateX = centerX - (centerX - translateX) * ratio;
+      translateY = centerY - (centerY - translateY) * ratio;
+    }
+    applyTransform();
+  };
+  const distance = (first, second) =>
+    Math.hypot(first.clientX - second.clientX, first.clientY - second.clientY);
+
+  target.addEventListener("pointerdown", (event) => {
+    if (event.target.closest(".area-map-zoom-controls, [data-area-selection-preview]")) return;
+    pointers.set(event.pointerId, event);
+    target.setPointerCapture?.(event.pointerId);
+    gestureMoved = false;
+    if (pointers.size === 2) {
+      const [first, second] = [...pointers.values()];
+      pinchStartDistance = distance(first, second);
+      pinchStartScale = scale;
+    } else if (scale > 1) {
+      panStart = { x: event.clientX, y: event.clientY, translateX, translateY };
+    }
+  });
+  target.addEventListener("pointermove", (event) => {
+    if (!pointers.has(event.pointerId)) return;
+    pointers.set(event.pointerId, event);
+    if (pointers.size === 2) {
+      event.preventDefault();
+      const [first, second] = [...pointers.values()];
+      const rect = target.getBoundingClientRect();
+      const centerX = (first.clientX + second.clientX) / 2 - rect.left;
+      const centerY = (first.clientY + second.clientY) / 2 - rect.top;
+      zoomAt(pinchStartScale * distance(first, second) / pinchStartDistance, centerX, centerY);
+      gestureMoved = true;
+      suppressClickUntil = Date.now() + 450;
+    } else if (scale > 1 && panStart) {
+      event.preventDefault();
+      translateX = panStart.translateX + event.clientX - panStart.x;
+      translateY = panStart.translateY + event.clientY - panStart.y;
+      applyTransform();
+      if (Math.hypot(event.clientX - panStart.x, event.clientY - panStart.y) > 5) gestureMoved = true;
+      if (gestureMoved) suppressClickUntil = Date.now() + 450;
+    }
+  });
+  const endPointer = (event) => {
+    pointers.delete(event.pointerId);
+    if (pointers.size < 2) pinchStartDistance = 0;
+    if (!pointers.size) panStart = undefined;
+  };
+  target.addEventListener("pointerup", endPointer);
+  target.addEventListener("pointercancel", endPointer);
+  target.addEventListener("click", (event) => {
+    if (!gestureMoved && Date.now() >= suppressClickUntil) return;
+    event.preventDefault();
+    event.stopPropagation();
+    gestureMoved = false;
+  }, true);
+  target.addEventListener("wheel", (event) => {
+    if (!event.ctrlKey && Math.abs(event.deltaY) < 2) return;
+    event.preventDefault();
+    const rect = target.getBoundingClientRect();
+    zoomAt(scale * (event.deltaY < 0 ? 1.18 : 0.85), event.clientX - rect.left, event.clientY - rect.top);
+  }, { passive: false });
+  controls.querySelector("[data-map-zoom-in]").addEventListener("click", () => {
+    zoomAt(scale + 0.5, target.clientWidth / 2, target.clientHeight / 2);
+  });
+  controls.querySelector("[data-map-zoom-out]").addEventListener("click", () => {
+    zoomAt(scale - 0.5, target.clientWidth / 2, target.clientHeight / 2);
+  });
+  controls.querySelector("[data-map-zoom-reset]").addEventListener("click", () => {
+    scale = 1;
+    translateX = 0;
+    translateY = 0;
+    applyTransform();
+  });
+  applyTransform();
 };
 
 const createAreaListHtml = (counts, selectedAreaId = "") => {
@@ -359,6 +521,7 @@ const initAreaMaps = async () => {
     preview.hidden = true;
     preview.setAttribute("aria-live", "polite");
     target.append(preview);
+    initMapZoom(target);
   });
 
   const setLinkedHighlight = (areaId, active) => {
@@ -464,36 +627,43 @@ const initHome = async () => {
   }
 
   renderCategoryGrid($("[data-categories-grid]"));
-  const categorySelect = $("[data-top-category-select]");
-  populateCategorySelect(categorySelect);
   const form = $("[data-top-search]");
   const keywordInput = form?.elements.namedItem("q");
   if (keywordInput instanceof HTMLInputElement) keywordInput.value = params.get("q") || "";
-  if (categorySelect && params.get("category")) categorySelect.value = params.get("category");
-
-  renderStores($("[data-featured-stores]"), state.stores.filter((store) => store.isFeatured));
-  renderStores($("[data-new-stores]"), sortStores(state.stores, "created").slice(0, 3), { compact: true });
+  const newStoresTarget = $("[data-new-stores]");
+  if (newStoresTarget) {
+    newStoresTarget.innerHTML = sortStores(state.stores, "created")
+      .slice(0, 3)
+      .map(createHomeStoreCard)
+      .join("");
+  }
   await initAreaMaps();
 
-  const resultsWrap = $("[data-top-results-wrap]");
-  const results = $("[data-top-results]");
   form?.addEventListener("submit", (event) => {
     event.preventDefault();
     const formData = new FormData(form);
-    const keyword = String(formData.get("q") || "");
-    const category = String(formData.get("category") || "");
-    if (category) {
-      const categoryInfo = getCategory(category);
-      const query = keyword ? `?q=${encodeURIComponent(keyword)}` : "";
-      window.location.href = `${siteUrl(categoryInfo.slug)}${query}`;
-      return;
-    }
-    renderStores(results, state.stores.filter((store) => matchesKeyword(store, keyword)), { compact: true });
-    resultsWrap.hidden = false;
-    resultsWrap.scrollIntoView({ behavior: "smooth", block: "start" });
+    const keyword = String(formData.get("q") || "").trim();
+    window.location.href = `${siteUrl("search/")}?q=${encodeURIComponent(keyword)}`;
   });
-  $("[data-clear-top-results]")?.addEventListener("click", () => {
-    resultsWrap.hidden = true;
+};
+
+const initSearchPage = () => {
+  const params = new URLSearchParams(window.location.search);
+  const keyword = params.get("q")?.trim() || "";
+  const input = $("[data-search-keyword]");
+  const title = $("[data-search-title]");
+  const count = $("[data-search-count]");
+  const target = $("[data-search-results]");
+  if (input) input.value = keyword;
+  const results = keyword
+    ? sortStores(state.stores.filter((store) => matchesKeyword(store, keyword)), "created")
+    : [];
+  if (title) title.textContent = keyword ? `「${keyword}」の検索結果` : "キーワード検索";
+  if (count) count.textContent = `${results.length}件`;
+  renderStores(target, results, {
+    emptyMessage: keyword
+      ? "キーワードに合う店舗はまだありません。別の言葉でもお試しください。"
+      : "キーワードを入力してお店を検索してください。",
   });
 };
 
@@ -623,16 +793,17 @@ const initContact = () => {
 document.addEventListener("DOMContentLoaded", async () => {
   initHeader();
   initContact();
-  if (!document.body.matches("[data-page='home'], [data-page='category'], [data-page='prefecture'], [data-page='area']")) return;
+  if (!document.body.matches("[data-page='home'], [data-page='category'], [data-page='prefecture'], [data-page='area'], [data-page='search']")) return;
   try {
     await loadData();
     if (document.body.dataset.page === "home") await initHome();
     if (document.body.dataset.page === "prefecture") await initPrefecturePage();
     if (document.body.dataset.page === "area") await initAreaPage();
     if (document.body.dataset.page === "category") initCategoryPage();
+    if (document.body.dataset.page === "search") initSearchPage();
   } catch (error) {
     const targets = $$(
-      "[data-featured-stores], [data-new-stores], [data-category-stores], [data-categories-grid], [data-area-map], [data-area-list], [data-area-page-stores], [data-prefecture-new-stores], [data-prefecture-categories]"
+      "[data-featured-stores], [data-new-stores], [data-category-stores], [data-categories-grid], [data-area-map], [data-area-list], [data-area-page-stores], [data-prefecture-new-stores], [data-prefecture-categories], [data-search-results]"
     );
     targets.forEach((target) => renderEmpty(target, "店舗データを読み込めませんでした。"));
     console.error(error);

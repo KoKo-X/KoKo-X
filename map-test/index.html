@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>千葉県マップ実験室</title>
+  <link rel="stylesheet" href="./style.css?v=map-controls-8">
+  <script src="./script.js?v=map-controls-8" defer></script>
+</head>
+<body data-page="home" class="map-test-page">
+  <header class="site-header">
+    <div class="brand" aria-label="独立したマップテストページ">
+      <span class="brand-mark" aria-hidden="true">K</span>
+      <span class="brand-lockup">
+        <strong class="brand-name">Map Test</strong>
+        <small>独立検証環境</small>
+      </span>
+    </div>
+    <span class="small-note">本番サイトとはファイルを共有していません</span>
+  </header>
+
+  <main>
+    <section class="section area-discovery-section" aria-labelledby="map-test-title">
+      <div class="section-heading with-action">
+        <div>
+          <p class="eyebrow">Map laboratory</p>
+          <h1 id="map-test-title">千葉県マップ実験室</h1>
+          <p class="section-lead">マップ部分だけを切り出した、表示・操作テスト用ページです。</p>
+        </div>
+        <span class="area-summary" data-area-summary>千葉県の市町村を読み込み中</span>
+      </div>
+
+      <div class="area-discovery-layout map-test-layout">
+        <div class="area-map-panel">
+          <div class="area-map-toolbar">
+            <strong>千葉県エリアマップ</strong>
+            <output data-area-map-status aria-live="polite">地域に触れると範囲を確認できます</output>
+          </div>
+          <div class="area-map-viewport" data-area-map></div>
+          <p class="area-map-note">出典：国土交通省 国土数値情報（行政区域データ）を加工して作成</p>
+        </div>
+
+        <aside class="area-list-panel map-test-list-panel" aria-labelledby="map-test-list-title">
+          <div class="area-list-heading">
+            <p class="eyebrow">Municipalities</p>
+            <h2 id="map-test-list-title">市町村名から探す</h2>
+            <p>掲載中のエリアを先に表示し、すべての市町村も確認できます。</p>
+          </div>
+          <label class="list-filter-switch">
+            <span>掲載中のみ表示</span>
+            <input type="checkbox" data-listed-only-toggle>
+            <i aria-hidden="true"></i>
+          </label>
+          <div class="area-list" data-area-list></div>
+        </aside>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
