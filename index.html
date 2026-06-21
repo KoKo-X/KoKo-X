@@ -10,8 +10,8 @@
   <meta property="og:image" content="assets/portal-hero.png">
   <link rel="canonical" href="https://koko-x.github.io/KoKo-X/">
   <title>KoKo X（ココクロス）｜地域のお店と人が交わるお店案内サイト</title>
-  <link rel="stylesheet" href="style.css?v=structure-2">
-  <script src="assets/js/main.js?v=structure-2" defer></script>
+  <link rel="stylesheet" href="style.css?v=v2-2">
+  <script src="assets/js/main.js?v=v2-2" defer></script>
   <script src="assets/js/network-background.js?v=portal-network-1" defer></script>
 </head>
 <body data-page="home">
@@ -76,6 +76,11 @@
             <h3 id="area-list-title">市町村名から探す</h3>
             <p>掲載中のエリアを先に表示し、全市町村は折りたたんで確認できます。</p>
           </div>
+          <label class="list-filter-switch">
+            <span>掲載中のみ表示</span>
+            <input type="checkbox" data-listed-only-toggle>
+            <i aria-hidden="true"></i>
+          </label>
           <div class="area-list" data-area-list></div>
         </aside>
       </div>

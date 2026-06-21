@@ -735,3 +735,338 @@ body[data-page="home"] .store-point span {
     padding: 14px 14px 14px 17px;
   }
 }
+
+/* V2.2: grouped regions, municipality switcher and shared interaction controls */
+.chiba-area-map {
+  transform: none !important;
+  will-change: auto;
+}
+
+.map-prefecture-outline,
+.map-region-outlines,
+.map-region-labels {
+  pointer-events: none;
+}
+
+.map-prefecture-outline-shape {
+  fill: #eef3f1;
+  stroke: #375c50;
+  stroke-linejoin: round;
+  stroke-width: 3.2;
+  vector-effect: non-scaling-stroke;
+}
+
+.grouped-region-map .area-region-shape {
+  fill: #e7f2ed;
+  stroke: rgba(48, 91, 76, 0.62);
+  stroke-width: 0.9;
+}
+
+.grouped-region-map .area-region:hover .area-region-shape,
+.grouped-region-map .area-region:focus .area-region-shape {
+  fill: #e7f2ed;
+  stroke: rgba(48, 91, 76, 0.62);
+  stroke-width: 0.9;
+}
+
+.map-region-outline .area-region-shape {
+  fill: #e7f2ed;
+  stroke: #386c5b;
+  stroke-width: 5;
+}
+
+.grouped-region-map .area-region.is-group-active .area-region-shape {
+  fill: #32b878;
+  stroke: rgba(6, 93, 57, 0.68);
+  stroke-width: 0.9;
+}
+
+.map-region-outline.is-group-active .area-region-shape {
+  fill: #32b878;
+  stroke: #075d3a;
+  stroke-width: 5.5;
+}
+
+.map-label-variant rect {
+  fill: rgba(255, 255, 255, 0.9);
+  stroke: rgba(38, 82, 66, 0.52);
+  stroke-width: 1.2;
+}
+
+.map-label-variant text {
+  fill: #173d31;
+  font-size: 15px;
+  font-weight: 900;
+  paint-order: stroke;
+  stroke: rgba(255, 255, 255, 0.9);
+  stroke-width: 3;
+  text-anchor: middle;
+}
+
+.map-label-variant.is-municipality-names,
+.map-municipality-label-leader {
+  display: none;
+}
+
+.map-municipality-label-leader {
+  stroke: rgba(36, 83, 66, 0.62);
+  stroke-width: 1.6;
+  stroke-dasharray: 4 3;
+}
+
+[data-map-view-mode="municipalities"] .map-region-outlines,
+[data-map-view-mode="municipalities"] .map-region-labels {
+  display: none;
+}
+
+[data-map-view-mode="regions"] .major-city-labels,
+[data-map-view-mode="regions"] .map-prefecture-outline,
+[data-map-view-mode="regions"] .map-label-variant.is-region-name {
+  display: none;
+}
+
+[data-map-view-mode="municipalities"]:not(.area-mini-map) .major-city-label text {
+  font-size: 15px !important;
+  font-weight: 900;
+}
+
+[data-map-view-mode="municipalities"]:not(.area-mini-map) .major-city-label rect {
+  fill: rgba(255, 255, 255, 0.94);
+}
+
+[data-map-view-mode="municipalities"]:not(.area-mini-map) .major-city-leader {
+  stroke-width: 0.85;
+}
+
+[data-map-view-mode="regions"] .map-label-variant.is-municipality-names,
+[data-map-view-mode="regions"] .map-municipality-label-leader {
+  display: block;
+}
+
+.map-label-variant.is-municipality-names text {
+  font-size: 16px;
+  stroke-width: 3.4;
+}
+
+.map-municipality-region-title {
+  fill: #b34128;
+  font-size: 15px !important;
+  stroke: rgba(255, 255, 255, 0.96) !important;
+}
+
+.map-region-label.is-group-active .map-municipality-region-title {
+  fill: #fff1a8;
+  stroke: rgba(7, 93, 58, 0.82) !important;
+}
+
+.map-region-label.is-group-active .map-label-variant rect {
+  fill: #075d3a;
+  stroke: #fff;
+}
+
+.map-region-label.is-group-active .map-label-variant text {
+  fill: #fff;
+  stroke: rgba(7, 93, 58, 0.8);
+}
+
+.map-region-label.is-group-active .map-municipality-label-leader {
+  stroke: #075d3a;
+  stroke-width: 2.2;
+}
+
+.grouped-region-municipalities {
+  color: #264d40;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.75;
+}
+
+.grouped-region-tooltip {
+  width: max-content;
+  max-width: min(320px, calc(100% - 24px));
+}
+
+.grouped-region-tooltip span {
+  max-width: 290px;
+  line-height: 1.55;
+  white-space: normal;
+}
+
+.map-function-controls {
+  position: absolute;
+  top: 58px;
+  right: 10px;
+  z-index: 7;
+  display: grid;
+  gap: 7px;
+  width: 168px;
+  padding: 9px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(23, 176, 110, 0.3);
+  border-radius: 11px;
+  box-shadow: 0 10px 28px rgba(7, 34, 25, 0.15);
+}
+
+.map-function-controls > strong {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.map-view-segmented {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 5px;
+}
+
+.map-view-segmented input,
+.map-listed-only input,
+.list-filter-switch input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.map-view-segmented span {
+  display: block;
+  padding: 7px 8px;
+  background: #f4faf7;
+  border: 1px solid rgba(23, 176, 110, 0.25);
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.map-view-segmented input:checked + span {
+  color: #fff;
+  background: #118d5b;
+  border-color: #087247;
+}
+
+.map-listed-only,
+.list-filter-switch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.map-listed-only i,
+.list-filter-switch i {
+  position: relative;
+  width: 38px;
+  height: 22px;
+  flex: 0 0 auto;
+  background: #d7e2dd;
+  border-radius: 999px;
+}
+
+.map-listed-only i::after,
+.list-filter-switch i::after {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  content: "";
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(7, 34, 25, 0.2);
+  transition: transform 150ms ease;
+}
+
+.map-listed-only input:checked ~ i,
+.list-filter-switch input:checked ~ i {
+  background: #118d5b;
+}
+
+.map-listed-only input:checked ~ i::after,
+.list-filter-switch input:checked ~ i::after {
+  transform: translateX(16px);
+}
+
+.list-filter-switch {
+  margin: 12px 0;
+  padding: 10px 12px;
+  background: rgba(23, 176, 110, 0.08);
+  border-radius: 9px;
+}
+
+.map-function-controls .area-map-zoom-controls {
+  position: static;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 5px;
+  padding: 7px 0 0;
+  background: none;
+  border: 0;
+  border-top: 1px solid rgba(23, 176, 110, 0.2);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.map-function-controls .area-map-zoom-controls button {
+  min-width: 34px;
+  height: 32px;
+  padding: 0 5px;
+  font-size: 17px;
+}
+
+.map-function-controls .area-map-zoom-controls button[data-map-zoom-reset] {
+  font-size: 11px;
+}
+
+.is-listed-only .major-city-label.is-filter-hidden,
+.is-listed-only .major-city-leader.is-filter-hidden,
+.is-listed-only .major-city-anchor.is-filter-hidden,
+.area-list.is-listed-only .area-list-button:not(.has-stores),
+.area-list.is-listed-only .all-area-details {
+  display: none;
+}
+
+.is-listed-only .area-region.no-stores .area-region-shape {
+  fill: #d9dedc !important;
+  stroke: #87938e !important;
+  filter: grayscale(1) saturate(0) brightness(0.94);
+  opacity: 0.84;
+}
+
+.is-listed-only .area-region.has-stores .area-region-shape {
+  fill: #45be88;
+  stroke: #087247;
+}
+
+.is-mini-map-static .map-region-outlines,
+.is-mini-map-static .map-region-labels,
+.is-mini-map-static .map-prefecture-outline {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .map-region-label text {
+    font-size: 17px;
+  }
+
+  .map-label-variant.is-municipality-names text {
+    font-size: 19px;
+  }
+
+  .grouped-region-municipalities {
+    font-size: 13px;
+  }
+
+  .map-function-controls {
+    position: static;
+    width: auto;
+    margin: 42px 4px 8px;
+    padding: 8px;
+  }
+
+  .map-view-segmented {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

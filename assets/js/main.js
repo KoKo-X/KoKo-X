@@ -10,13 +10,46 @@ const DATA_PATHS = {
   stores: siteUrl("data/stores.json"),
   categories: siteUrl("data/categories.json"),
   areas: siteUrl("data/areas.json"),
-  chibaMap: siteUrl("assets/maps/chiba.svg?v=label-layout-2"),
+  chibaMap: siteUrl("assets/maps/chiba.svg?v=v2-2"),
 };
 
 const state = {
   stores: [],
   categories: [],
   areas: [],
+};
+
+const MAP_REGION_GROUPS = [
+  { id: "chiba", name: "千葉", reading: "ちば", labelX: 228, labelY: 447, municipalityX: 160, municipalityY: 450, areas: ["chiba", "ichihara"] },
+  { id: "katsunan", name: "葛南", reading: "かつなん", labelX: 156, labelY: 319, municipalityX: 62, municipalityY: 355, areas: ["ichikawa", "funabashi", "narashino", "yachiyo", "urayasu"] },
+  { id: "higashikatsushika", name: "東葛飾", reading: "ひがしかつしか", labelX: 169, labelY: 210, municipalityX: 108, municipalityY: 128, areas: ["matsudo", "noda", "kashiwa", "nagareyama", "abiko", "kamagaya"] },
+  { id: "inba", name: "印旛", reading: "いんば", labelX: 333, labelY: 276, municipalityX: 335, municipalityY: 180, areas: ["narita", "sakura", "yotsukaido", "yachimata", "inzai", "shiroi", "tomisato", "shisui", "sakae"] },
+  { id: "katori", name: "香取", reading: "かとり", labelX: 485, labelY: 205, municipalityX: 505, municipalityY: 105, areas: ["katori", "kozaki", "tako", "tounosho"] },
+  { id: "kaiso", name: "海匝", reading: "かいそう", labelX: 596, labelY: 300, municipalityX: 630, municipalityY: 250, areas: ["choshi", "asahi", "sosa"] },
+  { id: "sanbu", name: "山武", reading: "さんぶ", labelX: 458, labelY: 397, municipalityX: 570, municipalityY: 395, areas: ["togane", "sanmu", "oamishirasato", "kujukuri", "shibayama", "yokoshibahikari"] },
+  { id: "chosei", name: "長生", reading: "ちょうせい", labelX: 365, labelY: 525, municipalityX: 525, municipalityY: 520, areas: ["mobara", "ichinomiya", "mutsuzawa", "chosei", "shirako", "nagara", "chonan"] },
+  { id: "isumi", name: "夷隅", reading: "いすみ", labelX: 371, labelY: 644, municipalityX: 500, municipalityY: 650, areas: ["katsuura", "isumi", "otaki", "onjuku"] },
+  { id: "awa", name: "安房", reading: "あわ", labelX: 172, labelY: 790, municipalityX: 70, municipalityY: 805, areas: ["tateyama", "kamogawa", "minamiboso", "kyonan"] },
+  { id: "kimitsu", name: "君津", reading: "きみつ", labelX: 156, labelY: 616, municipalityX: 66, municipalityY: 620, areas: ["kisarazu", "kimitsu", "futtsu", "sodegaura"] },
+];
+
+const getMapRegion = (regionId) => MAP_REGION_GROUPS.find((region) => region.id === regionId);
+const getMapRegionByArea = (areaId) => MAP_REGION_GROUPS.find((region) => region.areas.includes(areaId));
+
+const splitMunicipalityLabelLines = (names, maxCharacters = 8) => {
+  const lines = [];
+  let current = "";
+  names.forEach((name) => {
+    const candidate = current ? `${current}・${name}` : name;
+    if (current && candidate.length > maxCharacters) {
+      lines.push(current);
+      current = name;
+    } else {
+      current = candidate;
+    }
+  });
+  if (current) lines.push(current);
+  return lines;
 };
 
 const $ = (selector, root = document) => root.querySelector(selector);
@@ -258,86 +291,630 @@ const loadChibaMapSvg = async () => {
 const createAreaMapNode = async (counts, selectedAreaId = "") => {
   const sourceSvg = await loadChibaMapSvg();
   const svg = document.importNode(sourceSvg, true);
+  svg.classList.add("grouped-region-map");
+  const regionLayer = svg.querySelector(".area-map-regions");
+  const prefectureOutlineLayer = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  prefectureOutlineLayer.classList.add("map-prefecture-outline");
+  prefectureOutlineLayer.setAttribute("aria-hidden", "true");
+  svg.querySelectorAll("[data-area-id]").forEach((sourcePath) => {
+    const outlinePath = sourcePath.cloneNode(false);
+    outlinePath.removeAttribute("id");
+    outlinePath.removeAttribute("data-area-id");
+    outlinePath.setAttribute("class", "map-prefecture-outline-shape");
+    prefectureOutlineLayer.append(outlinePath);
+  });
+  const outlineLayer = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  outlineLayer.classList.add("map-region-outlines");
+  outlineLayer.setAttribute("aria-hidden", "true");
+  const labelLayer = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  labelLayer.classList.add("map-region-labels");
+  labelLayer.setAttribute("aria-hidden", "true");
+
+  MAP_REGION_GROUPS.forEach((region) => {
+    const outlineGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    outlineGroup.classList.add("map-region-outline");
+    outlineGroup.dataset.mapRegionOutline = region.id;
+    region.areas.forEach((areaId) => {
+      const sourcePath = svg.querySelector(`[data-area-id="${CSS.escape(areaId)}"]`);
+      if (sourcePath) {
+        const outlinePath = sourcePath.cloneNode(false);
+        outlinePath.removeAttribute("id");
+        outlinePath.removeAttribute("data-area-id");
+        outlineGroup.append(outlinePath);
+      }
+    });
+    outlineLayer.append(outlineGroup);
+
+    const label = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    label.classList.add("map-region-label");
+    label.dataset.mapRegionLabel = region.id;
+    label.setAttribute("transform", `translate(${region.labelX} ${region.labelY})`);
+
+    const regionNameLabel = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    regionNameLabel.classList.add("map-label-variant", "is-region-name");
+    const width = Math.max(52, region.name.length * 17 + 20);
+    const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    rect.setAttribute("x", String(-width / 2));
+    rect.setAttribute("y", "-15");
+    rect.setAttribute("width", String(width));
+    rect.setAttribute("height", "30");
+    rect.setAttribute("rx", "9");
+    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    text.setAttribute("x", "0");
+    text.setAttribute("y", "5");
+    text.textContent = region.name;
+    regionNameLabel.append(rect, text);
+
+    const municipalityNames = region.areas.map(getArea).filter(Boolean).map((area) => area.name);
+    const municipalityLines = splitMunicipalityLabelLines(municipalityNames);
+    const municipalityOffsetX = region.municipalityX - region.labelX;
+    const municipalityOffsetY = region.municipalityY - region.labelY;
+    const municipalityLeader = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    municipalityLeader.classList.add("map-municipality-label-leader");
+    municipalityLeader.setAttribute("x1", "0");
+    municipalityLeader.setAttribute("y1", "0");
+    municipalityLeader.setAttribute("x2", String(municipalityOffsetX));
+    municipalityLeader.setAttribute("y2", String(municipalityOffsetY));
+    const municipalityLabel = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    municipalityLabel.classList.add("map-label-variant", "is-municipality-names");
+    municipalityLabel.setAttribute(
+      "transform",
+      `translate(${municipalityOffsetX} ${municipalityOffsetY})`
+    );
+    const longestLine = Math.max(...municipalityLines.map((line) => line.length));
+    const municipalityWidth = Math.max(94, longestLine * 16 + 24);
+    const municipalityHeight = municipalityLines.length * 21 + 39;
+    const municipalityRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    municipalityRect.setAttribute("x", String(-municipalityWidth / 2));
+    municipalityRect.setAttribute("y", String(-municipalityHeight / 2));
+    municipalityRect.setAttribute("width", String(municipalityWidth));
+    municipalityRect.setAttribute("height", String(municipalityHeight));
+    municipalityRect.setAttribute("rx", "8");
+    municipalityLabel.append(municipalityRect);
+    const municipalityRegionTitle = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    municipalityRegionTitle.classList.add("map-municipality-region-title");
+    municipalityRegionTitle.setAttribute("x", "0");
+    municipalityRegionTitle.setAttribute("y", String(-municipalityHeight / 2 + 17));
+    municipalityRegionTitle.textContent = `${region.name}エリア`;
+    municipalityLabel.append(municipalityRegionTitle);
+    municipalityLines.forEach((line, lineIndex) => {
+      const municipalityText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      municipalityText.classList.add("map-municipality-name-line");
+      municipalityText.setAttribute("x", "0");
+      municipalityText.setAttribute(
+        "y",
+        String(-municipalityHeight / 2 + 38 + lineIndex * 21)
+      );
+      municipalityText.textContent = line;
+      municipalityLabel.append(municipalityText);
+    });
+
+    label.append(municipalityLeader, regionNameLabel, municipalityLabel);
+    labelLayer.append(label);
+  });
+  regionLayer?.insertBefore(prefectureOutlineLayer, regionLayer.firstChild);
+  regionLayer?.insertBefore(outlineLayer, regionLayer.firstChild);
+  regionLayer?.append(labelLayer);
+
+  svg.querySelectorAll(".major-city-label").forEach((label) => {
+    const text = label.querySelector("text");
+    const rect = label.querySelector("rect");
+    const characterCount = Array.from(text?.textContent?.trim() || "").length;
+    const labelWidth = Math.max(32, characterCount * 15.5 + 10);
+    rect?.setAttribute("x", String(-labelWidth / 2));
+    rect?.setAttribute("y", "-13.5");
+    rect?.setAttribute("width", String(labelWidth));
+    rect?.setAttribute("height", "27");
+    rect?.setAttribute("rx", "6");
+    text?.setAttribute("y", "5");
+
+    const anchor = label.previousElementSibling?.classList.contains("major-city-anchor")
+      ? label.previousElementSibling
+      : null;
+    const leader = anchor?.previousElementSibling?.classList.contains("major-city-leader")
+      ? anchor.previousElementSibling
+      : null;
+    if (anchor) anchor.dataset.labelArea = label.dataset.labelArea;
+    if (leader) leader.dataset.labelArea = label.dataset.labelArea;
+  });
+
+  const firstAreaByRegion = new Set();
   svg.querySelectorAll("[data-area-link]").forEach((link) => {
     const areaId = link.dataset.areaLink;
+    const region = getMapRegionByArea(areaId);
+    if (!region) return;
     const area = getArea(areaId);
     const count = counts.get(areaId) || 0;
-    const label = `${area?.name || areaId}、${count ? `掲載${count}件` : "掲載準備中"}`;
+    link.dataset.mapRegion = region.id;
     link.classList.toggle("has-stores", count > 0);
     link.classList.toggle("no-stores", count === 0);
     link.classList.toggle("is-active", areaId === selectedAreaId);
     link.setAttribute("href", getAreaUrl(area));
-    link.setAttribute("aria-label", label);
+    link.setAttribute("role", "button");
+    link.setAttribute("aria-label", `${area?.name || areaId}、${count ? `掲載${count}件` : "掲載募集中"}`);
+    if (firstAreaByRegion.has(region.id)) {
+      link.setAttribute("tabindex", "-1");
+    } else {
+      firstAreaByRegion.add(region.id);
+      link.setAttribute("tabindex", "0");
+    }
     const title = link.querySelector("title");
-    if (title) title.textContent = label;
+    if (title) title.textContent = `${region.name}地域`;
   });
   return svg;
+};
+
+const initGroupedRegionMap = (counts, mapTargets, statusTargets) => {
+  const isTouchMap = () => window.matchMedia("(hover: none), (pointer: coarse), (max-width: 760px)").matches;
+
+  mapTargets.forEach((mapTarget) => {
+    const svg = mapTarget.querySelector(".grouped-region-map");
+    const tooltip = mapTarget.querySelector(".area-map-tooltip");
+    const preview = mapTarget.querySelector("[data-area-selection-preview]");
+    tooltip?.classList.add("grouped-region-tooltip");
+    let selectedRegionId = "";
+    let selectedAreaId = "";
+
+    const isRegionMode = () => mapTarget.dataset.mapViewMode !== "municipalities";
+    const focusMapSelection = (elements, mode) => {
+      requestAnimationFrame(() => {
+        mapTarget.dispatchEvent(new CustomEvent("mapfocusselection", {
+          detail: { elements: [...elements], mode },
+        }));
+      });
+    };
+
+    const setActiveRegion = (regionId, persistent = false) => {
+      const region = getMapRegion(regionId);
+      if (!region) return;
+      if (persistent) selectedRegionId = regionId;
+      svg.querySelectorAll("[data-map-region]").forEach((item) => {
+        item.classList.toggle("is-group-active", item.dataset.mapRegion === regionId);
+      });
+      svg.querySelectorAll("[data-map-region-outline]").forEach((item) => {
+        item.classList.toggle("is-group-active", item.dataset.mapRegionOutline === regionId);
+      });
+      svg.querySelectorAll("[data-map-region-label]").forEach((item) => {
+        item.classList.toggle("is-group-active", item.dataset.mapRegionLabel === regionId);
+      });
+      statusTargets.forEach((target) => {
+        target.textContent = `${region.name}地域・${region.areas.length}市町村`;
+      });
+    };
+
+    const clearActiveRegion = (force = false) => {
+      if (selectedRegionId && !force) {
+        setActiveRegion(selectedRegionId);
+        return;
+      }
+      if (force) selectedRegionId = "";
+      svg.querySelectorAll(".is-group-active").forEach((item) => item.classList.remove("is-group-active"));
+      statusTargets.forEach((target) => {
+        target.textContent = "地域に触れると範囲を確認できます";
+      });
+      if (preview) preview.hidden = true;
+      if (tooltip) tooltip.hidden = true;
+    };
+
+    const clearActiveArea = () => {
+      selectedAreaId = "";
+      svg.querySelectorAll(".is-mobile-selected, .is-linked-highlight").forEach((item) => {
+        item.classList.remove("is-mobile-selected", "is-linked-highlight");
+      });
+      if (preview) preview.hidden = true;
+      if (tooltip) tooltip.hidden = true;
+    };
+
+    const showAreaCard = (areaId) => {
+      const area = getArea(areaId);
+      if (!area || !preview) return;
+      const count = counts.get(areaId) || 0;
+      const { categories } = getAreaStoreSummary(areaId);
+      selectedAreaId = areaId;
+      svg.querySelectorAll("[data-area-link]").forEach((item) => {
+        item.classList.toggle("is-mobile-selected", item.dataset.areaLink === areaId);
+      });
+      preview.innerHTML = createAreaPreviewHtml(area, counts);
+      preview.hidden = false;
+      preview.querySelector("[data-area-preview-close]")?.addEventListener("click", (event) => {
+        event.stopPropagation();
+        clearActiveArea();
+      });
+      focusMapSelection(
+        svg.querySelectorAll(`[data-area-link="${CSS.escape(areaId)}"]`),
+        "municipality"
+      );
+    };
+
+    const showRegionCard = (regionId) => {
+      const region = getMapRegion(regionId);
+      if (!region || !preview) return;
+      const municipalityNames = region.areas.map(getArea).filter(Boolean).map((area) => area.name);
+      const listedCount = region.areas.reduce((sum, areaId) => sum + (counts.get(areaId) || 0), 0);
+      preview.innerHTML = `
+        <div class="area-preview-heading">
+          <div>
+            <p class="eyebrow">${escapeHtml(region.reading)}</p>
+            <h3>${escapeHtml(region.name)}地域</h3>
+          </div>
+          <button class="area-preview-close" type="button" data-area-preview-close aria-label="閉じる">×</button>
+        </div>
+        <p class="grouped-region-municipalities">${municipalityNames.map(escapeHtml).join("・")}</p>
+        <p class="area-preview-count">掲載店舗：${listedCount}件</p>
+      `;
+      preview.hidden = false;
+      preview.querySelector("[data-area-preview-close]")?.addEventListener("click", (event) => {
+        event.stopPropagation();
+        clearActiveRegion(true);
+      });
+      focusMapSelection(
+        svg.querySelectorAll(`[data-map-region="${CSS.escape(regionId)}"]`),
+        "region"
+      );
+    };
+
+    svg.querySelectorAll("[data-map-region]").forEach((link) => {
+      const regionId = link.dataset.mapRegion;
+      link.addEventListener("pointerenter", (event) => {
+        if (isTouchMap()) return;
+        if (isRegionMode()) {
+          setActiveRegion(regionId);
+          const region = getMapRegion(regionId);
+          if (tooltip && region) {
+            const municipalityNames = region.areas.map(getArea).filter(Boolean).map((area) => area.name);
+            tooltip.innerHTML = `
+              <strong>${escapeHtml(region.name)}地域</strong>
+              <span>${municipalityNames.map(escapeHtml).join("・")}</span>
+            `;
+          }
+        } else {
+          const areaId = link.dataset.areaLink;
+          const area = getArea(areaId);
+          const count = counts.get(areaId) || 0;
+          link.classList.add("is-linked-highlight");
+          statusTargets.forEach((target) => {
+            target.textContent = `${area?.name || ""}${count ? `・掲載店舗 ${count}件` : "・掲載募集中"}`;
+          });
+          if (tooltip) {
+            tooltip.innerHTML = `
+              <strong>${escapeHtml(area?.name || "")}</strong>
+              <span>${count ? `掲載店舗：${count}件` : "掲載募集中"}</span>
+            `;
+          }
+        }
+        if (tooltip) {
+          const rect = mapTarget.getBoundingClientRect();
+          tooltip.style.left = `${event.clientX - rect.left + 14}px`;
+          tooltip.style.top = `${event.clientY - rect.top + 14}px`;
+          tooltip.hidden = false;
+        }
+      });
+      link.addEventListener("pointermove", (event) => {
+        if (!tooltip || isTouchMap()) return;
+        const rect = mapTarget.getBoundingClientRect();
+        tooltip.style.left = `${event.clientX - rect.left + 14}px`;
+        tooltip.style.top = `${event.clientY - rect.top + 14}px`;
+      });
+      link.addEventListener("pointerleave", () => {
+        if (isTouchMap()) return;
+        if (tooltip) tooltip.hidden = true;
+        if (isRegionMode()) {
+          clearActiveRegion();
+        } else {
+          link.classList.remove("is-linked-highlight");
+          if (selectedAreaId) {
+            const area = getArea(selectedAreaId);
+            statusTargets.forEach((target) => {
+              target.textContent = area?.name || "";
+            });
+          } else {
+            statusTargets.forEach((target) => {
+              target.textContent = "市町村に触れると掲載状況を確認できます";
+            });
+          }
+        }
+      });
+      link.addEventListener("focus", () => {
+        if (isRegionMode()) setActiveRegion(regionId);
+        else link.classList.add("is-linked-highlight");
+      });
+      link.addEventListener("blur", () => {
+        if (isRegionMode()) clearActiveRegion();
+        else link.classList.remove("is-linked-highlight");
+      });
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        if (isRegionMode()) {
+          clearActiveArea();
+          setActiveRegion(regionId, true);
+          showRegionCard(regionId);
+        } else {
+          clearActiveRegion(true);
+          showAreaCard(link.dataset.areaLink);
+        }
+      });
+    });
+
+    mapTarget.addEventListener("click", (event) => {
+      if (event.target.closest("[data-map-region], [data-area-selection-preview], .map-function-controls")) return;
+      clearActiveRegion(true);
+      clearActiveArea();
+    });
+
+    mapTarget.addEventListener("mapviewchange", () => {
+      clearActiveRegion(true);
+      clearActiveArea();
+      statusTargets.forEach((target) => {
+        target.textContent = isRegionMode()
+          ? "地域に触れると範囲を確認できます"
+          : "市町村に触れると掲載状況を確認できます";
+      });
+    });
+  });
+};
+
+const initMapLabelSwitcher = (mapTargets) => {
+  const mapTarget = mapTargets[0];
+  if (!mapTarget) return;
+  const controlsPanel = document.createElement("div");
+  controlsPanel.className = "map-function-controls";
+  controlsPanel.innerHTML = `
+    <strong>表示切替</strong>
+    <div class="map-view-segmented">
+      <label><input type="radio" name="map-view-mode" value="regions" checked><span>地域ごと</span></label>
+      <label><input type="radio" name="map-view-mode" value="municipalities"><span>市区町村ごと</span></label>
+    </div>
+    <label class="map-listed-only">
+      <input type="checkbox" data-listed-only-toggle>
+      <span>掲載中のみ</span>
+      <i aria-hidden="true"></i>
+    </label>
+    <div class="area-map-zoom-controls" aria-label="地図の拡大縮小">
+      <button type="button" data-map-zoom-in aria-label="地図を拡大">＋</button>
+      <button type="button" data-map-zoom-out aria-label="地図を縮小">−</button>
+      <button type="button" data-map-zoom-reset aria-label="地図を元の大きさに戻す">全体</button>
+    </div>
+  `;
+  mapTarget.prepend(controlsPanel);
+  const controls = $$('input[name="map-view-mode"]', controlsPanel);
+
+  const applyMode = (mode) => {
+    mapTargets.forEach((mapTarget) => {
+      mapTarget.dataset.mapViewMode = mode;
+      const firstAreaByRegion = new Set();
+      mapTarget.querySelectorAll("[data-map-region]").forEach((link) => {
+        if (mode === "municipalities") {
+          link.setAttribute("tabindex", "0");
+          return;
+        }
+        const isFirst = !firstAreaByRegion.has(link.dataset.mapRegion);
+        link.setAttribute("tabindex", isFirst ? "0" : "-1");
+        firstAreaByRegion.add(link.dataset.mapRegion);
+      });
+      mapTarget.dispatchEvent(new CustomEvent("mapviewchange"));
+    });
+  };
+
+  controls.forEach((control) => {
+    control.addEventListener("change", () => {
+      if (control.checked) applyMode(control.value);
+    });
+  });
+  applyMode(controls.find((control) => control.checked)?.value || "regions");
+};
+
+const initListedOnlyFilters = (mapTargets) => {
+  const toggles = $$("[data-listed-only-toggle]");
+  const apply = (checked) => {
+    toggles.forEach((toggle) => { toggle.checked = checked; });
+    if (checked) {
+      const cityMode = $('input[name="map-view-mode"][value="municipalities"]');
+      if (cityMode && !cityMode.checked) {
+        cityMode.checked = true;
+        cityMode.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    }
+    mapTargets.forEach((target) => {
+      target.classList.toggle("is-listed-only", checked);
+      target.querySelectorAll(".major-city-label, .major-city-leader, .major-city-anchor").forEach((labelPart) => {
+        const count = getAreaCounts().get(labelPart.dataset.labelArea) || 0;
+        labelPart.classList.toggle("is-filter-hidden", checked && count === 0);
+      });
+    });
+    $$("[data-area-list]").forEach((target) => {
+      target.classList.toggle("is-listed-only", checked);
+    });
+  };
+  toggles.forEach((toggle) => {
+    toggle.addEventListener("change", () => apply(toggle.checked));
+  });
 };
 
 const initMapZoom = (target) => {
   const svg = target.querySelector(".chiba-area-map");
   if (!svg) return;
-  const controls = document.createElement("div");
-  controls.className = "area-map-zoom-controls";
-  controls.innerHTML = `
-    <button type="button" data-map-zoom-in aria-label="地図を拡大">＋</button>
-    <button type="button" data-map-zoom-out aria-label="地図を縮小">−</button>
-    <button type="button" data-map-zoom-reset aria-label="地図を元の大きさに戻す">全体</button>
-  `;
-  target.append(controls);
+  const controls = target.querySelector(".area-map-zoom-controls");
+  if (!controls) return;
 
   const pointers = new Map();
   const minScale = 1;
   const maxScale = 3.5;
+  const viewBox = svg.viewBox.baseVal;
+  const baseView = {
+    x: viewBox.x,
+    y: viewBox.y,
+    width: viewBox.width,
+    height: viewBox.height,
+  };
+  let view = { ...baseView };
   let scale = 1;
-  let translateX = 0;
-  let translateY = 0;
   let pinchStartDistance = 0;
   let pinchStartScale = 1;
+  let pinchStartView;
+  let pinchStartCenter;
   let panStart;
   let gestureMoved = false;
   let suppressClickUntil = 0;
+  let focusAnimationFrame = 0;
+  let edgePaddingFactor = 0.08;
 
-  const clampTranslation = () => {
-    const rect = target.getBoundingClientRect();
-    const maxX = rect.width * (scale - 1);
-    const maxY = rect.height * (scale - 1);
-    translateX = Math.min(0, Math.max(-maxX, translateX));
-    translateY = Math.min(0, Math.max(-maxY, translateY));
+  const clampView = (nextView) => {
+    const width = Math.min(baseView.width, Math.max(baseView.width / maxScale, nextView.width));
+    const height = Math.min(baseView.height, Math.max(baseView.height / maxScale, nextView.height));
+    const edgePaddingX = width < baseView.width ? width * edgePaddingFactor : 0;
+    const edgePaddingY = height < baseView.height ? height * edgePaddingFactor : 0;
+    return {
+      x: Math.min(
+        baseView.x + baseView.width - width + edgePaddingX,
+        Math.max(baseView.x - edgePaddingX, nextView.x)
+      ),
+      y: Math.min(
+        baseView.y + baseView.height - height + edgePaddingY,
+        Math.max(baseView.y - edgePaddingY, nextView.y)
+      ),
+      width,
+      height,
+    };
   };
-  const applyTransform = () => {
-    clampTranslation();
-    svg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+  const applyView = () => {
+    view = clampView(view);
+    svg.setAttribute("viewBox", `${view.x} ${view.y} ${view.width} ${view.height}`);
+    svg.style.removeProperty("transform");
     target.classList.toggle("is-map-zoomed", scale > 1.01);
     controls.querySelector("[data-map-zoom-out]").disabled = scale <= minScale;
+    controls.querySelector("[data-map-zoom-reset]").disabled = scale <= minScale;
   };
-  const zoomAt = (nextScale, centerX, centerY) => {
-    const previousScale = scale;
+  const animateToView = (nextView, nextScale, duration = 340) => {
+    cancelAnimationFrame(focusAnimationFrame);
+    const startView = { ...view };
+    const targetView = clampView(nextView);
+    const startScale = scale;
+    const startedAt = performance.now();
+    const easeOut = (progress) => 1 - Math.pow(1 - progress, 3);
+    const draw = (now) => {
+      const progress = Math.min(1, (now - startedAt) / duration);
+      const eased = easeOut(progress);
+      view = {
+        x: startView.x + (targetView.x - startView.x) * eased,
+        y: startView.y + (targetView.y - startView.y) * eased,
+        width: startView.width + (targetView.width - startView.width) * eased,
+        height: startView.height + (targetView.height - startView.height) * eased,
+      };
+      scale = startScale + (nextScale - startScale) * eased;
+      applyView();
+      if (progress < 1) focusAnimationFrame = requestAnimationFrame(draw);
+    };
+    focusAnimationFrame = requestAnimationFrame(draw);
+  };
+  const zoomFromView = (nextScale, centerClientX, centerClientY, sourceView = view) => {
+    cancelAnimationFrame(focusAnimationFrame);
+    edgePaddingFactor = 0.08;
+    const rect = svg.getBoundingClientRect();
+    const ratioX = Math.min(1, Math.max(0, (centerClientX - rect.left) / rect.width));
+    const ratioY = Math.min(1, Math.max(0, (centerClientY - rect.top) / rect.height));
+    const anchorX = sourceView.x + ratioX * sourceView.width;
+    const anchorY = sourceView.y + ratioY * sourceView.height;
     scale = Math.min(maxScale, Math.max(minScale, nextScale));
     if (scale === minScale) {
-      translateX = 0;
-      translateY = 0;
+      view = { ...baseView };
     } else {
-      const ratio = scale / previousScale;
-      translateX = centerX - (centerX - translateX) * ratio;
-      translateY = centerY - (centerY - translateY) * ratio;
+      const width = baseView.width / scale;
+      const height = baseView.height / scale;
+      view = {
+        x: anchorX - ratioX * width,
+        y: anchorY - ratioY * height,
+        width,
+        height,
+      };
     }
-    applyTransform();
+    applyView();
   };
   const distance = (first, second) =>
     Math.hypot(first.clientX - second.clientX, first.clientY - second.clientY);
 
+  target.addEventListener("mapfocusselection", (event) => {
+    const elements = (event.detail?.elements || []).filter((element) => element?.isConnected);
+    if (!elements.length) return;
+    const boxes = elements.map((element) => element.getBBox()).filter((box) => box.width || box.height);
+    if (!boxes.length) return;
+    const bounds = boxes.reduce((combined, box) => ({
+      left: Math.min(combined.left, box.x),
+      top: Math.min(combined.top, box.y),
+      right: Math.max(combined.right, box.x + box.width),
+      bottom: Math.max(combined.bottom, box.y + box.height),
+    }), {
+      left: Infinity,
+      top: Infinity,
+      right: -Infinity,
+      bottom: -Infinity,
+    });
+    const boundsWidth = bounds.right - bounds.left;
+    const boundsHeight = bounds.bottom - bounds.top;
+    const preferredScale = event.detail?.mode === "region" ? 1.55 : 2;
+    const fitScale = Math.min(
+      maxScale,
+      baseView.width / Math.max(boundsWidth * 1.35, 1),
+      baseView.height / Math.max(boundsHeight * 1.35, 1)
+    );
+    const nextScale = Math.max(scale, Math.min(preferredScale, fitScale));
+    const width = baseView.width / nextScale;
+    const height = baseView.height / nextScale;
+
+    const svgRect = svg.getBoundingClientRect();
+    const preview = target.querySelector("[data-area-selection-preview]:not([hidden])");
+    const previewRect = preview?.getBoundingClientRect();
+    let targetRatioX = 0.5;
+    let targetRatioY = 0.5;
+    if (previewRect) {
+      const overlapsSvg =
+        previewRect.left < svgRect.right &&
+        previewRect.right > svgRect.left &&
+        previewRect.top < svgRect.bottom &&
+        previewRect.bottom > svgRect.top;
+      if (overlapsSvg) {
+        const freeHeight = previewRect.top - svgRect.top - 12;
+        if (freeHeight > svgRect.height * 0.24) {
+          targetRatioY = Math.max(0.2, Math.min(0.5, freeHeight / 2 / svgRect.height));
+        }
+        const isRightSideCard =
+          previewRect.width < svgRect.width * 0.78 &&
+          previewRect.left > svgRect.left + svgRect.width * 0.28;
+        if (isRightSideCard) {
+          const freeWidth = previewRect.left - svgRect.left - 12;
+          targetRatioX = Math.max(0.2, Math.min(0.5, freeWidth / 2 / svgRect.width));
+        }
+      }
+    }
+
+    const centerX = (bounds.left + bounds.right) / 2;
+    const centerY = (bounds.top + bounds.bottom) / 2;
+    edgePaddingFactor = 0.65;
+    animateToView({
+      x: centerX - width * targetRatioX,
+      y: centerY - height * targetRatioY,
+      width,
+      height,
+    }, nextScale);
+  });
+
   target.addEventListener("pointerdown", (event) => {
-    if (event.target.closest(".area-map-zoom-controls, [data-area-selection-preview]")) return;
+    if (event.target.closest(".map-function-controls, [data-area-selection-preview]")) return;
+    cancelAnimationFrame(focusAnimationFrame);
     pointers.set(event.pointerId, event);
-    target.setPointerCapture?.(event.pointerId);
     gestureMoved = false;
     if (pointers.size === 2) {
       const [first, second] = [...pointers.values()];
+      pointers.forEach((pointer) => target.setPointerCapture?.(pointer.pointerId));
       pinchStartDistance = distance(first, second);
       pinchStartScale = scale;
+      pinchStartView = { ...view };
+      pinchStartCenter = {
+        x: (first.clientX + second.clientX) / 2,
+        y: (first.clientY + second.clientY) / 2,
+      };
     } else if (scale > 1) {
-      panStart = { x: event.clientX, y: event.clientY, translateX, translateY };
+      target.setPointerCapture?.(event.pointerId);
+      panStart = { x: event.clientX, y: event.clientY, view: { ...view } };
     }
   });
   target.addEventListener("pointermove", (event) => {
@@ -346,25 +923,57 @@ const initMapZoom = (target) => {
     if (pointers.size === 2) {
       event.preventDefault();
       const [first, second] = [...pointers.values()];
-      const rect = target.getBoundingClientRect();
-      const centerX = (first.clientX + second.clientX) / 2 - rect.left;
-      const centerY = (first.clientY + second.clientY) / 2 - rect.top;
-      zoomAt(pinchStartScale * distance(first, second) / pinchStartDistance, centerX, centerY);
+      const centerX = (first.clientX + second.clientX) / 2;
+      const centerY = (first.clientY + second.clientY) / 2;
+      const rect = svg.getBoundingClientRect();
+      const sourceRatioX = (pinchStartCenter.x - rect.left) / rect.width;
+      const sourceRatioY = (pinchStartCenter.y - rect.top) / rect.height;
+      const anchorX = pinchStartView.x + sourceRatioX * pinchStartView.width;
+      const anchorY = pinchStartView.y + sourceRatioY * pinchStartView.height;
+      scale = Math.min(maxScale, Math.max(
+        minScale,
+        pinchStartScale * distance(first, second) / pinchStartDistance
+      ));
+      const width = baseView.width / scale;
+      const height = baseView.height / scale;
+      view = {
+        x: anchorX - ((centerX - rect.left) / rect.width) * width,
+        y: anchorY - ((centerY - rect.top) / rect.height) * height,
+        width,
+        height,
+      };
+      applyView();
       gestureMoved = true;
       suppressClickUntil = Date.now() + 450;
     } else if (scale > 1 && panStart) {
       event.preventDefault();
-      translateX = panStart.translateX + event.clientX - panStart.x;
-      translateY = panStart.translateY + event.clientY - panStart.y;
-      applyTransform();
+      const rect = svg.getBoundingClientRect();
+      view = {
+        ...panStart.view,
+        x: panStart.view.x - (event.clientX - panStart.x) / rect.width * panStart.view.width,
+        y: panStart.view.y - (event.clientY - panStart.y) / rect.height * panStart.view.height,
+      };
+      applyView();
       if (Math.hypot(event.clientX - panStart.x, event.clientY - panStart.y) > 5) gestureMoved = true;
       if (gestureMoved) suppressClickUntil = Date.now() + 450;
     }
   });
   const endPointer = (event) => {
     pointers.delete(event.pointerId);
-    if (pointers.size < 2) pinchStartDistance = 0;
-    if (!pointers.size) panStart = undefined;
+    if (target.hasPointerCapture?.(event.pointerId)) {
+      target.releasePointerCapture?.(event.pointerId);
+    }
+    if (pointers.size < 2) {
+      pinchStartDistance = 0;
+      pinchStartView = undefined;
+      pinchStartCenter = undefined;
+    }
+    if (pointers.size === 1 && scale > 1) {
+      const remaining = [...pointers.values()][0];
+      panStart = { x: remaining.clientX, y: remaining.clientY, view: { ...view } };
+    } else if (!pointers.size) {
+      panStart = undefined;
+    }
   };
   target.addEventListener("pointerup", endPointer);
   target.addEventListener("pointercancel", endPointer);
@@ -375,24 +984,26 @@ const initMapZoom = (target) => {
     gestureMoved = false;
   }, true);
   target.addEventListener("wheel", (event) => {
-    if (!event.ctrlKey && Math.abs(event.deltaY) < 2) return;
+    if (!event.ctrlKey) return;
     event.preventDefault();
-    const rect = target.getBoundingClientRect();
-    zoomAt(scale * (event.deltaY < 0 ? 1.18 : 0.85), event.clientX - rect.left, event.clientY - rect.top);
+    zoomFromView(scale * (event.deltaY < 0 ? 1.18 : 0.85), event.clientX, event.clientY);
   }, { passive: false });
   controls.querySelector("[data-map-zoom-in]").addEventListener("click", () => {
-    zoomAt(scale + 0.5, target.clientWidth / 2, target.clientHeight / 2);
+    const rect = svg.getBoundingClientRect();
+    zoomFromView(scale + 0.5, rect.left + rect.width / 2, rect.top + rect.height / 2);
   });
   controls.querySelector("[data-map-zoom-out]").addEventListener("click", () => {
-    zoomAt(scale - 0.5, target.clientWidth / 2, target.clientHeight / 2);
+    const rect = svg.getBoundingClientRect();
+    zoomFromView(scale - 0.5, rect.left + rect.width / 2, rect.top + rect.height / 2);
   });
   controls.querySelector("[data-map-zoom-reset]").addEventListener("click", () => {
+    cancelAnimationFrame(focusAnimationFrame);
+    edgePaddingFactor = 0.08;
     scale = 1;
-    translateX = 0;
-    translateY = 0;
-    applyTransform();
+    view = { ...baseView };
+    applyView();
   });
-  applyTransform();
+  applyView();
 };
 
 const createAreaListHtml = (counts, selectedAreaId = "") => {
@@ -402,7 +1013,7 @@ const createAreaListHtml = (counts, selectedAreaId = "") => {
     return `
       <a class="area-list-button ${count ? "has-stores" : ""} ${area.id === selectedAreaId ? "is-active" : ""}" href="${escapeHtml(getAreaUrl(area))}" data-area-link="${escapeHtml(area.id)}">
         <span>${escapeHtml(area.name)}</span>
-        <small>${count ? `${count}件` : "準備中"}</small>
+        <small>${count ? `${count}件` : "募集中"}</small>
       </a>
     `;
   };
@@ -475,11 +1086,11 @@ const createAreaPreviewHtml = (area, counts) => {
         <h3>${escapeHtml(area.name)}</h3>
       </div>
       <div class="area-preview-heading-actions">
-        <span class="area-preview-count is-empty">準備中</span>
+        <span class="area-preview-count is-empty">募集中</span>
         <button class="area-preview-close" type="button" data-area-preview-close aria-label="選択カードを閉じる">×</button>
       </div>
     </div>
-    <p>現在、このエリアの掲載店舗は準備中です。</p>
+    <p>現在、このエリアの掲載店舗を募集中です。</p>
     <div class="area-preview-actions">
       <a class="button secondary" href="${escapeHtml(siteUrl("chiba/#listed-areas"))}">千葉県の掲載中エリアを見る</a>
       <a class="button primary" href="${escapeHtml(siteUrl("for-shops/"))}">掲載を希望する</a>
@@ -502,14 +1113,14 @@ const initAreaMaps = async () => {
     if (details && window.matchMedia("(max-width: 760px)").matches) details.open = false;
   });
   $$("[data-area-summary]").forEach((target) => {
-    const listedAreaCount = [...counts.values()].filter((count) => count > 0).length;
-    target.textContent = `千葉県 ${state.areas.length}市町村 / 掲載エリア ${listedAreaCount}市`;
+    target.textContent = `千葉県 ${MAP_REGION_GROUPS.length}地域 / ${state.areas.length}市町村`;
   });
   const statusTargets = $$("[data-area-map-status]");
-  const isTouchMap = () => window.matchMedia("(hover: none), (pointer: coarse), (max-width: 760px)").matches;
   const mapTargets = $$("[data-area-map]");
+  const fullMapTargets = mapTargets.filter((target) => !target.classList.contains("area-mini-map"));
+  const miniMapTargets = mapTargets.filter((target) => target.classList.contains("area-mini-map"));
 
-  mapTargets.forEach((target) => {
+  fullMapTargets.forEach((target) => {
     const tooltip = document.createElement("div");
     tooltip.className = "area-map-tooltip";
     tooltip.hidden = true;
@@ -521,100 +1132,32 @@ const initAreaMaps = async () => {
     preview.hidden = true;
     preview.setAttribute("aria-live", "polite");
     target.append(preview);
-    initMapZoom(target);
   });
-
-  const setLinkedHighlight = (areaId, active) => {
-    $$(`[data-area-link="${CSS.escape(areaId)}"]`).forEach((item) => {
-      item.classList.toggle("is-linked-highlight", active);
-    });
-  };
-
-  const showStatus = (areaId) => {
-    const area = getArea(areaId);
-    const count = counts.get(areaId) || 0;
-    statusTargets.forEach((target) => {
-      target.textContent = `${area?.name || ""}${count ? `・掲載店舗 ${count}件` : "・掲載準備中"}`;
-    });
-  };
-
-  const clearMobileAreaSelection = (mapTarget) => {
-    const preview = mapTarget.querySelector("[data-area-selection-preview]");
-    if (preview) preview.hidden = true;
-    $$(".is-mobile-selected").forEach((item) => item.classList.remove("is-mobile-selected"));
-    statusTargets.forEach((target) => {
-      target.textContent = "市町村に触れると掲載状況を確認できます";
-    });
-  };
-
-  const selectMobileArea = (areaId, mapTarget) => {
-    const area = getArea(areaId);
-    if (!area) return;
-    $$(".is-mobile-selected").forEach((item) => {
-      item.classList.remove("is-mobile-selected");
-    });
-    $$(`[data-area-link="${CSS.escape(areaId)}"]`).forEach((item) => {
-      item.classList.add("is-mobile-selected");
-    });
-    const preview = mapTarget.querySelector("[data-area-selection-preview]");
-    if (preview) {
-      preview.innerHTML = createAreaPreviewHtml(area, counts);
-      preview.hidden = false;
-      preview.querySelector("[data-area-preview-close]")?.addEventListener("click", (event) => {
-        event.stopPropagation();
-        clearMobileAreaSelection(mapTarget);
-      });
-    }
-    showStatus(areaId);
-  };
-
-  mapTargets.forEach((mapTarget) => {
-    mapTarget.addEventListener("click", (event) => {
-      if (!isTouchMap()) return;
-      if (event.target.closest("[data-area-link], [data-area-selection-preview]")) return;
-      clearMobileAreaSelection(mapTarget);
-    });
+  miniMapTargets.forEach((target) => {
+    target.dataset.mapViewMode = "municipalities";
+    target.classList.add("is-mini-map-static");
   });
-
-  $$("[data-area-link]").forEach((link) => {
-    const areaId = link.dataset.areaLink;
-    const mapTarget = link.closest("[data-area-map]");
-    const tooltip = mapTarget?.querySelector(".area-map-tooltip");
-    const showLinkedState = () => {
-      setLinkedHighlight(areaId, true);
-      showStatus(areaId);
-      if (tooltip && !isTouchMap()) {
-        const area = getArea(areaId);
-        const count = counts.get(areaId) || 0;
-        tooltip.innerHTML = `<strong>${escapeHtml(area?.name || "")}</strong><span>${count ? `掲載店舗：${count}件` : "掲載準備中"}</span>`;
-        const linkRect = link.getBoundingClientRect();
-        const mapRect = mapTarget.getBoundingClientRect();
-        tooltip.style.left = `${linkRect.left - mapRect.left + mapTarget.scrollLeft + linkRect.width / 2}px`;
-        tooltip.style.top = `${linkRect.top - mapRect.top + linkRect.height / 2}px`;
-        tooltip.hidden = false;
+  initMapLabelSwitcher(fullMapTargets);
+  fullMapTargets.forEach(initMapZoom);
+  initListedOnlyFilters(fullMapTargets);
+  initGroupedRegionMap(counts, fullMapTargets, statusTargets);
+  $$("[data-area-list] [data-area-link]").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      const cityMode = $('input[name="map-view-mode"][value="municipalities"]');
+      if (cityMode && !cityMode.checked) {
+        cityMode.checked = true;
+        cityMode.dispatchEvent(new Event("change", { bubbles: true }));
       }
-    };
-    const hideLinkedState = () => {
-      setLinkedHighlight(areaId, false);
-      if (tooltip) tooltip.hidden = true;
-    };
-    link.addEventListener("pointerenter", showLinkedState);
-    link.addEventListener("pointerleave", hideLinkedState);
-    link.addEventListener("focus", showLinkedState);
-    link.addEventListener("blur", hideLinkedState);
-    link.addEventListener("pointermove", (event) => {
-      if (!tooltip || isTouchMap()) return;
-      const rect = mapTarget.getBoundingClientRect();
-      tooltip.style.left = `${event.clientX - rect.left + mapTarget.scrollLeft + 14}px`;
-      tooltip.style.top = `${event.clientY - rect.top + 14}px`;
+      const mapLink = $(`[data-area-map] [data-area-link="${CSS.escape(link.dataset.areaLink)}"]`);
+      mapLink?.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
     });
-    if (mapTarget) {
-      link.addEventListener("click", (event) => {
-        if (!isTouchMap()) return;
-        event.preventDefault();
-        selectMobileArea(areaId, mapTarget);
-      });
-    }
+    link.addEventListener("pointerenter", () => {
+      $(`[data-area-map] [data-area-link="${CSS.escape(link.dataset.areaLink)}"]`)?.classList.add("is-linked-highlight");
+    });
+    link.addEventListener("pointerleave", () => {
+      $(`[data-area-map] [data-area-link="${CSS.escape(link.dataset.areaLink)}"]`)?.classList.remove("is-linked-highlight");
+    });
   });
 };
 
@@ -700,7 +1243,7 @@ const initAreaPage = async () => {
     renderStores($("[data-area-page-stores]"), sorted, {
       emptyMessage: pageStores.length
         ? "選択した条件に合う店舗はありません。検索条件を変えてお試しください。"
-        : "現在このエリアの掲載店舗は準備中です。",
+        : "現在このエリアの掲載店舗を募集中です。",
     });
     const count = $("[data-area-page-count]");
     if (count) count.textContent = `${sorted.length}件`;
@@ -718,7 +1261,7 @@ const initAreaPage = async () => {
     neighborTarget.innerHTML = neighbors.map((neighbor) => `
       <a class="neighbor-link" href="${escapeHtml(getAreaUrl(neighbor))}">
         <span>${escapeHtml(neighbor.name)}</span>
-        <small>${neighbor.storeCount ? `${neighbor.storeCount}件掲載` : "掲載準備中"}</small>
+        <small>${neighbor.storeCount ? `${neighbor.storeCount}件掲載` : "掲載募集中"}</small>
       </a>
     `).join("");
   }
