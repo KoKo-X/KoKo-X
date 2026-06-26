@@ -675,6 +675,18 @@ p {
   }
 }
 
+@media (min-width: 761px) {
+  .area-selection-preview.is-pointer-positioned {
+    position: absolute;
+    z-index: 8;
+    width: min(340px, calc(100% - 24px));
+    max-height: calc(100% - 24px);
+    margin: 0;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.97);
+    box-shadow: 0 18px 48px rgba(7, 34, 25, 0.24);
+  }
+}
 @media (max-width: 760px) {
   .site-header {
     position: static;
@@ -1185,7 +1197,7 @@ body[data-page="home"] .area-discovery-section {
   display: block;
   width: 100%;
   min-width: 580px;
-  max-height: 760px;
+  max-height: min(66vh, 600px);
   margin: auto;
   transform: none !important;
 }
@@ -2323,10 +2335,12 @@ h3 {
   pointer-events: none;
 }
 
-.map-region-outline .area-region-shape {
-  fill: #e7f2ed;
+.map-region-outline-shape {
+  fill: none;
   stroke: #386c5b;
-  stroke-width: 5;
+  stroke-linejoin: round;
+  stroke-width: 0.9;
+  vector-effect: non-scaling-stroke;
 }
 
 .grouped-region-map .area-region.is-group-active .area-region-shape {
@@ -2335,10 +2349,10 @@ h3 {
   stroke-width: 0.9;
 }
 
-.map-region-outline.is-group-active .area-region-shape {
-  fill: #32b878;
+.map-region-outline.is-group-active .map-region-outline-shape {
+  fill: none;
   stroke: #075d3a;
-  stroke-width: 5.5;
+  stroke-width: 0.9;
 }
 
 .map-label-variant rect {
@@ -2366,6 +2380,24 @@ h3 {
   stroke: rgba(36, 83, 66, 0.62);
   stroke-width: 1.6;
   stroke-dasharray: 4 3;
+}
+
+[data-map-view-mode="regions"] .grouped-region-map .area-region-shape {
+  stroke: rgba(48, 91, 76, 0.18);
+  stroke-width: 0.9;
+}
+
+[data-map-view-mode="regions"] .map-region-outline-shape {
+  fill: none;
+  stroke: rgba(7, 93, 58, 0.78);
+  stroke-linejoin: round;
+  stroke-width: 0.9;
+}
+
+[data-map-view-mode="regions"] .map-region-outline.is-group-active .map-region-outline-shape {
+  fill: none;
+  stroke: #075d3a;
+  stroke-width: 0.9;
 }
 
 [data-map-view-mode="municipalities"] .map-region-outlines,
@@ -2446,6 +2478,14 @@ h3 {
   overflow-y: auto;
   background: rgba(255, 255, 255, 0.97);
   box-shadow: 0 18px 48px rgba(7, 34, 25, 0.28);
+}
+
+@media (min-width: 761px) {
+  .map-test-page .area-selection-preview.is-pointer-positioned {
+    right: auto;
+    bottom: auto;
+    width: min(340px, calc(100% - 24px));
+  }
 }
 
 .grouped-region-municipalities {

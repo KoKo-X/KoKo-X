@@ -51,6 +51,124 @@ const splitMunicipalityLabelLines = (names, maxCharacters = 8) => {
   if (current) lines.push(current);
   return lines;
 };
+const REGION_OUTLINE_MIN_AREA = 30;
+
+const createRegionOutlinePathData = (pathElements) => {
+  const tokenPattern = /[MLZmlz]|-?\d*\.?\d+(?:e[-+]?\d+)?/gi;
+  const keyNumber = (value) => Number(value).toFixed(2);
+  const formatNumber = (value) => Number(value.toFixed(2)).toString();
+  const pointKey = (point) => keyNumber(point.x) + "," + keyNumber(point.y);
+  const samePoint = (first, second) => pointKey(first) === pointKey(second);
+  const segmentKey = (first, second) => {
+    const firstKey = pointKey(first);
+    const secondKey = pointKey(second);
+    return firstKey < secondKey ? firstKey + "|" + secondKey : secondKey + "|" + firstKey;
+  };
+  const parseSegments = (pathData) => {
+    const tokens = pathData.match(tokenPattern) || [];
+    const segments = [];
+    let index = 0;
+    let command = "";
+    let current = null;
+    let start = null;
+    const isCommand = (token) => /^[MLZmlz]$/.test(token);
+    const addSegment = (from, to) => {
+      if (!from || !to || samePoint(from, to)) return;
+      segments.push({ from, to });
+    };
+    const readPoint = (relative = false) => {
+      const x = Number(tokens[index]);
+      const y = Number(tokens[index + 1]);
+      index += 2;
+      if (relative && current) return { x: current.x + x, y: current.y + y };
+      return { x, y };
+    };
+
+    while (index < tokens.length) {
+      if (isCommand(tokens[index])) command = tokens[index++];
+      if ((command === "M" || command === "m") && index + 1 < tokens.length) {
+        const relative = command === "m";
+        current = readPoint(relative);
+        start = current;
+        command = relative ? "l" : "L";
+        continue;
+      }
+      if ((command === "L" || command === "l") && index + 1 < tokens.length) {
+        const next = readPoint(command === "l");
+        addSegment(current, next);
+        current = next;
+        continue;
+      }
+      if (command === "Z" || command === "z") {
+        addSegment(current, start);
+        current = start;
+        command = "";
+        continue;
+      }
+      break;
+    }
+    return segments;
+  };
+  const polygonArea = (points) => Math.abs(points.reduce((sum, point, index) => {
+    const next = points[(index + 1) % points.length];
+    return sum + point.x * next.y - next.x * point.y;
+  }, 0) / 2);
+  const connectSegments = (segments) => {
+    const adjacency = new Map();
+    segments.forEach((segment, index) => {
+      [segment.from, segment.to].forEach((point) => {
+        const key = pointKey(point);
+        if (!adjacency.has(key)) adjacency.set(key, []);
+        adjacency.get(key).push(index);
+      });
+    });
+    const used = new Set();
+    const chains = [];
+    segments.forEach((segment, index) => {
+      if (used.has(index)) return;
+      used.add(index);
+      const startKey = pointKey(segment.from);
+      let currentKey = pointKey(segment.to);
+      const chain = [segment.from, segment.to];
+      let guard = 0;
+      while (currentKey !== startKey && guard < segments.length + 5) {
+        guard += 1;
+        const nextIndex = (adjacency.get(currentKey) || []).find((candidate) => !used.has(candidate));
+        if (nextIndex === undefined) break;
+        used.add(nextIndex);
+        const nextSegment = segments[nextIndex];
+        const nextPoint = pointKey(nextSegment.from) === currentKey ? nextSegment.to : nextSegment.from;
+        chain.push(nextPoint);
+        currentKey = pointKey(nextPoint);
+      }
+      if (currentKey === startKey) chains.push(chain);
+    });
+    return chains;
+  };
+
+  const segmentsByKey = new Map();
+  pathElements.forEach((pathElement) => {
+    parseSegments(pathElement.getAttribute("d") || "").forEach((segment) => {
+      const key = segmentKey(segment.from, segment.to);
+      const item = segmentsByKey.get(key) || { count: 0, segment };
+      item.count += 1;
+      segmentsByKey.set(key, item);
+    });
+  });
+  const boundarySegments = [...segmentsByKey.values()]
+    .filter(({ count }) => count % 2 === 1)
+    .map(({ segment }) => segment);
+
+  return connectSegments(boundarySegments)
+    .filter((points) => points.length > 2 && polygonArea(points) >= REGION_OUTLINE_MIN_AREA)
+    .map((points) => {
+      const closedPoints = samePoint(points[0], points[points.length - 1]) ? points.slice(0, -1) : points;
+      return closedPoints
+        .map((point, index) => (index ? "L" : "M") + formatNumber(point.x) + " " + formatNumber(point.y))
+        .join("") + "Z";
+    })
+    .join("");
+};
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
@@ -314,15 +432,19 @@ const createAreaMapNode = async (counts, selectedAreaId = "") => {
     const outlineGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
     outlineGroup.classList.add("map-region-outline");
     outlineGroup.dataset.mapRegionOutline = region.id;
-    region.areas.forEach((areaId) => {
-      const sourcePath = svg.querySelector(`[data-area-id="${CSS.escape(areaId)}"]`);
-      if (sourcePath) {
-        const outlinePath = sourcePath.cloneNode(false);
-        outlinePath.removeAttribute("id");
-        outlinePath.removeAttribute("data-area-id");
-        outlineGroup.append(outlinePath);
-      }
-    });
+    const outlinePathData = createRegionOutlinePathData(
+      region.areas
+        .map((areaId) => svg.querySelector(`[data-area-id="${CSS.escape(areaId)}"]`))
+        .filter(Boolean)
+    );
+    if (outlinePathData) {
+      const outlinePath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      outlinePath.classList.add("map-region-outline-shape");
+      outlinePath.setAttribute("d", outlinePathData);
+      outlinePath.setAttribute("fill-rule", "evenodd");
+      outlinePath.setAttribute("vector-effect", "non-scaling-stroke");
+      outlineGroup.append(outlinePath);
+    }
     outlineLayer.append(outlineGroup);
 
     const label = document.createElementNS("http://www.w3.org/2000/svg", "g");
@@ -393,7 +515,7 @@ const createAreaMapNode = async (counts, selectedAreaId = "") => {
     labelLayer.append(label);
   });
   regionLayer?.insertBefore(prefectureOutlineLayer, regionLayer.firstChild);
-  regionLayer?.insertBefore(outlineLayer, regionLayer.firstChild);
+  regionLayer?.append(outlineLayer);
   regionLayer?.append(labelLayer);
 
   svg.querySelectorAll(".major-city-label").forEach((label) => {
@@ -464,6 +586,42 @@ const initGroupedRegionMap = (counts, mapTargets, statusTargets) => {
       });
     };
 
+    const placePreviewNearPointer = (event) => {
+      if (!preview || window.matchMedia("(max-width: 760px)").matches) return;
+      const hasPointerCoordinates =
+        event && typeof event.clientX === "number" && typeof event.clientY === "number";
+      if (!hasPointerCoordinates) {
+        preview.classList.remove("is-pointer-positioned");
+        preview.style.removeProperty("left");
+        preview.style.removeProperty("top");
+        return;
+      }
+      preview.classList.add("is-pointer-positioned");
+      const updatePosition = () => {
+        const targetRect = mapTarget.getBoundingClientRect();
+        const previewRect = preview.getBoundingClientRect();
+        const previewWidth = previewRect.width || preview.offsetWidth;
+        const previewHeight = previewRect.height || preview.offsetHeight;
+        const gap = 16;
+        const edge = 12;
+        const pointerX = event.clientX - targetRect.left;
+        const pointerY = event.clientY - targetRect.top;
+        let left = pointerX - previewWidth / 2;
+        let top = pointerY - previewHeight - gap;
+        if (top < edge) top = pointerY + gap;
+        const maxLeft = Math.max(edge, mapTarget.clientWidth - previewWidth - edge);
+        const maxTop = Math.max(edge, mapTarget.clientHeight - previewHeight - edge);
+        left = Math.max(edge, Math.min(left, maxLeft));
+        top = Math.max(edge, Math.min(top, maxTop));
+        preview.style.left = `${left}px`;
+        preview.style.top = `${top}px`;
+      };
+      requestAnimationFrame(() => {
+        updatePosition();
+        requestAnimationFrame(updatePosition);
+      });
+    };
+
     const setActiveRegion = (regionId, persistent = false) => {
       const region = getMapRegion(regionId);
       if (!region) return;
@@ -482,6 +640,13 @@ const initGroupedRegionMap = (counts, mapTargets, statusTargets) => {
       });
     };
 
+    const clearPreviewPosition = () => {
+      if (!preview) return;
+      preview.classList.remove("is-pointer-positioned");
+      preview.style.removeProperty("left");
+      preview.style.removeProperty("top");
+    };
+
     const clearActiveRegion = (force = false) => {
       if (selectedRegionId && !force) {
         setActiveRegion(selectedRegionId);
@@ -492,7 +657,10 @@ const initGroupedRegionMap = (counts, mapTargets, statusTargets) => {
       statusTargets.forEach((target) => {
         target.textContent = "地域に触れると範囲を確認できます";
       });
-      if (preview) preview.hidden = true;
+      if (preview) {
+        preview.hidden = true;
+        clearPreviewPosition();
+      }
       if (tooltip) tooltip.hidden = true;
     };
 
@@ -501,11 +669,14 @@ const initGroupedRegionMap = (counts, mapTargets, statusTargets) => {
       svg.querySelectorAll(".is-mobile-selected, .is-linked-highlight").forEach((item) => {
         item.classList.remove("is-mobile-selected", "is-linked-highlight");
       });
-      if (preview) preview.hidden = true;
+      if (preview) {
+        preview.hidden = true;
+        clearPreviewPosition();
+      }
       if (tooltip) tooltip.hidden = true;
     };
 
-    const showAreaCard = (areaId) => {
+    const showAreaCard = (areaId, event) => {
       const area = getArea(areaId);
       if (!area || !preview) return;
       const count = counts.get(areaId) || 0;
@@ -516,6 +687,7 @@ const initGroupedRegionMap = (counts, mapTargets, statusTargets) => {
       });
       preview.innerHTML = createAreaPreviewHtml(area, counts);
       preview.hidden = false;
+      placePreviewNearPointer(event);
       preview.querySelector("[data-area-preview-close]")?.addEventListener("click", (event) => {
         event.stopPropagation();
         clearActiveArea();
@@ -526,7 +698,7 @@ const initGroupedRegionMap = (counts, mapTargets, statusTargets) => {
       );
     };
 
-    const showRegionCard = (regionId) => {
+    const showRegionCard = (regionId, event) => {
       const region = getMapRegion(regionId);
       if (!region || !preview) return;
       const municipalityNames = region.areas.map(getArea).filter(Boolean).map((area) => area.name);
@@ -543,6 +715,7 @@ const initGroupedRegionMap = (counts, mapTargets, statusTargets) => {
         <p class="area-preview-count">掲載店舗：${listedCount}件</p>
       `;
       preview.hidden = false;
+      placePreviewNearPointer(event);
       preview.querySelector("[data-area-preview-close]")?.addEventListener("click", (event) => {
         event.stopPropagation();
         clearActiveRegion(true);
@@ -627,16 +800,17 @@ const initGroupedRegionMap = (counts, mapTargets, statusTargets) => {
         if (isRegionMode()) {
           clearActiveArea();
           setActiveRegion(regionId, true);
-          showRegionCard(regionId);
+          showRegionCard(regionId, event);
         } else {
           clearActiveRegion(true);
-          showAreaCard(link.dataset.areaLink);
+          showAreaCard(link.dataset.areaLink, event);
         }
       });
     });
 
     mapTarget.addEventListener("click", (event) => {
       if (event.target.closest("[data-map-region], [data-area-selection-preview], .map-function-controls")) return;
+      mapTarget.dispatchEvent(new CustomEvent("mapresetview"));
       clearActiveRegion(true);
       clearActiveArea();
     });
@@ -829,6 +1003,17 @@ const initMapZoom = (target) => {
     }
     applyView();
   };
+  const resetMapView = (duration = 260) => {
+    cancelAnimationFrame(focusAnimationFrame);
+    edgePaddingFactor = 0.08;
+    if (duration > 0 && scale > minScale) {
+      animateToView({ ...baseView }, minScale, duration);
+      return;
+    }
+    scale = minScale;
+    view = { ...baseView };
+    applyView();
+  };
   const distance = (first, second) =>
     Math.hypot(first.clientX - second.clientX, first.clientY - second.clientY);
 
@@ -988,6 +1173,7 @@ const initMapZoom = (target) => {
     event.stopPropagation();
     gestureMoved = false;
   }, true);
+  target.addEventListener("mapresetview", () => resetMapView());
   target.addEventListener("wheel", (event) => {
     if (!event.ctrlKey) return;
     event.preventDefault();
@@ -1002,11 +1188,7 @@ const initMapZoom = (target) => {
     zoomFromView(scale - 0.5, rect.left + rect.width / 2, rect.top + rect.height / 2);
   });
   controls.querySelector("[data-map-zoom-reset]").addEventListener("click", () => {
-    cancelAnimationFrame(focusAnimationFrame);
-    edgePaddingFactor = 0.08;
-    scale = 1;
-    view = { ...baseView };
-    applyView();
+    resetMapView(0);
   });
   applyView();
 };
