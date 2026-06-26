@@ -8,12 +8,12 @@
     "accent": "整備"
   },
   {
-    "id": "lounge",
-    "name": "バー・ラウンジ",
-    "slug": "lounge/",
-    "description": "初めてでも入りやすい雰囲気や、店主・スタッフの人柄が伝わるお店を紹介します。",
-    "summary": "会話、夜の憩い、落ち着いた時間",
-    "accent": "夜"
+    "id": "food",
+    "name": "飲食店・グルメ",
+    "slug": "food/",
+    "description": "地域の食堂、カフェ、レストランなど、行く前に雰囲気がわかる飲食店を紹介します。",
+    "summary": "ランチ、カフェ、食事、地域の味",
+    "accent": "飲食"
   },
   {
     "id": "construction",

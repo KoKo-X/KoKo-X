@@ -37,13 +37,13 @@ const shops = {
     tags: "バイク整備 / 地域密着",
     href: "../../bike/yamagenmotors/",
   },
-  akari: {
-    status: "基本掲載 / 夜の憩い",
-    name: "ラウンジ灯",
-    copy: "落ち着いて話せる距離感を大切にする、地域の夜を照らすラウンジ。",
+  komorebi: {
+    status: "基本掲載 / 食事どころ",
+    name: "食堂こもれび",
+    copy: "ランチや夕食で立ち寄りやすい、地域の飲食店。",
     area: "千葉県柏市",
-    tags: "初めて歓迎 / 会話",
-    href: "../../lounge/",
+    tags: "ランチ / 地域密着",
+    href: "../../food/",
   },
   aoba: {
     status: "基本掲載 / 職人相談",

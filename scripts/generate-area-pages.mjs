@@ -62,7 +62,7 @@ const header = (prefix) => `
       <a href="${prefix}">トップ</a>
       <a href="${prefix}chiba/">千葉県から探す</a>
       <a href="${prefix}bike/">バイク・車</a>
-      <a href="${prefix}lounge/">バー・ラウンジ</a>
+      <a href="${prefix}food/">飲食店</a>
       <a href="${prefix}construction/">建築・職人</a>
       <a href="${prefix}for-shops/">掲載希望の方</a>
       <a href="${prefix}contact/">問い合わせ</a>
@@ -285,7 +285,7 @@ const sitemapPaths = [
   "/chiba/",
   ...areas.filter((area) => area.isIndexable).map((area) => area.url),
   "/bike/",
-  "/lounge/",
+  "/food/",
   "/construction/",
   "/bike/yamagenmotors/",
   "/for-shops/",

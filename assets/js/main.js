@@ -237,12 +237,12 @@ const renderCategoryGrid = (target) => {
   if (!target) return;
   const iconByCategory = {
     bike: `<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M17 40h30l-5-13H28l-5 7h-7"/><circle cx="16" cy="43" r="8"/><circle cx="48" cy="43" r="8"/><path d="M31 27l-5-8h8"/></svg>`,
-    lounge: `<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M16 13h32L35 34v15h10v5H19v-5h10V34z"/><path d="M21 20h22"/></svg>`,
+    food: `<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M19 12v17M13 12v13c0 4 2.8 7 6 7s6-3 6-7V12M19 32v20"/><path d="M44 12c-5 5-8 12-8 21h8v19M44 12v40"/></svg>`,
     construction: `<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 50h40M18 50V24l14-11 14 11v26M26 50V36h12v14"/><path d="M46 18l6-6"/></svg>`,
   };
   const displayName = {
     bike: "バイク・車",
-    lounge: "ラウンジ・バー",
+    food: "飲食店",
     construction: "建築・職人",
   };
   target.innerHTML = state.categories
@@ -913,8 +913,7 @@ const initMapZoom = (target) => {
         y: (first.clientY + second.clientY) / 2,
       };
     } else if (scale > 1) {
-      target.setPointerCapture?.(event.pointerId);
-      panStart = { x: event.clientX, y: event.clientY, view: { ...view } };
+      panStart = { x: event.clientX, y: event.clientY, view: { ...view }, isPanning: false };
     }
   });
   target.addEventListener("pointermove", (event) => {
@@ -946,6 +945,12 @@ const initMapZoom = (target) => {
       gestureMoved = true;
       suppressClickUntil = Date.now() + 450;
     } else if (scale > 1 && panStart) {
+      const movement = Math.hypot(event.clientX - panStart.x, event.clientY - panStart.y);
+      if (!panStart.isPanning && movement <= 5) return;
+      if (!panStart.isPanning) {
+        panStart.isPanning = true;
+        target.setPointerCapture?.(event.pointerId);
+      }
       event.preventDefault();
       const rect = svg.getBoundingClientRect();
       view = {
@@ -954,8 +959,8 @@ const initMapZoom = (target) => {
         y: panStart.view.y - (event.clientY - panStart.y) / rect.height * panStart.view.height,
       };
       applyView();
-      if (Math.hypot(event.clientX - panStart.x, event.clientY - panStart.y) > 5) gestureMoved = true;
-      if (gestureMoved) suppressClickUntil = Date.now() + 450;
+      gestureMoved = true;
+      suppressClickUntil = Date.now() + 450;
     }
   });
   const endPointer = (event) => {
@@ -970,7 +975,7 @@ const initMapZoom = (target) => {
     }
     if (pointers.size === 1 && scale > 1) {
       const remaining = [...pointers.values()][0];
-      panStart = { x: remaining.clientX, y: remaining.clientY, view: { ...view } };
+      panStart = { x: remaining.clientX, y: remaining.clientY, view: { ...view }, isPanning: true };
     } else if (!pointers.size) {
       panStart = undefined;
     }
