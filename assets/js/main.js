@@ -14,7 +14,7 @@ const DATA_PATHS = {
   stores: siteUrl("data/stores.json"),
   categories: siteUrl("data/categories.json"),
   areas: siteUrl("data/areas.json"),
-  chibaMap: siteUrl("assets/maps/chiba.svg?v=v2-10"),
+  chibaMap: siteUrl("assets/maps/chiba.svg?v=v2-11"),
 };
 
 const state = {
@@ -1371,24 +1371,6 @@ const initAreaMaps = async () => {
   mapTargets.forEach(initMapZoom);
   initListedOnlyFilters(mapTargets);
   initGroupedRegionMap(counts, mapTargets, statusTargets);
-  $$("[data-area-list] [data-area-link]").forEach((link) => {
-    link.addEventListener("click", (event) => {
-      event.preventDefault();
-      const cityMode = $('input[name="map-view-mode"][value="municipalities"]');
-      if (cityMode && !cityMode.checked) {
-        cityMode.checked = true;
-        cityMode.dispatchEvent(new Event("change", { bubbles: true }));
-      }
-      const mapLink = $(`[data-area-map] [data-area-link="${CSS.escape(link.dataset.areaLink)}"]`);
-      mapLink?.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
-    });
-    link.addEventListener("pointerenter", () => {
-      $(`[data-area-map] [data-area-link="${CSS.escape(link.dataset.areaLink)}"]`)?.classList.add("is-linked-highlight");
-    });
-    link.addEventListener("pointerleave", () => {
-      $(`[data-area-map] [data-area-link="${CSS.escape(link.dataset.areaLink)}"]`)?.classList.remove("is-linked-highlight");
-    });
-  });
 };
 
 const initHome = async () => {

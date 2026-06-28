@@ -1,5 +1,5 @@
-﻿@import url("../assets/css/common.css?v=v2-10");
-@import url("./map.css?v=v2-10");
+﻿@import url("../assets/css/common.css?v=v2-11");
+@import url("./map.css?v=v2-11");
 
 /*
  * 千葉県ページ・全市町村ページ共通CSS
@@ -35,16 +35,9 @@ body[data-page="region"] {
   --charcoal: #09251d;
   --shadow: 0 18px 42px rgba(7, 34, 25, 0.1);
   background:
-    radial-gradient(circle at 15% 10%, rgba(23, 176, 110, 0.12), transparent 30%),
-    linear-gradient(180deg, #f7fcfa 0%, #eef8f3 100%);
-}
-
-body[data-page="area"],
-body[data-page="region"] {
-  background:
-    linear-gradient(90deg, rgba(18, 132, 90, 0.08) 1px, transparent 1px),
-    linear-gradient(180deg, #f8fcfa 0%, #edf8f3 100%);
-  background-size: 52px 52px, auto;
+    radial-gradient(circle at 22% 8%, rgba(23, 176, 110, 0.14), transparent 31%),
+    radial-gradient(circle at 85% 22%, rgba(25, 126, 120, 0.1), transparent 28%),
+    linear-gradient(180deg, #f4faf7 0%, #edf8f2 100%);
 }
 
 .area-results-heading h3 {
