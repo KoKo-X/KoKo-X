@@ -19,7 +19,7 @@ const escapeHtml = (value) =>
 const stores = await readJson("data/stores.json");
 const categories = await readJson("data/categories.json");
 const sourceAreas = await readJson("data/areas.json");
-const siteVersion = "v2-5";
+const siteVersion = "v2-6";
 
 const mapRegionGroups = [
   { id: "chiba", name: "千葉", reading: "ちば", areas: ["chiba", "ichihara"], labelX: 228, labelY: 447 },
