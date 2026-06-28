@@ -1,4 +1,4 @@
-﻿const siteRootUrl = new URL("../../", document.currentScript.src);
+const siteRootUrl = new URL("../../", document.currentScript.src);
 
 const SITE_FLAGS = {
   showPrefectureNav: false,
@@ -14,7 +14,7 @@ const DATA_PATHS = {
   stores: siteUrl("data/stores.json"),
   categories: siteUrl("data/categories.json"),
   areas: siteUrl("data/areas.json"),
-  chibaMap: siteUrl("assets/maps/chiba.svg?v=v2-14"),
+  chibaMap: siteUrl("assets/maps/chiba.svg?v=v2-15"),
 };
 
 const state = {

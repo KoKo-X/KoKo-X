@@ -267,9 +267,7 @@
       <rect x="-13.5" y="-10" width="27.0" height="20" rx="6"/>
       <text x="0" y="4">市原</text>
     </g>
-    <path class="major-city-leader" d="M173.36 543.16 L101.36 551.16"/>
-    <circle class="major-city-anchor" cx="173.36" cy="543.16" r="2.2"/>
-    <g class="major-city-label is-external" data-label-area="kisarazu" transform="translate(101.36 551.16)">
+    <g class="major-city-label" data-label-area="kisarazu" transform="translate(173.36 543.16)">
       <rect x="-17.8" y="-10" width="35.5" height="20" rx="6"/>
       <text x="0" y="4">木更津</text>
     </g>
@@ -284,15 +282,11 @@
       <rect x="-13.5" y="-10" width="27.0" height="20" rx="6"/>
       <text x="0" y="4">茂原</text>
     </g>
-    <path class="major-city-leader" d="M100.75 825.73 L52.75 833.73"/>
-    <circle class="major-city-anchor" cx="100.75" cy="825.73" r="2.2"/>
-    <g class="major-city-label is-external" data-label-area="tateyama" transform="translate(52.75 833.73)">
+    <g class="major-city-label" data-label-area="tateyama" transform="translate(100.75 825.73)">
       <rect x="-13.5" y="-10" width="27.0" height="20" rx="6"/>
       <text x="0" y="4">館山</text>
     </g>
-    <path class="major-city-leader" d="M139.22 779.45 L63.22 781.45"/>
-    <circle class="major-city-anchor" cx="139.22" cy="779.45" r="2.2"/>
-    <g class="major-city-label is-external" data-label-area="minamiboso" transform="translate(63.22 781.45)">
+    <g class="major-city-label" data-label-area="minamiboso" transform="translate(139.22 779.45)">
       <rect x="-17.8" y="-10" width="35.5" height="20" rx="6"/>
       <text x="0" y="4">南房総</text>
     </g>
@@ -305,9 +299,7 @@
       <rect x="-13.5" y="-10" width="27.0" height="20" rx="6"/>
       <text x="0" y="4">香取</text>
     </g>
-    <path class="major-city-leader" d="M123.14 645.24 L96.90 666.87"/>
-    <circle class="major-city-anchor" cx="123.14" cy="645.24" r="2.2"/>
-    <g class="major-city-label is-external" data-label-area="futtsu" transform="translate(96.90 666.87)">
+    <g class="major-city-label" data-label-area="futtsu" transform="translate(123.14 645.24)">
       <rect x="-13.5" y="-10" width="27.0" height="20" rx="6"/>
       <text x="0" y="4">富津</text>
     </g>
@@ -355,9 +347,7 @@
       <rect x="-17.8" y="-10" width="35.5" height="20" rx="6"/>
       <text x="0" y="4">袖ケ浦</text>
     </g>
-    <path class="major-city-leader" d="M335.17 681.26 L331.55 715.06"/>
-    <circle class="major-city-anchor" cx="335.17" cy="681.26" r="2.2"/>
-    <g class="major-city-label is-external" data-label-area="katsuura" transform="translate(331.55 715.06)">
+    <g class="major-city-label" data-label-area="katsuura" transform="translate(335.17 681.26)">
       <rect x="-13.5" y="-10" width="27.0" height="20" rx="6"/>
       <text x="0" y="4">勝浦</text>
     </g>
@@ -419,9 +409,7 @@
       <rect x="-13.5" y="-10" width="27.0" height="20" rx="6"/>
       <text x="0" y="4">東庄</text>
     </g>
-    <path class="major-city-leader" d="M106.61 711.58 L82.95 736.00"/>
-    <circle class="major-city-anchor" cx="106.61" cy="711.58" r="2.2"/>
-    <g class="major-city-label is-external" data-label-area="kyonan" transform="translate(82.95 736.00)">
+    <g class="major-city-label" data-label-area="kyonan" transform="translate(106.61 711.58)">
       <rect x="-13.5" y="-10" width="27.0" height="20" rx="6"/>
       <text x="0" y="4">鋸南</text>
     </g>

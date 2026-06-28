@@ -129,22 +129,22 @@ body[data-page="home"] .area-discovery-section {
 
 .area-map-viewport {
   position: relative;
-  overflow: hidden;
-  padding: 12px 8px 4px;
+  overflow: auto;
+  padding: 14px clamp(14px, 2.6vw, 28px) 18px;
   background:
     radial-gradient(circle at 38% 32%, rgba(23, 176, 110, 0.14), transparent 32%),
     linear-gradient(150deg, rgba(239, 250, 245, 0.84), rgba(247, 252, 249, 0.34));
   scrollbar-color: rgba(23, 176, 110, 0.42) transparent;
   scrollbar-width: thin;
-  touch-action: none;
+  touch-action: pan-x pan-y;
 }
 
 .chiba-area-map {
   display: block;
-  width: 100%;
-  min-width: 580px;
+  width: min(100%, 450px);
+  min-width: 0;
   max-height: min(66vh, 600px);
-  margin: auto;
+  margin: 0 auto 0 28px;
   transform-origin: 0 0;
   will-change: transform;
 }
@@ -666,14 +666,23 @@ body[data-page="home"] .store-point span {
     text-align: left;
   }
 
-  .chiba-area-map {
+  [data-map-view-mode="municipalities"] .chiba-area-map {
+    width: 640px;
+    min-width: 640px;
+    max-height: none;
+    margin: auto;
+  }
+
+  [data-map-view-mode="regions"] .chiba-area-map {
     width: 100%;
     min-width: 0;
     max-height: none;
+    margin: auto;
   }
 
   .area-map-viewport {
-    overflow-x: hidden;
+    overflow: auto;
+    padding: 14px 16px 18px;
   }
 
   .area-map-tooltip {
@@ -713,7 +722,7 @@ body[data-page="home"] .store-point span {
   }
 
   .area-map-viewport {
-    padding: 10px 6px 4px;
+    padding: 12px 14px 16px;
   }
 
   .area-list-panel {
