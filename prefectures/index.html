@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="KoKo X（ココクロス）の都道府県別お店案内。現在は千葉県を公開中です。">
+  <meta property="og:title" content="都道府県で探す | KoKo X">
+  <meta property="og:description" content="都道府県別に地域のお店を探す入口ページです。">
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="https://koko-x.github.io/KoKo-X/prefectures/">
+  <title>都道府県で探す | KoKo X（ココクロス）</title>
+  <link rel="stylesheet" href="./style.css?v=v2-5">
+  <script src="../assets/js/main.js?v=v2-5" defer></script>
+</head>
+<body data-page="prefectures">
+
+  <header class="site-header">
+    <a class="brand" href="../" aria-label="KoKo X トップ">
+      <span class="brand-mark" aria-hidden="true">K</span>
+      <span class="brand-lockup"><strong class="brand-name">KoKo <span class="brand-x">X</span></strong><small>ココクロス</small></span>
+    </a>
+    <nav class="site-nav" aria-label="主要メニュー">
+      <a href="../">トップ</a>
+      <a href="../prefectures/" data-nav-prefectures>都道府県で探す</a>
+      <a href="../bike/">バイク・車</a>
+      <a href="../food/">飲食店</a>
+      <a href="../construction/">建築・職人</a>
+      <a href="../for-shops/">掲載希望の方</a>
+      <a href="../contact/">問い合わせ</a>
+    </nav>
+  </header>
+  <main>
+    <nav class="breadcrumb" aria-label="パンくずリスト">
+      <a href="../">トップ</a><span aria-hidden="true">/</span><span>都道府県で探す</span>
+    </nav>
+
+    <section class="prefecture-hero">
+      <div>
+        <p class="eyebrow">Prefectures</p>
+        <h1>都道府県で探す</h1>
+        <p>今は千葉県だけ公開中です。他の都道府県も同じ入口から選択できるように、ひな型として置いています。</p>
+      </div>
+      <a class="button primary" href="../chiba/">千葉県のお店を探す</a>
+    </section>
+
+    <section class="section prefecture-directory" aria-labelledby="prefecture-directory-title">
+      <div class="section-heading">
+        <p class="eyebrow">Select</p>
+        <h2 id="prefecture-directory-title">都道府県を選択</h2>
+        <p class="section-lead">公開中の都道府県は詳細ページへ進めます。準備中の都道府県も選択状態の確認だけできます。</p>
+      </div>
+      <div class="prefecture-directory-layout">
+        <div class="prefecture-options" data-prefecture-selector>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-1" aria-pressed="false">
+            <span>北海道</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-2" aria-pressed="false">
+            <span>青森県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-3" aria-pressed="false">
+            <span>岩手県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-4" aria-pressed="false">
+            <span>宮城県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-5" aria-pressed="false">
+            <span>秋田県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-6" aria-pressed="false">
+            <span>山形県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-7" aria-pressed="false">
+            <span>福島県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-8" aria-pressed="false">
+            <span>茨城県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-9" aria-pressed="false">
+            <span>栃木県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-10" aria-pressed="false">
+            <span>群馬県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-11" aria-pressed="false">
+            <span>埼玉県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option is-active" type="button" data-prefecture-option="chiba" aria-pressed="true">
+            <span>千葉県</span>
+            <small>公開中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-13" aria-pressed="false">
+            <span>東京都</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-14" aria-pressed="false">
+            <span>神奈川県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-15" aria-pressed="false">
+            <span>新潟県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-16" aria-pressed="false">
+            <span>富山県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-17" aria-pressed="false">
+            <span>石川県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-18" aria-pressed="false">
+            <span>福井県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-19" aria-pressed="false">
+            <span>山梨県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-20" aria-pressed="false">
+            <span>長野県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-21" aria-pressed="false">
+            <span>岐阜県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-22" aria-pressed="false">
+            <span>静岡県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-23" aria-pressed="false">
+            <span>愛知県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-24" aria-pressed="false">
+            <span>三重県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-25" aria-pressed="false">
+            <span>滋賀県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-26" aria-pressed="false">
+            <span>京都府</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-27" aria-pressed="false">
+            <span>大阪府</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-28" aria-pressed="false">
+            <span>兵庫県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-29" aria-pressed="false">
+            <span>奈良県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-30" aria-pressed="false">
+            <span>和歌山県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-31" aria-pressed="false">
+            <span>鳥取県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-32" aria-pressed="false">
+            <span>島根県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-33" aria-pressed="false">
+            <span>岡山県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-34" aria-pressed="false">
+            <span>広島県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-35" aria-pressed="false">
+            <span>山口県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-36" aria-pressed="false">
+            <span>徳島県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-37" aria-pressed="false">
+            <span>香川県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-38" aria-pressed="false">
+            <span>愛媛県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-39" aria-pressed="false">
+            <span>高知県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-40" aria-pressed="false">
+            <span>福岡県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-41" aria-pressed="false">
+            <span>佐賀県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-42" aria-pressed="false">
+            <span>長崎県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-43" aria-pressed="false">
+            <span>熊本県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-44" aria-pressed="false">
+            <span>大分県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-45" aria-pressed="false">
+            <span>宮崎県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-46" aria-pressed="false">
+            <span>鹿児島県</span>
+            <small>準備中</small>
+          </button>
+          <button class="prefecture-option" type="button" data-prefecture-option="pref-47" aria-pressed="false">
+            <span>沖縄県</span>
+            <small>準備中</small>
+          </button></div>
+        <div class="prefecture-panels">
+        <article class="prefecture-panel" data-prefecture-panel="pref-1" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>北海道</h2>
+          <p>北海道の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-2" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>青森県</h2>
+          <p>青森県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-3" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>岩手県</h2>
+          <p>岩手県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-4" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>宮城県</h2>
+          <p>宮城県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-5" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>秋田県</h2>
+          <p>秋田県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-6" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>山形県</h2>
+          <p>山形県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-7" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>福島県</h2>
+          <p>福島県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-8" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>茨城県</h2>
+          <p>茨城県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-9" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>栃木県</h2>
+          <p>栃木県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-10" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>群馬県</h2>
+          <p>群馬県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-11" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>埼玉県</h2>
+          <p>埼玉県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel is-active" data-prefecture-panel="chiba">
+          <p class="eyebrow">Available</p>
+          <h2>千葉県</h2>
+          <p>千葉県は市町村マップと地域別ページを公開中です。</p>
+          <a class="button primary" href="../chiba/">千葉県のお店を探す</a>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-13" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>東京都</h2>
+          <p>東京都の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-14" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>神奈川県</h2>
+          <p>神奈川県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-15" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>新潟県</h2>
+          <p>新潟県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-16" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>富山県</h2>
+          <p>富山県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-17" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>石川県</h2>
+          <p>石川県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-18" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>福井県</h2>
+          <p>福井県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-19" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>山梨県</h2>
+          <p>山梨県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-20" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>長野県</h2>
+          <p>長野県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-21" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>岐阜県</h2>
+          <p>岐阜県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-22" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>静岡県</h2>
+          <p>静岡県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-23" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>愛知県</h2>
+          <p>愛知県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-24" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>三重県</h2>
+          <p>三重県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-25" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>滋賀県</h2>
+          <p>滋賀県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-26" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>京都府</h2>
+          <p>京都府の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-27" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>大阪府</h2>
+          <p>大阪府の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-28" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>兵庫県</h2>
+          <p>兵庫県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-29" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>奈良県</h2>
+          <p>奈良県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-30" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>和歌山県</h2>
+          <p>和歌山県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-31" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>鳥取県</h2>
+          <p>鳥取県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-32" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>島根県</h2>
+          <p>島根県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-33" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>岡山県</h2>
+          <p>岡山県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-34" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>広島県</h2>
+          <p>広島県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-35" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>山口県</h2>
+          <p>山口県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-36" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>徳島県</h2>
+          <p>徳島県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-37" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>香川県</h2>
+          <p>香川県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-38" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>愛媛県</h2>
+          <p>愛媛県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-39" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>高知県</h2>
+          <p>高知県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-40" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>福岡県</h2>
+          <p>福岡県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-41" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>佐賀県</h2>
+          <p>佐賀県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-42" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>長崎県</h2>
+          <p>長崎県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-43" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>熊本県</h2>
+          <p>熊本県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-44" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>大分県</h2>
+          <p>大分県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-45" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>宮崎県</h2>
+          <p>宮崎県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-46" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>鹿児島県</h2>
+          <p>鹿児島県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article>
+        <article class="prefecture-panel" data-prefecture-panel="pref-47" hidden>
+          <p class="eyebrow">Coming soon</p>
+          <h2>沖縄県</h2>
+          <p>沖縄県の掲載店舗ページは準備中です。公開時は同じ構造で市区町村や地域から探せるようにします。</p>
+          <span class="button secondary is-disabled" aria-disabled="true">準備中</span>
+        </article></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>KoKo X <span aria-hidden="true">─</span> ココクロス</p>
+    <nav aria-label="フッターメニュー">
+      <a href="../prefectures/">都道府県で探す</a>
+      <a href="../chiba/">千葉県のお店案内</a>
+      <a href="../for-shops/">掲載希望の方</a>
+      <a href="../contact/">問い合わせ</a>
+      <a href="../privacy/">プライバシーポリシー</a>
+      <a href="../terms/">利用規約</a>
+    </nav>
+  </footer>
+</body>
+</html>

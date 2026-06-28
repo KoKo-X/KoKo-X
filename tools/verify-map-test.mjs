@@ -77,7 +77,9 @@ const clickResult = await evaluate(`(() => {
     activeOutline: document.querySelector('[data-map-region-outline="katsunan"]').classList.contains("is-group-active"),
     activeLabel: document.querySelector('[data-map-region-label="katsunan"]').classList.contains("is-group-active"),
     previewVisible: !document.querySelector("[data-area-selection-preview]").hidden,
-    previewText: document.querySelector("[data-area-selection-preview]").innerText
+    previewText: document.querySelector("[data-area-selection-preview]").innerText,
+    ctaText: document.querySelector("[data-area-selection-preview] .area-preview-actions .button.primary")?.textContent.trim() || "",
+    ctaHref: document.querySelector("[data-area-selection-preview] .area-preview-actions .button.primary")?.getAttribute("href") || ""
   };
 })()`);
 
@@ -101,16 +103,31 @@ const hoverResult = await evaluate(`(() => {
   };
 })()`);
 
-const desktopClickResult = await evaluate(`(() => {
+const desktopClickResult = await evaluate(`(async () => {
   document.querySelector('[data-map-region="higashikatsushika"]').dispatchEvent(
     new MouseEvent("click", { bubbles: true, cancelable: true })
   );
+  await new Promise((resolve) => setTimeout(resolve, 140));
   const preview = document.querySelector("[data-area-selection-preview]");
   const style = getComputedStyle(preview);
+  const cta = preview.querySelector(".area-preview-actions .button.primary");
+  const mapRect = document.querySelector("[data-area-map]").getBoundingClientRect();
+  const previewRect = preview.getBoundingClientRect();
+  const ctaRect = cta?.getBoundingClientRect();
   return {
     visible: !preview.hidden,
     position: style.position,
-    containsMunicipalityNames: preview.innerText.includes("柏市") && preview.innerText.includes("我孫子市") && preview.innerText.includes("松戸市")
+    rightGap: Math.round(mapRect.right - previewRect.right),
+    bottomGap: Math.round(mapRect.bottom - previewRect.bottom),
+    inlineLeft: preview.style.left,
+    inlineTop: preview.style.top,
+    scrollHeight: preview.scrollHeight,
+    clientHeight: preview.clientHeight,
+    ctaFullyVisible: ctaRect ? ctaRect.bottom <= previewRect.bottom && ctaRect.top >= previewRect.top : false,
+    ctaVisibleInViewport: ctaRect ? ctaRect.bottom <= window.innerHeight && ctaRect.top >= 0 : false,
+    containsMunicipalityNames: preview.innerText.includes("柏市") && preview.innerText.includes("我孫子市") && preview.innerText.includes("松戸市"),
+    ctaText: cta?.textContent.trim() || "",
+    ctaHref: cta?.getAttribute("href") || ""
   };
 })()`);
 
@@ -142,11 +159,22 @@ await send("Input.dispatchMouseEvent", {
   button: "left",
   clickCount: 1,
 });
+await new Promise((resolve) => setTimeout(resolve, 120));
 const realDesktopClickResult = await evaluate(`(() => {
   const preview = document.querySelector("[data-area-selection-preview]");
+  const cta = preview.querySelector(".area-preview-actions .button.primary");
+  const mapRect = document.querySelector("[data-area-map]").getBoundingClientRect();
+  const previewRect = preview.getBoundingClientRect();
+  const ctaRect = cta?.getBoundingClientRect();
   return {
     visible: !preview.hidden,
-    containsMunicipalityNames: preview.innerText.includes("柏市") && preview.innerText.includes("我孫子市") && preview.innerText.includes("松戸市")
+    rightGap: Math.round(mapRect.right - previewRect.right),
+    bottomGap: Math.round(mapRect.bottom - previewRect.bottom),
+    ctaFullyVisible: ctaRect ? ctaRect.bottom <= previewRect.bottom && ctaRect.top >= previewRect.top : false,
+    ctaVisibleInViewport: ctaRect ? ctaRect.bottom <= window.innerHeight && ctaRect.top >= 0 : false,
+    containsMunicipalityNames: preview.innerText.includes("柏市") && preview.innerText.includes("我孫子市") && preview.innerText.includes("松戸市"),
+    ctaText: cta?.textContent.trim() || "",
+    ctaHref: cta?.getAttribute("href") || ""
   };
 })()`);
 await evaluate(`document.querySelector('[data-map-region="higashikatsushika"]').dispatchEvent(
@@ -226,13 +254,29 @@ await writeFile(cityModeScreenshotPath, Buffer.from(cityModeScreenshot.data, "ba
 await evaluate(`document.querySelector('[data-area-link="kashiwa"]').dispatchEvent(
   new MouseEvent("click", { bubbles: true, cancelable: true })
 )`);
+await new Promise((resolve) => setTimeout(resolve, 220));
 const municipalityClickResult = await evaluate(`(() => {
   const preview = document.querySelector("[data-area-selection-preview]");
+  const selectedMapItem = document.querySelector('[data-area-map] [data-area-link="kashiwa"].is-mobile-selected');
+  const selectedListItem = document.querySelector('[data-area-list] [data-area-link="kashiwa"].is-mobile-selected');
+  const selectedShape = selectedMapItem?.querySelector(".area-region-shape");
+  const selectedItems = [...document.querySelectorAll(".is-mobile-selected")];
   return {
     visible: !preview.hidden,
     text: preview.innerText,
-    onlyKashiwaSelected: document.querySelectorAll(".is-mobile-selected").length === 1
-      && document.querySelector('[data-area-link="kashiwa"]').classList.contains("is-mobile-selected")
+    selectedMapItem: Boolean(selectedMapItem),
+    selectedListItem: Boolean(selectedListItem),
+    selectedShapeMatchesRule: selectedShape
+      ? selectedShape.matches(".grouped-region-map .area-region.is-mobile-selected .area-region-shape")
+      : false,
+    embeddedSvgStyles: document.querySelectorAll(".chiba-area-map style").length,
+    mapClass: document.querySelector(".chiba-area-map")?.getAttribute("class") || "",
+    selectedFill: selectedShape ? getComputedStyle(selectedShape).fill : "",
+    selectedStroke: selectedShape ? getComputedStyle(selectedShape).stroke : "",
+    ctaText: preview.querySelector(".area-preview-actions .button.primary")?.textContent.trim() || "",
+    ctaHref: preview.querySelector(".area-preview-actions .button.primary")?.getAttribute("href") || "",
+    onlyKashiwaSelected: selectedItems.length >= 2
+      && selectedItems.every((item) => item.dataset.areaLink === "kashiwa")
   };
 })()`);
 await evaluate(`document.querySelector('[data-area-link="tateyama"]').dispatchEvent(
@@ -253,10 +297,13 @@ const municipalityAutoFocusResult = await evaluate(`(() => {
   };
 })()`);
 
-const listedOnlyResult = await evaluate(`(() => {
+await evaluate(`(() => {
   const toggle = document.querySelector(".map-function-controls [data-listed-only-toggle]");
   toggle.checked = true;
   toggle.dispatchEvent(new Event("change", { bubbles: true }));
+})()`);
+await new Promise((resolve) => setTimeout(resolve, 220));
+const listedOnlyResult = await evaluate(`(() => {
   return {
     mapEnabled: document.querySelector("[data-area-map]").classList.contains("is-listed-only"),
     hiddenMapCities: [...document.querySelectorAll("[data-area-map] .area-region.no-stores")]
@@ -304,7 +351,7 @@ const screenshot = await send("Page.captureScreenshot", { format: "png" });
 const screenshotPath = path.join(tmpdir(), "map-test-cdp-mobile.png");
 await writeFile(screenshotPath, Buffer.from(screenshot.data, "base64"));
 
-console.log(JSON.stringify({
+const report = {
   initial,
   clickResult,
   hoverResult,
@@ -323,7 +370,41 @@ console.log(JSON.stringify({
   cityModeScreenshotPath,
   listedOnlyScreenshotPath,
   screenshotPath
-}, null, 2));
+};
+console.log(JSON.stringify(report, null, 2));
+
+const isFixedGap = (value) => value >= 12 && value <= 20;
+const failures = [];
+if (clickResult.ctaText !== "この地域の掲載店舗へ" || !clickResult.ctaHref.includes("/chiba/regions/katsunan/")) {
+  failures.push("region card CTA is missing or points to the wrong URL");
+}
+if (
+  desktopClickResult.position !== "absolute"
+  || !isFixedGap(desktopClickResult.rightGap)
+  || !isFixedGap(desktopClickResult.bottomGap)
+  || desktopClickResult.inlineLeft
+  || desktopClickResult.inlineTop
+  || !desktopClickResult.ctaFullyVisible
+  || !desktopClickResult.ctaVisibleInViewport
+) {
+  failures.push("desktop region card is not fixed to the map bottom-right");
+}
+if (
+  desktopClickResult.ctaText !== "この地域の掲載店舗へ"
+  || !desktopClickResult.ctaHref.includes("/chiba/regions/higashikatsushika/")
+) {
+  failures.push("desktop region CTA is missing or points to the wrong region URL");
+}
+if (
+  municipalityClickResult.ctaText !== "この市区町村の掲載店舗へ"
+  || !municipalityClickResult.ctaHref.includes("/chiba/kashiwa/")
+) {
+  failures.push("municipality card CTA is missing or points to the wrong area URL");
+}
+if (failures.length) {
+  console.error(JSON.stringify({ failures }, null, 2));
+  process.exitCode = 1;
+}
 socket.close();
 import { writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";

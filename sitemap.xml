@@ -4,7 +4,13 @@
     <loc>https://koko-x.github.io/KoKo-X/</loc>
   </url>
   <url>
+    <loc>https://koko-x.github.io/KoKo-X/prefectures/</loc>
+  </url>
+  <url>
     <loc>https://koko-x.github.io/KoKo-X/chiba/</loc>
+  </url>
+  <url>
+    <loc>https://koko-x.github.io/KoKo-X/chiba/regions/higashikatsushika/</loc>
   </url>
   <url>
     <loc>https://koko-x.github.io/KoKo-X/chiba/kashiwa/</loc>
@@ -32,5 +38,11 @@
   </url>
   <url>
     <loc>https://koko-x.github.io/KoKo-X/contact/</loc>
+  </url>
+  <url>
+    <loc>https://koko-x.github.io/KoKo-X/privacy/</loc>
+  </url>
+  <url>
+    <loc>https://koko-x.github.io/KoKo-X/terms/</loc>
   </url>
 </urlset>

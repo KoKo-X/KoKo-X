@@ -7,6 +7,8 @@ const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(scriptDir, "..");
 
 const htmlFiles = [];
+const areas = JSON.parse(await readFile(path.join(rootDir, "data", "areas.json"), "utf8"));
+const areaIds = new Set(areas.map((area) => area.id));
 
 const walk = async (directory) => {
   for (const entry of await readdir(directory, { withFileTypes: true })) {
@@ -45,6 +47,8 @@ for (const file of htmlFiles) {
 }
 
 const areaDirs = (await readdir(path.join(rootDir, "chiba"), { withFileTypes: true }))
+  .filter((entry) => entry.isDirectory() && areaIds.has(entry.name));
+const regionDirs = (await readdir(path.join(rootDir, "chiba", "regions"), { withFileTypes: true }).catch(() => []))
   .filter((entry) => entry.isDirectory());
 const cityPages = [];
 
@@ -68,6 +72,7 @@ const report = {
   cityCanonicals: cityPages.filter((page) => page.canonical).length,
   indexableCities: cityPages.filter((page) => !page.noindex).map((page) => page.id),
   noindexCities: cityPages.filter((page) => page.noindex).length,
+  regionPages: regionDirs.length,
 };
 
 const mapSvgPath = path.join(rootDir, "assets", "maps", "chiba.svg");

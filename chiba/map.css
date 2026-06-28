@@ -619,9 +619,13 @@ body[data-page="home"] .store-point span {
 @media (min-width: 761px) {
   .area-selection-preview.is-pointer-positioned {
     position: absolute;
+    right: 16px;
+    bottom: 16px;
+    left: auto;
+    top: auto;
     z-index: 8;
-    width: min(340px, calc(100% - 24px));
-    max-height: calc(100% - 24px);
+    width: min(380px, calc(100% - 32px));
+    max-height: calc(100% - 32px);
     margin: 0;
     overflow-y: auto;
     background: rgba(255, 255, 255, 0.97);
@@ -768,6 +772,41 @@ body[data-page="home"] .store-point span {
   vector-effect: non-scaling-stroke;
 }
 
+.major-city-label {
+  pointer-events: none;
+}
+
+.major-city-leader {
+  fill: none;
+  stroke: rgba(35, 79, 63, 0.72);
+  stroke-width: 0.9;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+
+.major-city-anchor {
+  fill: #315f50;
+  stroke: #fff;
+  stroke-width: 0.8;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+
+.major-city-label rect {
+  fill: rgba(255, 255, 255, 0.9);
+  stroke: rgba(42, 84, 69, 0.34);
+  stroke-width: 0.65;
+  vector-effect: non-scaling-stroke;
+}
+
+.major-city-label text {
+  fill: #173d31;
+  font-family: sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
 .grouped-region-map .area-region-shape {
   fill: #e7f2ed;
   stroke: rgba(48, 91, 76, 0.62);
@@ -779,6 +818,22 @@ body[data-page="home"] .store-point span {
   fill: #e7f2ed;
   stroke: rgba(48, 91, 76, 0.62);
   stroke-width: 0.9;
+}
+
+.grouped-region-map .area-region.is-active .area-region-shape,
+.grouped-region-map .area-region.is-active:hover .area-region-shape,
+.grouped-region-map .area-region.is-active:focus .area-region-shape {
+  fill: #118d5b;
+  stroke: #075d3a;
+  stroke-width: 2.2;
+}
+
+.grouped-region-map .area-region.is-mobile-selected .area-region-shape,
+.grouped-region-map .area-region.is-mobile-selected:hover .area-region-shape,
+.grouped-region-map .area-region.is-mobile-selected:focus .area-region-shape {
+  fill: #0c754a;
+  stroke: #053e28;
+  stroke-width: 2.6;
 }
 
 .map-region-outline-shape {
@@ -857,16 +912,16 @@ body[data-page="home"] .store-point span {
   display: none;
 }
 
-[data-map-view-mode="municipalities"]:not(.area-mini-map) .major-city-label text {
+[data-map-view-mode="municipalities"] .major-city-label text {
   font-size: 15px !important;
   font-weight: 900;
 }
 
-[data-map-view-mode="municipalities"]:not(.area-mini-map) .major-city-label rect {
+[data-map-view-mode="municipalities"] .major-city-label rect {
   fill: rgba(255, 255, 255, 0.94);
 }
 
-[data-map-view-mode="municipalities"]:not(.area-mini-map) .major-city-leader {
+[data-map-view-mode="municipalities"] .major-city-leader {
   stroke-width: 0.85;
 }
 
@@ -1070,12 +1125,6 @@ body[data-page="home"] .store-point span {
 .is-listed-only .area-region.has-stores .area-region-shape {
   fill: #45be88;
   stroke: #087247;
-}
-
-.is-mini-map-static .map-region-outlines,
-.is-mini-map-static .map-region-labels,
-.is-mini-map-static .map-prefecture-outline {
-  display: none;
 }
 
 @media (max-width: 760px) {

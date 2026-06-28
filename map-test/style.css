@@ -678,9 +678,13 @@ p {
 @media (min-width: 761px) {
   .area-selection-preview.is-pointer-positioned {
     position: absolute;
+    right: 16px;
+    bottom: 16px;
+    left: auto;
+    top: auto;
     z-index: 8;
-    width: min(340px, calc(100% - 24px));
-    max-height: calc(100% - 24px);
+    width: min(380px, calc(100% - 32px));
+    max-height: calc(100% - 32px);
     margin: 0;
     overflow-y: auto;
     background: rgba(255, 255, 255, 0.97);
@@ -1266,6 +1270,41 @@ body[data-page="home"] .area-discovery-section {
   stroke-linejoin: round;
   stroke-width: 3.2;
   vector-effect: non-scaling-stroke;
+}
+
+.major-city-label {
+  pointer-events: none;
+}
+
+.major-city-leader {
+  fill: none;
+  stroke: rgba(35, 79, 63, 0.72);
+  stroke-width: 0.9;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+
+.major-city-anchor {
+  fill: #315f50;
+  stroke: #fff;
+  stroke-width: 0.8;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+
+.major-city-label rect {
+  fill: rgba(255, 255, 255, 0.9);
+  stroke: rgba(42, 84, 69, 0.34);
+  stroke-width: 0.65;
+  vector-effect: non-scaling-stroke;
+}
+
+.major-city-label text {
+  fill: #173d31;
+  font-family: sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  text-anchor: middle;
 }
 
 .area-region.has-stores .area-region-shape {
@@ -1882,43 +1921,6 @@ body[data-page="home"] .store-point span {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.area-mini-map-panel {
-  position: sticky;
-  top: 84px;
-  min-width: 0;
-  padding: 18px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  box-shadow: 0 16px 38px rgba(38, 32, 26, 0.09);
-}
-
-.area-mini-map-heading {
-  margin-bottom: 14px;
-}
-
-.area-mini-map-heading h2 {
-  line-height: 1.35;
-}
-
-.area-mini-map-heading p:last-child {
-  margin-top: 8px;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.area-mini-map {
-  max-height: 390px;
-  margin-bottom: 12px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-}
-
-.area-mini-map .chiba-area-map {
-  min-width: 0;
-  max-height: 360px;
-}
-
 .neighbor-section {
   border-top: 1px solid var(--line);
 }
@@ -1968,19 +1970,6 @@ body[data-page="home"] .store-point span {
     grid-template-columns: 1fr;
   }
 
-  .area-mini-map-panel {
-    position: static;
-    order: -1;
-  }
-
-  .area-mini-map {
-    max-height: 320px;
-  }
-
-  .area-mini-map .chiba-area-map {
-    max-height: 290px;
-  }
-
   .neighbor-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -2009,17 +1998,6 @@ body[data-page="home"] .store-point span {
     grid-template-columns: 1fr;
   }
 
-  .area-mini-map-panel {
-    padding: 15px;
-  }
-
-  .area-mini-map {
-    max-height: 280px;
-  }
-
-  .area-mini-map .chiba-area-map {
-    max-height: 250px;
-  }
 }
 
 @media (max-width: 560px) {
@@ -2330,6 +2308,22 @@ h3 {
   stroke-width: 0.9;
 }
 
+.grouped-region-map .area-region.is-active .area-region-shape,
+.grouped-region-map .area-region.is-active:hover .area-region-shape,
+.grouped-region-map .area-region.is-active:focus .area-region-shape {
+  fill: #118d5b;
+  stroke: #075d3a;
+  stroke-width: 2.2;
+}
+
+.grouped-region-map .area-region.is-mobile-selected .area-region-shape,
+.grouped-region-map .area-region.is-mobile-selected:hover .area-region-shape,
+.grouped-region-map .area-region.is-mobile-selected:focus .area-region-shape {
+  fill: #0c754a;
+  stroke: #053e28;
+  stroke-width: 2.6;
+}
+
 .map-region-outlines,
 .map-region-labels {
   pointer-events: none;
@@ -2482,9 +2476,11 @@ h3 {
 
 @media (min-width: 761px) {
   .map-test-page .area-selection-preview.is-pointer-positioned {
-    right: auto;
-    bottom: auto;
-    width: min(340px, calc(100% - 24px));
+    right: 16px;
+    bottom: 16px;
+    left: auto;
+    top: auto;
+    width: min(410px, calc(100% - 32px));
   }
 }
 

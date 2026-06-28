@@ -1,0 +1,184 @@
+@import url("../assets/css/common.css?v=v2-5");
+
+/*
+ * 都道府県検索ページ（デザインパターンA）
+ */
+
+h1 {
+  font-size: clamp(30px, 4.5vw, 46px);
+}
+
+h2 {
+  font-size: clamp(22px, 2.8vw, 32px);
+}
+
+h3 {
+  font-size: 20px;
+}
+
+body[data-page="prefectures"] {
+  --ink: #10201b;
+  --muted: #526b61;
+  --paper: #f4faf7;
+  --surface: rgba(255, 255, 255, 0.48);
+  --soft: rgba(23, 176, 110, 0.1);
+  --line: rgba(23, 176, 110, 0.24);
+  --accent: #17b06e;
+  --accent-dark: #0d925c;
+  --green: #168b62;
+  --blue: #197e78;
+  --charcoal: #09251d;
+  --shadow: 0 18px 46px rgba(7, 34, 25, 0.12);
+  background:
+    radial-gradient(circle at 22% 8%, rgba(23, 176, 110, 0.14), transparent 31%),
+    radial-gradient(circle at 85% 22%, rgba(25, 126, 120, 0.1), transparent 28%),
+    linear-gradient(180deg, #f4faf7 0%, #edf8f2 100%);
+}
+
+body[data-page="prefectures"] .site-header {
+  background: rgba(244, 250, 247, 0.76);
+  border-bottom-color: rgba(23, 176, 110, 0.18);
+  backdrop-filter: blur(8px) saturate(1.05);
+}
+
+.prefecture-hero {
+  display: flex;
+  width: min(1120px, calc(100% - 32px));
+  align-items: end;
+  justify-content: space-between;
+  gap: 28px;
+  margin: 0 auto;
+  padding: clamp(58px, 8vw, 96px) 0 clamp(42px, 6vw, 70px);
+  border-bottom: 1px solid rgba(23, 176, 110, 0.2);
+}
+
+.prefecture-hero > div {
+  max-width: 760px;
+}
+
+.prefecture-hero h1 {
+  line-height: 1.25;
+}
+
+.prefecture-hero p:not(.eyebrow) {
+  max-width: 700px;
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: clamp(16px, 2vw, 19px);
+}
+
+.prefecture-directory {
+  padding-top: clamp(42px, 6vw, 76px);
+}
+
+.prefecture-directory-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+  gap: 18px;
+  align-items: start;
+  margin-top: 24px;
+}
+
+.prefecture-options {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.prefecture-option {
+  display: grid;
+  min-height: 76px;
+  gap: 4px;
+  justify-items: start;
+  padding: 14px;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(23, 176, 110, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 10px 26px rgba(7, 34, 25, 0.05);
+  cursor: pointer;
+}
+
+.prefecture-option span {
+  font-weight: 900;
+}
+
+.prefecture-option small {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.prefecture-option.is-active {
+  color: #fff;
+  background: var(--accent);
+  border-color: transparent;
+  box-shadow: 0 14px 30px rgba(23, 176, 110, 0.2);
+}
+
+.prefecture-option.is-active small {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.prefecture-panels {
+  position: sticky;
+  top: 84px;
+}
+
+.prefecture-panel {
+  display: grid;
+  gap: 14px;
+  padding: 22px;
+  background: rgba(255, 255, 255, 0.64);
+  border: 1px solid rgba(23, 176, 110, 0.24);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.prefecture-panel[hidden] {
+  display: none;
+}
+
+.button.is-disabled {
+  pointer-events: none;
+  opacity: 0.62;
+}
+
+@media (max-width: 980px) {
+  .prefecture-directory-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .prefecture-panels {
+    position: static;
+  }
+
+  .prefecture-options {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  h1 {
+    font-size: clamp(25px, 7.2vw, 31px);
+  }
+
+  h2 {
+    font-size: clamp(20px, 5.8vw, 24px);
+  }
+
+  .prefecture-hero {
+    display: grid;
+    align-items: start;
+  }
+
+  .prefecture-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .prefecture-options {
+    grid-template-columns: 1fr;
+  }
+}

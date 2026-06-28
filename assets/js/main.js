@@ -1,4 +1,8 @@
-const siteRootUrl = new URL("../../", document.currentScript.src);
+﻿const siteRootUrl = new URL("../../", document.currentScript.src);
+
+const SITE_FLAGS = {
+  showPrefectureNav: true,
+};
 
 const siteUrl = (path) => {
   if (!path) return "";
@@ -10,7 +14,7 @@ const DATA_PATHS = {
   stores: siteUrl("data/stores.json"),
   categories: siteUrl("data/categories.json"),
   areas: siteUrl("data/areas.json"),
-  chibaMap: siteUrl("assets/maps/chiba.svg?v=v2-2"),
+  chibaMap: siteUrl("assets/maps/chiba.svg?v=v2-5"),
 };
 
 const state = {
@@ -186,6 +190,22 @@ const escapeHtml = (value) =>
 const getCategory = (id) => state.categories.find((category) => category.id === id);
 const getArea = (id) => state.areas.find((area) => area.id === id);
 const getAreaUrl = (area) => siteUrl(area?.url || `chiba/${area?.id || ""}/`);
+const getAreaCardUrl = (area) => getAreaUrl(area);
+const getShopContactUrl = () => siteUrl("for-shops/");
+const getRegionStoreUrl = (region) => siteUrl(`chiba/regions/${region.id}/`);
+const getRegionAreas = (region) => region.areas.map(getArea).filter(Boolean);
+const getRegionListedAreas = (region, counts) =>
+  getRegionAreas(region).filter((area) => (counts.get(area.id) || 0) > 0);
+const getRegionStores = (region) => state.stores.filter((store) => region.areas.includes(store.areaId));
+const getRegionNeighbors = (region) => MAP_REGION_GROUPS
+  .filter((candidate) => candidate.id !== region.id)
+  .map((candidate) => ({
+    region: candidate,
+    distance: Math.hypot(candidate.labelX - region.labelX, candidate.labelY - region.labelY),
+  }))
+  .sort((a, b) => a.distance - b.distance)
+  .slice(0, 4)
+  .map((candidate) => candidate.region);
 
 const toTelHref = (phone) => {
   const digits = String(phone || "").replace(/[^\d+]/g, "");
@@ -345,8 +365,15 @@ const loadData = async () => {
 const initHeader = () => {
   const path = window.location.pathname;
   $$(".site-nav a").forEach((link) => {
+    if (link.hasAttribute("data-nav-prefectures") && !SITE_FLAGS.showPrefectureNav) {
+      link.hidden = true;
+      return;
+    }
     const href = new URL(link.getAttribute("href"), window.location.href).pathname;
-    const active = href === siteRootUrl.pathname ? path === href : path.startsWith(href);
+    const isPrefectureNav = link.hasAttribute("data-nav-prefectures");
+    const active = isPrefectureNav
+      ? path.startsWith(siteUrl("prefectures/").pathname) || path.startsWith(siteUrl("chiba/").pathname)
+      : href === siteRootUrl.pathname ? path === href : path.startsWith(href);
     link.classList.toggle("is-active", active);
   });
 };
@@ -371,6 +398,28 @@ const renderCategoryGrid = (target) => {
       </a>
     `)
     .join("");
+};
+
+const initPrefectureDirectory = () => {
+  const selector = $("[data-prefecture-selector]");
+  if (!selector) return;
+  const buttons = $$("[data-prefecture-option]", selector);
+  const panels = $$("[data-prefecture-panel]");
+  const activate = (prefectureId) => {
+    buttons.forEach((button) => {
+      const active = button.dataset.prefectureOption === prefectureId;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-pressed", active ? "true" : "false");
+    });
+    panels.forEach((panel) => {
+      const active = panel.dataset.prefecturePanel === prefectureId;
+      panel.classList.toggle("is-active", active);
+      panel.hidden = !active;
+    });
+  };
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => activate(button.dataset.prefectureOption));
+  });
 };
 
 const populateCategorySelect = (target, defaultLabel = "すべて") => {
@@ -410,6 +459,7 @@ const createAreaMapNode = async (counts, selectedAreaId = "") => {
   const sourceSvg = await loadChibaMapSvg();
   const svg = document.importNode(sourceSvg, true);
   svg.classList.add("grouped-region-map");
+  svg.querySelector("style")?.remove();
   const regionLayer = svg.querySelector(".area-map-regions");
   const prefectureOutlineLayer = document.createElementNS("http://www.w3.org/2000/svg", "g");
   prefectureOutlineLayer.classList.add("map-prefecture-outline");
@@ -586,40 +636,20 @@ const initGroupedRegionMap = (counts, mapTargets, statusTargets) => {
       });
     };
 
-    const placePreviewNearPointer = (event) => {
+    const placePreviewNearPointer = () => {
       if (!preview || window.matchMedia("(max-width: 760px)").matches) return;
-      const hasPointerCoordinates =
-        event && typeof event.clientX === "number" && typeof event.clientY === "number";
-      if (!hasPointerCoordinates) {
-        preview.classList.remove("is-pointer-positioned");
-        preview.style.removeProperty("left");
-        preview.style.removeProperty("top");
-        return;
-      }
       preview.classList.add("is-pointer-positioned");
-      const updatePosition = () => {
-        const targetRect = mapTarget.getBoundingClientRect();
-        const previewRect = preview.getBoundingClientRect();
-        const previewWidth = previewRect.width || preview.offsetWidth;
-        const previewHeight = previewRect.height || preview.offsetHeight;
-        const gap = 16;
-        const edge = 12;
-        const pointerX = event.clientX - targetRect.left;
-        const pointerY = event.clientY - targetRect.top;
-        let left = pointerX - previewWidth / 2;
-        let top = pointerY - previewHeight - gap;
-        if (top < edge) top = pointerY + gap;
-        const maxLeft = Math.max(edge, mapTarget.clientWidth - previewWidth - edge);
-        const maxTop = Math.max(edge, mapTarget.clientHeight - previewHeight - edge);
-        left = Math.max(edge, Math.min(left, maxLeft));
-        top = Math.max(edge, Math.min(top, maxTop));
-        preview.style.left = `${left}px`;
-        preview.style.top = `${top}px`;
-      };
-      requestAnimationFrame(() => {
-        updatePosition();
-        requestAnimationFrame(updatePosition);
-      });
+      preview.style.removeProperty("left");
+      preview.style.removeProperty("top");
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        const rect = preview.getBoundingClientRect();
+        const margin = 18;
+        if (rect.bottom > window.innerHeight - margin) {
+          window.scrollBy({ top: rect.bottom - window.innerHeight + margin, behavior: "auto" });
+        } else if (rect.top < margin) {
+          window.scrollBy({ top: rect.top - margin, behavior: "auto" });
+        }
+      }));
     };
 
     const setActiveRegion = (regionId, persistent = false) => {
@@ -647,6 +677,15 @@ const initGroupedRegionMap = (counts, mapTargets, statusTargets) => {
       preview.style.removeProperty("top");
     };
 
+    const syncAreaListSelection = (areaId = "") => {
+      $$("[data-area-list] [data-area-link]").forEach((item) => {
+        item.classList.toggle(
+          "is-mobile-selected",
+          Boolean(areaId) && item.dataset.areaLink === areaId
+        );
+      });
+    };
+
     const clearActiveRegion = (force = false) => {
       if (selectedRegionId && !force) {
         setActiveRegion(selectedRegionId);
@@ -669,6 +708,7 @@ const initGroupedRegionMap = (counts, mapTargets, statusTargets) => {
       svg.querySelectorAll(".is-mobile-selected, .is-linked-highlight").forEach((item) => {
         item.classList.remove("is-mobile-selected", "is-linked-highlight");
       });
+      syncAreaListSelection();
       if (preview) {
         preview.hidden = true;
         clearPreviewPosition();
@@ -685,6 +725,7 @@ const initGroupedRegionMap = (counts, mapTargets, statusTargets) => {
       svg.querySelectorAll("[data-area-link]").forEach((item) => {
         item.classList.toggle("is-mobile-selected", item.dataset.areaLink === areaId);
       });
+      syncAreaListSelection(areaId);
       preview.innerHTML = createAreaPreviewHtml(area, counts);
       preview.hidden = false;
       placePreviewNearPointer(event);
@@ -702,7 +743,11 @@ const initGroupedRegionMap = (counts, mapTargets, statusTargets) => {
       const region = getMapRegion(regionId);
       if (!region || !preview) return;
       const municipalityNames = region.areas.map(getArea).filter(Boolean).map((area) => area.name);
-      const listedCount = region.areas.reduce((sum, areaId) => sum + (counts.get(areaId) || 0), 0);
+      const listedAreas = getRegionListedAreas(region, counts);
+      const listedCount = listedAreas.reduce((sum, area) => sum + (counts.get(area.id) || 0), 0);
+      const secondaryAction = listedCount
+        ? ""
+        : `<a class="button secondary" href="${escapeHtml(getShopContactUrl())}">掲載を希望する</a>`;
       preview.innerHTML = `
         <div class="area-preview-heading">
           <div>
@@ -713,6 +758,10 @@ const initGroupedRegionMap = (counts, mapTargets, statusTargets) => {
         </div>
         <p class="grouped-region-municipalities">${municipalityNames.map(escapeHtml).join("・")}</p>
         <p class="area-preview-count">掲載店舗：${listedCount}件</p>
+        <div class="area-preview-actions">
+          <a class="button primary" href="${escapeHtml(getRegionStoreUrl(region))}">この地域の掲載店舗へ</a>
+          ${secondaryAction}
+        </div>
       `;
       preview.hidden = false;
       placePreviewNearPointer(event);
@@ -1262,7 +1311,7 @@ const createAreaPreviewHtml = (area, counts) => {
       <p class="area-preview-meta"><strong>カテゴリ：</strong>${escapeHtml(categories.join("、") || "掲載店舗あり")}</p>
       <p>行く前に雰囲気やポイントが分かるお店を掲載中です。</p>
       <div class="area-preview-actions">
-        <a class="button primary" href="${escapeHtml(getAreaUrl(area))}">${escapeHtml(area.name)}のお店を見る</a>
+        <a class="button primary" href="${escapeHtml(getAreaCardUrl(area))}">この市区町村の掲載店舗へ</a>
       </div>
     `;
   }
@@ -1279,8 +1328,8 @@ const createAreaPreviewHtml = (area, counts) => {
     </div>
     <p>現在、このエリアの掲載店舗を募集中です。</p>
     <div class="area-preview-actions">
-      <a class="button secondary" href="${escapeHtml(siteUrl("chiba/#listed-areas"))}">千葉県の掲載中エリアを見る</a>
-      <a class="button primary" href="${escapeHtml(siteUrl("for-shops/"))}">掲載を希望する</a>
+      <a class="button primary" href="${escapeHtml(getAreaCardUrl(area))}">この市区町村の掲載店舗へ</a>
+      <a class="button secondary" href="${escapeHtml(getShopContactUrl())}">掲載を希望する</a>
     </div>
   `;
 };
@@ -1304,10 +1353,8 @@ const initAreaMaps = async () => {
   });
   const statusTargets = $$("[data-area-map-status]");
   const mapTargets = $$("[data-area-map]");
-  const fullMapTargets = mapTargets.filter((target) => !target.classList.contains("area-mini-map"));
-  const miniMapTargets = mapTargets.filter((target) => target.classList.contains("area-mini-map"));
 
-  fullMapTargets.forEach((target) => {
+  mapTargets.forEach((target) => {
     const tooltip = document.createElement("div");
     tooltip.className = "area-map-tooltip";
     tooltip.hidden = true;
@@ -1320,14 +1367,10 @@ const initAreaMaps = async () => {
     preview.setAttribute("aria-live", "polite");
     target.append(preview);
   });
-  miniMapTargets.forEach((target) => {
-    target.dataset.mapViewMode = "municipalities";
-    target.classList.add("is-mini-map-static");
-  });
-  initMapLabelSwitcher(fullMapTargets);
-  fullMapTargets.forEach(initMapZoom);
-  initListedOnlyFilters(fullMapTargets);
-  initGroupedRegionMap(counts, fullMapTargets, statusTargets);
+  initMapLabelSwitcher(mapTargets);
+  mapTargets.forEach(initMapZoom);
+  initListedOnlyFilters(mapTargets);
+  initGroupedRegionMap(counts, mapTargets, statusTargets);
   $$("[data-area-list] [data-area-link]").forEach((link) => {
     link.addEventListener("click", (event) => {
       event.preventDefault();
@@ -1380,18 +1423,44 @@ const initHome = async () => {
 const initSearchPage = () => {
   const params = new URLSearchParams(window.location.search);
   const keyword = params.get("q")?.trim() || "";
+  const region = getMapRegion(params.get("region") || "");
   const input = $("[data-search-keyword]");
   const title = $("[data-search-title]");
   const count = $("[data-search-count]");
   const target = $("[data-search-results]");
   if (input) input.value = keyword;
-  const results = keyword
-    ? sortStores(state.stores.filter((store) => matchesKeyword(store, keyword)), "created")
+  const scopedStores = region
+    ? state.stores.filter((store) => region.areas.includes(store.areaId))
+    : state.stores;
+  const results = keyword || region
+    ? sortStores(scopedStores.filter((store) => matchesKeyword(store, keyword)), "created")
     : [];
-  if (title) title.textContent = keyword ? `「${keyword}」の検索結果` : "キーワード検索";
+  if (title) {
+    if (region && keyword) {
+      title.textContent = `「${region.name}地域・${keyword}」の検索結果`;
+    } else if (region) {
+      title.textContent = `${region.name}地域の掲載店舗`;
+    } else {
+      title.textContent = keyword ? `「${keyword}」の検索結果` : "キーワード検索";
+    }
+  }
   if (count) count.textContent = `${results.length}件`;
+  input?.form?.addEventListener("submit", (event) => {
+    if (!region) return;
+    event.preventDefault();
+    const url = new URL(window.location.href);
+    url.search = "";
+    url.searchParams.set("region", region.id);
+    const nextKeyword = input.value.trim();
+    if (nextKeyword) url.searchParams.set("q", nextKeyword);
+    window.location.href = url.href;
+  });
   renderStores(target, results, {
-    emptyMessage: keyword
+    emptyMessage: region
+      ? keyword
+        ? `${region.name}地域でキーワードに合う店舗はまだありません。別の言葉でもお試しください。`
+        : `${region.name}地域の掲載店舗はまだありません。`
+      : keyword
       ? "キーワードに合う店舗はまだありません。別の言葉でもお試しください。"
       : "キーワードを入力してお店を検索してください。",
   });
@@ -1451,6 +1520,69 @@ const initAreaPage = async () => {
         <small>${neighbor.storeCount ? `${neighbor.storeCount}件掲載` : "掲載募集中"}</small>
       </a>
     `).join("");
+  }
+};
+
+const initRegionPage = () => {
+  const region = getMapRegion(document.body.dataset.regionId || "");
+  if (!region) return;
+  const pageStores = getRegionStores(region);
+  const controls = {
+    keyword: $("[data-region-filter-keyword]"),
+    category: $("[data-region-filter-category]"),
+    sort: $("[data-region-filter-sort]"),
+  };
+  populateCategorySelect(controls.category, "すべてのカテゴリ");
+
+  const applyFilters = () => {
+    const keyword = controls.keyword?.value || "";
+    const category = controls.category?.value || "";
+    const sortKey = controls.sort?.value || "created";
+    const filtered = pageStores.filter((store) => {
+      if (category && store.category !== category) return false;
+      return matchesKeyword(store, keyword);
+    });
+    const sorted = sortStores(filtered, sortKey);
+    renderStores($("[data-region-page-stores]"), sorted, {
+      emptyMessage: pageStores.length
+        ? "選択した条件に合う店舗はありません。検索条件を変えてお試しください。"
+        : "現在この地域の掲載店舗を募集中です。",
+    });
+    const count = $("[data-region-page-count]");
+    if (count) count.textContent = `${sorted.length}件`;
+  };
+
+  Object.values(controls).forEach((control) => {
+    control?.addEventListener("input", applyFilters);
+    control?.addEventListener("change", applyFilters);
+  });
+  applyFilters();
+
+  const counts = getAreaCounts();
+  const areaTarget = $("[data-region-areas]");
+  if (areaTarget) {
+    areaTarget.innerHTML = getRegionAreas(region).map((area) => {
+      const count = counts.get(area.id) || 0;
+      return `
+        <a class="neighbor-link" href="${escapeHtml(getAreaUrl(area))}">
+          <span>${escapeHtml(area.name)}</span>
+          <small>${count ? `${count}件掲載` : "掲載募集中"}</small>
+        </a>
+      `;
+    }).join("");
+  }
+
+  const neighborTarget = $("[data-region-neighbors]");
+  if (neighborTarget) {
+    neighborTarget.innerHTML = getRegionNeighbors(region).map((neighbor) => {
+      const count = getRegionStores(neighbor).length;
+      return `
+        <a class="neighbor-link" href="${escapeHtml(getRegionStoreUrl(neighbor))}">
+          <span>${escapeHtml(neighbor.name)}地域</span>
+          <small>${count ? `${count}件掲載` : "掲載募集中"}</small>
+        </a>
+      `;
+    }).join("");
   }
 };
 
@@ -1523,17 +1655,19 @@ const initContact = () => {
 document.addEventListener("DOMContentLoaded", async () => {
   initHeader();
   initContact();
-  if (!document.body.matches("[data-page='home'], [data-page='category'], [data-page='prefecture'], [data-page='area'], [data-page='search']")) return;
+  initPrefectureDirectory();
+  if (!document.body.matches("[data-page='home'], [data-page='category'], [data-page='prefecture'], [data-page='area'], [data-page='region'], [data-page='search']")) return;
   try {
     await loadData();
     if (document.body.dataset.page === "home") await initHome();
     if (document.body.dataset.page === "prefecture") await initPrefecturePage();
     if (document.body.dataset.page === "area") await initAreaPage();
+    if (document.body.dataset.page === "region") initRegionPage();
     if (document.body.dataset.page === "category") initCategoryPage();
     if (document.body.dataset.page === "search") initSearchPage();
   } catch (error) {
     const targets = $$(
-      "[data-featured-stores], [data-new-stores], [data-category-stores], [data-categories-grid], [data-area-map], [data-area-list], [data-area-page-stores], [data-prefecture-new-stores], [data-prefecture-categories], [data-search-results]"
+      "[data-featured-stores], [data-new-stores], [data-category-stores], [data-categories-grid], [data-area-map], [data-area-list], [data-area-page-stores], [data-region-page-stores], [data-prefecture-new-stores], [data-prefecture-categories], [data-search-results]"
     );
     targets.forEach((target) => renderEmpty(target, "店舗データを読み込めませんでした。"));
     console.error(error);
