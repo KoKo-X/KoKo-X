@@ -322,8 +322,21 @@ body[data-page="home"] .area-discovery-section {
 }
 
 .area-list-heading {
+  position: relative;
+  padding-left: 18px;
   padding-bottom: 16px;
   border-bottom: 1px solid rgba(23, 176, 110, 0.18);
+}
+
+.area-list-heading::before {
+  position: absolute;
+  top: 2px;
+  bottom: 18px;
+  left: 0;
+  width: 4px;
+  content: "";
+  background: var(--accent);
+  border-radius: 999px;
 }
 
 .area-list-heading .eyebrow {
