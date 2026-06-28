@@ -19,7 +19,7 @@ const escapeHtml = (value) =>
 const stores = await readJson("data/stores.json");
 const categories = await readJson("data/categories.json");
 const sourceAreas = await readJson("data/areas.json");
-const siteVersion = "v2-13";
+const siteVersion = "v2-14";
 const siteFlags = {
   showPrefectureNav: false,
 };

@@ -17,7 +17,7 @@ const DATA_PATHS = {
   stores: siteUrl("data/stores.json"),
   categories: siteUrl("data/categories.json"),
   areas: siteUrl("data/areas.json"),
-  chibaMap: siteUrl("maps/chiba.svg?v=isolated-1"),
+  chibaMap: siteUrl("maps/chiba.svg?v=isolated-2"),
 };
 
 const state = {

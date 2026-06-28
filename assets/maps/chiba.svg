@@ -263,9 +263,7 @@
       <rect x="-13.5" y="-10" width="27.0" height="20" rx="6"/>
       <text x="0" y="4">成田</text>
     </g>
-    <path class="major-city-leader" d="M259.82 504.01 L184.82 514.01"/>
-    <circle class="major-city-anchor" cx="259.82" cy="504.01" r="2.2"/>
-    <g class="major-city-label is-external" data-label-area="ichihara" transform="translate(184.82 514.01)">
+    <g class="major-city-label" data-label-area="ichihara" transform="translate(259.82 504.01)">
       <rect x="-13.5" y="-10" width="27.0" height="20" rx="6"/>
       <text x="0" y="4">市原</text>
     </g>
@@ -298,9 +296,7 @@
       <rect x="-17.8" y="-10" width="35.5" height="20" rx="6"/>
       <text x="0" y="4">南房総</text>
     </g>
-    <path class="major-city-leader" d="M194.51 618.95 L170.71 643.23"/>
-    <circle class="major-city-anchor" cx="194.51" cy="618.95" r="2.2"/>
-    <g class="major-city-label is-external" data-label-area="kimitsu" transform="translate(170.71 643.23)">
+    <g class="major-city-label" data-label-area="kimitsu" transform="translate(194.51 618.95)">
       <rect x="-13.5" y="-10" width="27.0" height="20" rx="6"/>
       <text x="0" y="4">君津</text>
     </g>
@@ -315,27 +311,19 @@
       <rect x="-13.5" y="-10" width="27.0" height="20" rx="6"/>
       <text x="0" y="4">富津</text>
     </g>
-    <path class="major-city-leader" d="M225.45 713.37 L209.99 743.65"/>
-    <circle class="major-city-anchor" cx="225.45" cy="713.37" r="2.2"/>
-    <g class="major-city-label is-external" data-label-area="kamogawa" transform="translate(209.99 743.65)">
+    <g class="major-city-label" data-label-area="kamogawa" transform="translate(225.45 713.37)">
       <rect x="-13.5" y="-10" width="27.0" height="20" rx="6"/>
       <text x="0" y="4">鴨川</text>
     </g>
-    <path class="major-city-leader" d="M378.91 608.45 L382.94 642.21"/>
-    <circle class="major-city-anchor" cx="378.91" cy="608.45" r="2.2"/>
-    <g class="major-city-label is-external" data-label-area="isumi" transform="translate(382.94 642.21)">
+    <g class="major-city-label" data-label-area="isumi" transform="translate(378.91 608.45)">
       <rect x="-17.8" y="-10" width="35.5" height="20" rx="6"/>
       <text x="0" y="4">いすみ</text>
     </g>
-    <path class="major-city-leader" d="M423.78 362.74 L443.85 335.29"/>
-    <circle class="major-city-anchor" cx="423.78" cy="362.74" r="2.2"/>
-    <g class="major-city-label is-external" data-label-area="sanmu" transform="translate(443.85 335.29)">
+    <g class="major-city-label" data-label-area="sanmu" transform="translate(423.78 362.74)">
       <rect x="-13.5" y="-10" width="27.0" height="20" rx="6"/>
       <text x="0" y="4">山武</text>
     </g>
-    <path class="major-city-leader" d="M559.43 284.57 L585.60 262.87"/>
-    <circle class="major-city-anchor" cx="559.43" cy="284.57" r="2.2"/>
-    <g class="major-city-label is-external" data-label-area="asahi" transform="translate(585.60 262.87)">
+    <g class="major-city-label" data-label-area="asahi" transform="translate(559.43 284.57)">
       <rect x="-12.5" y="-10" width="25.0" height="20" rx="6"/>
       <text x="0" y="4">旭</text>
     </g>
@@ -359,15 +347,11 @@
       <rect x="-13.5" y="-10" width="27.0" height="20" rx="6"/>
       <text x="0" y="4">佐倉</text>
     </g>
-    <path class="major-city-leader" d="M500.45 308.91 L524.43 284.81"/>
-    <circle class="major-city-anchor" cx="500.45" cy="308.91" r="2.2"/>
-    <g class="major-city-label is-external" data-label-area="sosa" transform="translate(524.43 284.81)">
+    <g class="major-city-label" data-label-area="sosa" transform="translate(500.45 308.91)">
       <rect x="-13.5" y="-10" width="27.0" height="20" rx="6"/>
       <text x="0" y="4">匝瑳</text>
     </g>
-    <path class="major-city-leader" d="M190.76 510.02 L143.64 526.74"/>
-    <circle class="major-city-anchor" cx="190.76" cy="510.02" r="2.2"/>
-    <g class="major-city-label is-external" data-label-area="sodegaura" transform="translate(143.64 526.74)">
+    <g class="major-city-label" data-label-area="sodegaura" transform="translate(190.76 510.02)">
       <rect x="-17.8" y="-10" width="35.5" height="20" rx="6"/>
       <text x="0" y="4">袖ケ浦</text>
     </g>
