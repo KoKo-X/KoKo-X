@@ -998,8 +998,10 @@ body[data-page="home"] .store-point span {
   right: 10px;
   z-index: 7;
   display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
   gap: 7px;
-  width: 168px;
+  width: min(300px, calc(100% - 20px));
   padding: 9px;
   background: rgba(255, 255, 255, 0.94);
   border: 1px solid rgba(23, 176, 110, 0.3);
@@ -1008,11 +1010,13 @@ body[data-page="home"] .store-point span {
 }
 
 .map-function-controls > strong {
+  grid-column: 1 / -1;
   color: var(--muted);
   font-size: 11px;
 }
 
 .map-view-segmented {
+  grid-column: 1 / -1;
   display: grid;
   grid-template-columns: 1fr;
   gap: 5px;
@@ -1065,6 +1069,11 @@ body[data-page="home"] .store-point span {
   border-radius: 999px;
 }
 
+.map-listed-only {
+  justify-content: flex-start;
+  min-height: 32px;
+}
+
 .map-listed-only i::after,
 .list-filter-switch i::after {
   position: absolute;
@@ -1098,13 +1107,12 @@ body[data-page="home"] .store-point span {
 
 .map-function-controls .area-map-zoom-controls {
   position: static;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  display: flex;
+  grid-column: 2;
   gap: 5px;
-  padding: 7px 0 0;
+  padding: 0;
   background: none;
   border: 0;
-  border-top: 1px solid rgba(23, 176, 110, 0.2);
   border-radius: 0;
   box-shadow: none;
 }

@@ -2567,8 +2567,10 @@ h3 {
   right: 10px;
   z-index: 7;
   display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
   gap: 7px;
-  width: 168px;
+  width: min(300px, calc(100% - 20px));
   padding: 9px;
   background: rgba(255, 255, 255, 0.94);
   border: 1px solid rgba(23, 176, 110, 0.3);
@@ -2577,11 +2579,13 @@ h3 {
 }
 
 .map-function-controls > strong {
+  grid-column: 1 / -1;
   color: var(--muted);
   font-size: 11px;
 }
 
 .map-view-segmented {
+  grid-column: 1 / -1;
   display: grid;
   grid-template-columns: 1fr;
   gap: 5px;
@@ -2634,6 +2638,11 @@ h3 {
   border-radius: 999px;
 }
 
+.map-listed-only {
+  justify-content: flex-start;
+  min-height: 32px;
+}
+
 .map-listed-only i::after,
 .list-filter-switch i::after {
   position: absolute;
@@ -2663,6 +2672,14 @@ h3 {
   padding: 10px 12px;
   background: rgba(23, 176, 110, 0.08);
   border-radius: 9px;
+}
+
+.map-function-controls .area-map-zoom-controls {
+  display: flex;
+  grid-column: 2;
+  gap: 5px;
+  padding: 0;
+  border: 0;
 }
 
 .map-test-list-panel .area-list-buttons {
