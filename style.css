@@ -1,5 +1,5 @@
-﻿@import url("./assets/css/common.css?v=v2-8");
-@import url("./chiba/map.css?v=v2-8");
+﻿@import url("./assets/css/common.css?v=v2-9");
+@import url("./chiba/map.css?v=v2-9");
 
 /*
  * トップページ専用CSS
@@ -411,15 +411,32 @@ body[data-page="home"] .home-section-panel {
   width: 100%;
   margin: 0 auto;
   padding: clamp(18px, 3vw, 28px);
-  background: rgba(255, 255, 255, 0.38);
-  border: 1px solid rgba(23, 176, 110, 0.2);
-  border-radius: 8px;
-  box-shadow: 0 16px 38px rgba(7, 34, 25, 0.07);
-  backdrop-filter: blur(1px) saturate(1.02);
+  background: rgba(255, 255, 255, 0.54);
+  border: 1px solid rgba(23, 176, 110, 0.26);
+  border-radius: 18px;
+  box-shadow: 0 20px 54px rgba(7, 34, 25, 0.1);
+  backdrop-filter: blur(5px) saturate(1.04);
 }
 
 body[data-page="home"] .home-section-panel .section-heading {
+  width: 100%;
+  max-width: none;
   margin-bottom: 18px;
+  padding: 0 0 16px 18px;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(23, 176, 110, 0.18);
+  border-radius: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+body[data-page="home"] .home-section-panel .section-heading::before {
+  top: 2px;
+  bottom: 18px;
+  left: 0;
+  width: 4px;
+  border-radius: 999px;
 }
 
 body[data-page="home"] .home-section-panel .section-heading + * {

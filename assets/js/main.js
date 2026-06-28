@@ -14,7 +14,7 @@ const DATA_PATHS = {
   stores: siteUrl("data/stores.json"),
   categories: siteUrl("data/categories.json"),
   areas: siteUrl("data/areas.json"),
-  chibaMap: siteUrl("assets/maps/chiba.svg?v=v2-8"),
+  chibaMap: siteUrl("assets/maps/chiba.svg?v=v2-9"),
 };
 
 const state = {
@@ -262,7 +262,7 @@ const createActionsHtml = (store) => {
     ? `<a class="button secondary" href="${escapeHtml(telHref)}">電話する</a>`
     : "";
   const detailButton = store.hasLp && store.lpUrl
-    ? `<a class="button primary" href="${escapeHtml(siteUrl(store.lpUrl))}">専用LPを見る</a>`
+    ? `<a class="button primary" href="${escapeHtml(siteUrl(store.lpUrl))}">専用ページへ</a>`
     : "";
 
   return `
@@ -279,7 +279,7 @@ const createStoreCard = (store, options = {}) => {
   const compact = Boolean(options.compact);
   const listingType = store.listingType || (store.hasLp ? "lp" : "free");
   const listingBadge = listingType === "lp"
-    ? `<span class="badge badge-lp">専用LPあり</span>`
+    ? `<span class="badge badge-lp">専用ページあり</span>`
     : `<span class="badge badge-basic">基本掲載</span>`;
   const statusBadge = store.isSample
     ? `<span class="badge badge-sample">サンプル掲載</span>`
@@ -317,7 +317,7 @@ const createStoreCard = (store, options = {}) => {
 const createHomeStoreCard = (store) => {
   const category = getCategory(store.category);
   const lpButton = store.hasLp && store.lpUrl
-    ? `<a class="button primary" href="${escapeHtml(siteUrl(store.lpUrl))}">専用LPを見る</a>`
+    ? `<a class="button primary" href="${escapeHtml(siteUrl(store.lpUrl))}">専用ページへ</a>`
     : "";
   return `
     <article class="home-store-card" data-store-id="${escapeHtml(store.id)}">
