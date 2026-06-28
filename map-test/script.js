@@ -291,7 +291,7 @@ const createStoreCard = (store, options = {}) => {
       <h3>${escapeHtml(store.name)}</h3>
       <p class="store-comment">${escapeHtml(description)}</p>
       <div class="store-point">
-        <span>このお店のポイント</span>
+        <span>KoKoポイント👆</span>
         <p>${escapeHtml(point)}</p>
       </div>
       <dl class="store-meta">
@@ -318,7 +318,7 @@ const createHomeStoreCard = (store) => {
       <h3>${escapeHtml(store.name)}</h3>
       <p class="home-store-category">${escapeHtml(category?.name || store.category)}</p>
       <div class="store-point">
-        <span>このお店のおすすめポイント</span>
+        <span>KoKoポイント👆</span>
         <p>${escapeHtml(store.point || store.comment || "")}</p>
       </div>
       <div class="tag-list">${createTagHtml(store.tags)}</div>

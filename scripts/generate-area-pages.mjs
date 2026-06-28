@@ -19,7 +19,7 @@ const escapeHtml = (value) =>
 const stores = await readJson("data/stores.json");
 const categories = await readJson("data/categories.json");
 const sourceAreas = await readJson("data/areas.json");
-const siteVersion = "v2-6";
+const siteVersion = "v2-7";
 
 const mapRegionGroups = [
   { id: "chiba", name: "千葉", reading: "ちば", areas: ["chiba", "ichihara"], labelX: 228, labelY: 447 },
@@ -72,7 +72,7 @@ const areas = sourceAreas.map((area) => {
     hasStores: storeCount > 0,
     isIndexable: storeCount > 0,
     metaTitle: `${area.name}のお店案内 | KoKo X（ココクロス）`,
-    metaDescription: `KoKo X（ココクロス）で${area.name}のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。`,
+    metaDescription: `KoKo X（ココクロス）で${area.name}のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。`,
   };
 });
 
@@ -221,7 +221,7 @@ await writeFile(path.join(rootDir, "chiba/index.html"), chibaHtml, "utf8");
 
 for (const area of areas) {
   const robots = area.isIndexable ? "" : '  <meta name="robots" content="noindex,follow">\n';
-  const lead = `KoKo Xで${area.name}のお店を地域やカテゴリから探せます。行く前に雰囲気や人柄、このお店のポイントが少し見える案内ページです。`;
+  const lead = `KoKo Xで${area.name}のお店を地域やカテゴリから探せます。行く前に雰囲気や人柄、KoKoポイントが少し見える案内ページです。`;
   const cityHtml = `<!DOCTYPE html>
 <html lang="ja">
 <head>

@@ -1,4 +1,4 @@
-[
+﻿[
   {
     "id": "noda",
     "name": "野田市",
@@ -20,7 +20,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "野田市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で野田市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で野田市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "nagareyama",
@@ -43,7 +43,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "流山市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で流山市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で流山市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "kashiwa",
@@ -66,7 +66,7 @@
     "hasStores": true,
     "isIndexable": true,
     "metaTitle": "柏市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で柏市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で柏市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "abiko",
@@ -89,7 +89,7 @@
     "hasStores": true,
     "isIndexable": true,
     "metaTitle": "我孫子市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で我孫子市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で我孫子市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "matsudo",
@@ -112,7 +112,7 @@
     "hasStores": true,
     "isIndexable": true,
     "metaTitle": "松戸市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で松戸市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で松戸市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "kamagaya",
@@ -135,7 +135,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "鎌ケ谷市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で鎌ケ谷市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で鎌ケ谷市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "shiroi",
@@ -158,7 +158,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "白井市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で白井市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で白井市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "ichikawa",
@@ -181,7 +181,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "市川市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で市川市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で市川市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "funabashi",
@@ -204,7 +204,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "船橋市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で船橋市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で船橋市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "urayasu",
@@ -227,7 +227,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "浦安市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で浦安市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で浦安市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "narashino",
@@ -250,7 +250,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "習志野市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で習志野市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で習志野市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "yachiyo",
@@ -273,7 +273,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "八千代市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で八千代市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で八千代市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "chiba",
@@ -296,7 +296,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "千葉市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で千葉市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で千葉市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "inzai",
@@ -319,7 +319,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "印西市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で印西市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で印西市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "sakae",
@@ -342,7 +342,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "栄町のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で栄町のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で栄町のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "kozaki",
@@ -365,7 +365,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "神崎町のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で神崎町のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で神崎町のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "katori",
@@ -388,7 +388,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "香取市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で香取市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で香取市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "narita",
@@ -411,7 +411,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "成田市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で成田市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で成田市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "tako",
@@ -434,7 +434,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "多古町のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で多古町のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で多古町のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "sakura",
@@ -457,7 +457,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "佐倉市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で佐倉市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で佐倉市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "shisui",
@@ -480,7 +480,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "酒々井町のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で酒々井町のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で酒々井町のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "tomisato",
@@ -503,7 +503,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "富里市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で富里市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で富里市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "shibayama",
@@ -526,7 +526,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "芝山町のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で芝山町のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で芝山町のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "yotsukaido",
@@ -549,7 +549,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "四街道市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で四街道市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で四街道市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "yachimata",
@@ -572,7 +572,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "八街市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で八街市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で八街市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "choshi",
@@ -595,7 +595,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "銚子市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で銚子市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で銚子市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "asahi",
@@ -618,7 +618,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "旭市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で旭市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で旭市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "tounosho",
@@ -641,7 +641,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "東庄町のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で東庄町のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で東庄町のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "sosa",
@@ -664,7 +664,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "匝瑳市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で匝瑳市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で匝瑳市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "yokoshibahikari",
@@ -687,7 +687,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "横芝光町のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で横芝光町のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で横芝光町のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "sanmu",
@@ -710,7 +710,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "山武市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で山武市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で山武市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "togane",
@@ -733,7 +733,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "東金市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で東金市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で東金市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "kujukuri",
@@ -756,7 +756,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "九十九里町のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で九十九里町のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で九十九里町のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "oamishirasato",
@@ -779,7 +779,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "大網白里市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で大網白里市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で大網白里市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "sodegaura",
@@ -802,7 +802,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "袖ケ浦市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で袖ケ浦市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で袖ケ浦市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "ichihara",
@@ -825,7 +825,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "市原市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で市原市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で市原市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "kisarazu",
@@ -848,7 +848,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "木更津市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で木更津市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で木更津市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "nagara",
@@ -871,7 +871,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "長柄町のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で長柄町のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で長柄町のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "mobara",
@@ -894,7 +894,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "茂原市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で茂原市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で茂原市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "shirako",
@@ -917,7 +917,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "白子町のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で白子町のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で白子町のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "chosei",
@@ -940,7 +940,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "長生村のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で長生村のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で長生村のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "kimitsu",
@@ -963,7 +963,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "君津市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で君津市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で君津市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "chonan",
@@ -986,7 +986,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "長南町のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で長南町のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で長南町のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "mutsuzawa",
@@ -1009,7 +1009,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "睦沢町のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で睦沢町のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で睦沢町のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "ichinomiya",
@@ -1032,7 +1032,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "一宮町のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で一宮町のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で一宮町のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "futtsu",
@@ -1055,7 +1055,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "富津市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で富津市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で富津市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "otaki",
@@ -1078,7 +1078,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "大多喜町のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で大多喜町のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で大多喜町のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "isumi",
@@ -1101,7 +1101,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "いすみ市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）でいすみ市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）でいすみ市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "onjuku",
@@ -1124,7 +1124,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "御宿町のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で御宿町のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で御宿町のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "katsuura",
@@ -1147,7 +1147,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "勝浦市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で勝浦市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で勝浦市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "kyonan",
@@ -1170,7 +1170,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "鋸南町のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で鋸南町のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で鋸南町のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "kamogawa",
@@ -1193,7 +1193,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "鴨川市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で鴨川市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で鴨川市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "minamiboso",
@@ -1216,7 +1216,7 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "南房総市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で南房総市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で南房総市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   },
   {
     "id": "tateyama",
@@ -1239,6 +1239,6 @@
     "hasStores": false,
     "isIndexable": false,
     "metaTitle": "館山市のお店案内 | KoKo X（ココクロス）",
-    "metaDescription": "KoKo X（ココクロス）で館山市のお店を探せる案内ページ。行く前に雰囲気や人柄、このお店のポイントまで確認できます。"
+    "metaDescription": "KoKo X（ココクロス）で館山市のお店を探せる案内ページ。行く前に雰囲気や人柄、KoKoポイントまで確認できます。"
   }
 ]
