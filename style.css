@@ -1,5 +1,5 @@
-﻿@import url("./assets/css/common.css?v=v2-11");
-@import url("./chiba/map.css?v=v2-11");
+﻿@import url("./assets/css/common.css?v=v2-12");
+@import url("./chiba/map.css?v=v2-12");
 
 /*
  * トップページ専用CSS
@@ -349,7 +349,7 @@ body[data-page="home"] .reveal.is-visible {
 
 /* Home discovery layout */
 body[data-page="home"] .compact-home-hero {
-  min-height: 300px;
+  min-height: 240px;
   align-items: center;
   background:
     radial-gradient(circle at 78% 24%, rgba(23, 176, 110, 0.14), transparent 28%),
@@ -357,17 +357,18 @@ body[data-page="home"] .compact-home-hero {
 }
 
 body[data-page="home"] .compact-home-hero .hero-content {
-  padding: clamp(48px, 7vw, 78px) 0;
+  padding: 42px 0 48px;
 }
 
 .hero-brand {
   display: grid;
   width: fit-content;
-  margin-bottom: 22px;
+  margin-bottom: 16px;
   line-height: 1;
 }
 
 .hero-brand strong {
+  font-size: 62px;
   letter-spacing: -0.045em;
 }
 
@@ -388,13 +389,23 @@ body[data-page="home"] .compact-home-hero .hero-content {
 }
 
 body[data-page="home"] .compact-home-hero h1 {
-  max-width: 760px;
-  line-height: 1.35;
+  max-width: 720px;
+  font-size: 34px;
+  line-height: 1.32;
 }
 
 body[data-page="home"] .compact-home-hero .hero-lead {
-  max-width: 760px;
-  font-size: clamp(15px, 1.8vw, 18px);
+  display: inline-block;
+  max-width: 730px;
+  padding: 13px 16px;
+  color: #274238;
+  background: rgba(255, 255, 255, 0.58);
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  border-radius: 8px;
+  box-shadow: 0 16px 42px rgba(7, 34, 25, 0.08);
+  backdrop-filter: blur(10px) saturate(1.08);
+  font-size: 16px;
+  line-height: 1.75;
 }
 
 body[data-page="home"] .area-discovery-section {
@@ -577,15 +588,30 @@ body[data-page="home"] .home-section-panel .section-heading + * {
   }
 
   body[data-page="home"] .compact-home-hero {
-    min-height: 250px;
+    min-height: 220px;
   }
 
   body[data-page="home"] .compact-home-hero .hero-content {
-    padding: 38px 0 44px;
+    padding: 34px 0 38px;
   }
 
   .hero-brand {
-    margin-bottom: 18px;
+    margin-bottom: 14px;
+  }
+
+  .hero-brand strong {
+    font-size: 48px;
+  }
+
+  body[data-page="home"] .compact-home-hero h1 {
+    font-size: 26px;
+    line-height: 1.36;
+  }
+
+  body[data-page="home"] .compact-home-hero .hero-lead {
+    padding: 12px 14px;
+    font-size: 14px;
+    line-height: 1.68;
   }
 
   .desktop-break {

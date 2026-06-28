@@ -19,7 +19,10 @@ const escapeHtml = (value) =>
 const stores = await readJson("data/stores.json");
 const categories = await readJson("data/categories.json");
 const sourceAreas = await readJson("data/areas.json");
-const siteVersion = "v2-11";
+const siteVersion = "v2-12";
+const siteFlags = {
+  showPrefectureNav: false,
+};
 
 const mapRegionGroups = [
   { id: "chiba", name: "千葉", reading: "ちば", areas: ["chiba", "ichihara"], labelX: 228, labelY: 447 },
@@ -78,6 +81,10 @@ const areas = sourceAreas.map((area) => {
 
 const getRegionAreas = (region) => region.areas.map((areaId) => areas.find((area) => area.id === areaId)).filter(Boolean);
 const getRegionStoreCount = (region) => stores.filter((store) => region.areas.includes(store.areaId)).length;
+const prefectureNavLink = (prefix) =>
+  siteFlags.showPrefectureNav ? `      <a href="${prefix}prefectures/" data-nav-prefectures>都道府県で探す</a>` : "";
+const prefectureFooterLink = (prefix) =>
+  siteFlags.showPrefectureNav ? `      <a href="${prefix}prefectures/" data-nav-prefectures>都道府県で探す</a>` : "";
 
 await writeFile(
   path.join(rootDir, "data/areas.json"),
@@ -93,7 +100,7 @@ const header = (prefix) => `
     </a>
     <nav class="site-nav" aria-label="主要メニュー">
       <a href="${prefix}">トップ</a>
-      <a href="${prefix}prefectures/" data-nav-prefectures>都道府県で探す</a>
+${prefectureNavLink(prefix)}
       <a href="${prefix}bike/">バイク・車</a>
       <a href="${prefix}food/">飲食店</a>
       <a href="${prefix}construction/">建築・職人</a>
@@ -106,7 +113,7 @@ const footer = (prefix) => `
   <footer class="site-footer">
     <p>KoKo X <span aria-hidden="true">─</span> ココクロス</p>
     <nav aria-label="フッターメニュー">
-      <a href="${prefix}prefectures/">都道府県で探す</a>
+${prefectureFooterLink(prefix)}
       <a href="${prefix}chiba/">千葉県のお店案内</a>
       <a href="${prefix}for-shops/">掲載希望の方</a>
       <a href="${prefix}contact/">問い合わせ</a>
@@ -140,17 +147,15 @@ const chibaHtml = `<!DOCTYPE html>
 ${header("../")}
   <main>
     <nav class="breadcrumb" aria-label="パンくずリスト">
-      <a href="../">トップ</a><span aria-hidden="true">/</span>
-      <a href="../prefectures/">都道府県で探す</a><span aria-hidden="true">/</span><span>千葉県</span>
+      <a href="../">トップ</a><span aria-hidden="true">/</span><span>千葉県</span>
     </nav>
 
     <section class="area-directory-hero">
       <div>
         <p class="eyebrow">Prefecture / Chiba</p>
-        <h1>都道府県で探す。まずは千葉県から。</h1>
-        <p>現在は千葉県の市町村・地域・カテゴリから探せます。他の都道府県は選択できるひな型だけ用意しています。</p>
+        <h1>千葉県のお店案内</h1>
+        <p>現在は千葉県の市町村・地域・カテゴリから探せます。</p>
       </div>
-      <a class="button secondary" href="../prefectures/">都道府県一覧へ戻る</a>
     </section>
 
     <section class="section area-discovery-section" aria-labelledby="chiba-map-heading">
@@ -160,7 +165,6 @@ ${header("../")}
           <h2 id="chiba-map-heading">市町村から探す</h2>
           <p class="section-lead">地図の市町村エリア、または一覧から選んでください。</p>
         </div>
-        <span class="area-summary" data-area-summary>市町村情報を読み込み中</span>
       </div>
       <div class="area-discovery-layout">
         <div class="area-map-panel">
@@ -241,7 +245,6 @@ ${header("../../")}
   <main>
     <nav class="breadcrumb" aria-label="パンくずリスト">
       <a href="../../">トップ</a><span aria-hidden="true">/</span>
-      <a href="../../prefectures/">都道府県で探す</a><span aria-hidden="true">/</span>
       <a href="../">千葉県</a><span aria-hidden="true">/</span>
       <span>${escapeHtml(area.name)}</span>
     </nav>
@@ -337,7 +340,6 @@ ${header("../../../")}
   <main>
     <nav class="breadcrumb" aria-label="パンくずリスト">
       <a href="../../../">トップ</a><span aria-hidden="true">/</span>
-      <a href="../../../prefectures/">都道府県で探す</a><span aria-hidden="true">/</span>
       <a href="../../">千葉県</a><span aria-hidden="true">/</span>
       <span>${escapeHtml(region.name)}地域</span>
     </nav>

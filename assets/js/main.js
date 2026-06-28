@@ -1,7 +1,7 @@
 ﻿const siteRootUrl = new URL("../../", document.currentScript.src);
 
 const SITE_FLAGS = {
-  showPrefectureNav: true,
+  showPrefectureNav: false,
 };
 
 const siteUrl = (path) => {
@@ -14,7 +14,7 @@ const DATA_PATHS = {
   stores: siteUrl("data/stores.json"),
   categories: siteUrl("data/categories.json"),
   areas: siteUrl("data/areas.json"),
-  chibaMap: siteUrl("assets/maps/chiba.svg?v=v2-11"),
+  chibaMap: siteUrl("assets/maps/chiba.svg?v=v2-12"),
 };
 
 const state = {
@@ -364,15 +364,24 @@ const loadData = async () => {
 
 const initHeader = () => {
   const path = window.location.pathname;
-  $$(".site-nav a").forEach((link) => {
-    if (link.hasAttribute("data-nav-prefectures") && !SITE_FLAGS.showPrefectureNav) {
+  const prefecturesPath = new URL(siteUrl("prefectures/")).pathname;
+  const chibaPath = new URL(siteUrl("chiba/")).pathname;
+  if (!SITE_FLAGS.showPrefectureNav) {
+    $$("[data-nav-prefectures]").forEach((link) => {
       link.hidden = true;
-      return;
-    }
+    });
+    $$("a").forEach((link) => {
+      const href = new URL(link.getAttribute("href"), window.location.href).pathname;
+      const text = link.textContent.trim();
+      if (href.startsWith(prefecturesPath) && text.includes("都道府県")) link.hidden = true;
+    });
+  }
+  $$(".site-nav a").forEach((link) => {
+    if (link.hidden) return;
     const href = new URL(link.getAttribute("href"), window.location.href).pathname;
     const isPrefectureNav = link.hasAttribute("data-nav-prefectures");
     const active = isPrefectureNav
-      ? path.startsWith(siteUrl("prefectures/").pathname) || path.startsWith(siteUrl("chiba/").pathname)
+      ? path.startsWith(prefecturesPath) || path.startsWith(chibaPath)
       : href === siteRootUrl.pathname ? path === href : path.startsWith(href);
     link.classList.toggle("is-active", active);
   });
@@ -1347,9 +1356,6 @@ const initAreaMaps = async () => {
     target.innerHTML = createAreaListHtml(counts, target.dataset.selectedArea || selectedAreaId);
     const details = target.querySelector(".all-area-details");
     if (details && window.matchMedia("(max-width: 760px)").matches) details.open = false;
-  });
-  $$("[data-area-summary]").forEach((target) => {
-    target.textContent = `千葉県 ${MAP_REGION_GROUPS.length}地域 / ${state.areas.length}市町村`;
   });
   const statusTargets = $$("[data-area-map-status]");
   const mapTargets = $$("[data-area-map]");

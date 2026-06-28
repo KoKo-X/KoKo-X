@@ -1310,9 +1310,6 @@ const initAreaMaps = async () => {
     const details = target.querySelector(".all-area-details");
     if (details && window.matchMedia("(max-width: 760px)").matches) details.open = false;
   });
-  $$("[data-area-summary]").forEach((target) => {
-    target.textContent = `千葉県 ${MAP_REGION_GROUPS.length}地域 / ${state.areas.length}市町村`;
-  });
   const statusTargets = $$("[data-area-map-status]");
   const isTouchMap = () => window.matchMedia("(hover: none), (pointer: coarse), (max-width: 760px)").matches;
   const mapTargets = $$("[data-area-map]");
