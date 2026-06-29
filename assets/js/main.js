@@ -14,7 +14,7 @@ const DATA_PATHS = {
   stores: siteUrl("data/stores.json"),
   categories: siteUrl("data/categories.json"),
   areas: siteUrl("data/areas.json"),
-  chibaMap: siteUrl("assets/maps/chiba.svg?v=v2-15"),
+  chibaMap: siteUrl("assets/maps/chiba.svg?v=v2-19"),
 };
 
 const state = {
@@ -488,8 +488,11 @@ const createAreaMapNode = async (counts, selectedAreaId = "") => {
   labelLayer.setAttribute("aria-hidden", "true");
 
   MAP_REGION_GROUPS.forEach((region) => {
+    const hasRegionStores = region.areas.some((areaId) => (counts.get(areaId) || 0) > 0);
     const outlineGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
     outlineGroup.classList.add("map-region-outline");
+    outlineGroup.classList.toggle("has-region-stores", hasRegionStores);
+    outlineGroup.classList.toggle("no-region-stores", !hasRegionStores);
     outlineGroup.dataset.mapRegionOutline = region.id;
     const outlinePathData = createRegionOutlinePathData(
       region.areas
@@ -508,6 +511,8 @@ const createAreaMapNode = async (counts, selectedAreaId = "") => {
 
     const label = document.createElementNS("http://www.w3.org/2000/svg", "g");
     label.classList.add("map-region-label");
+    label.classList.toggle("has-region-stores", hasRegionStores);
+    label.classList.toggle("no-region-stores", !hasRegionStores);
     label.dataset.mapRegionLabel = region.id;
     label.setAttribute("transform", `translate(${region.labelX} ${region.labelY})`);
 
@@ -606,9 +611,12 @@ const createAreaMapNode = async (counts, selectedAreaId = "") => {
     if (!region) return;
     const area = getArea(areaId);
     const count = counts.get(areaId) || 0;
+    const hasRegionStores = region.areas.some((regionAreaId) => (counts.get(regionAreaId) || 0) > 0);
     link.dataset.mapRegion = region.id;
     link.classList.toggle("has-stores", count > 0);
     link.classList.toggle("no-stores", count === 0);
+    link.classList.toggle("has-region-stores", hasRegionStores);
+    link.classList.toggle("no-region-stores", !hasRegionStores);
     link.classList.toggle("is-active", areaId === selectedAreaId);
     link.setAttribute("href", getAreaUrl(area));
     link.setAttribute("role", "button");
@@ -754,9 +762,6 @@ const initGroupedRegionMap = (counts, mapTargets, statusTargets) => {
       const municipalityNames = region.areas.map(getArea).filter(Boolean).map((area) => area.name);
       const listedAreas = getRegionListedAreas(region, counts);
       const listedCount = listedAreas.reduce((sum, area) => sum + (counts.get(area.id) || 0), 0);
-      const secondaryAction = listedCount
-        ? ""
-        : `<a class="button secondary" href="${escapeHtml(getShopContactUrl())}">掲載を希望する</a>`;
       preview.innerHTML = `
         <div class="area-preview-heading">
           <div>
@@ -769,7 +774,6 @@ const initGroupedRegionMap = (counts, mapTargets, statusTargets) => {
         <p class="area-preview-count">掲載店舗：${listedCount}件</p>
         <div class="area-preview-actions">
           <a class="button primary" href="${escapeHtml(getRegionStoreUrl(region))}">この地域の掲載店舗へ</a>
-          ${secondaryAction}
         </div>
       `;
       preview.hidden = false;
@@ -874,6 +878,7 @@ const initGroupedRegionMap = (counts, mapTargets, statusTargets) => {
     });
 
     mapTarget.addEventListener("mapviewchange", () => {
+      mapTarget.dispatchEvent(new CustomEvent("mapresetview"));
       clearActiveRegion(true);
       clearActiveArea();
       statusTargets.forEach((target) => {
@@ -939,13 +944,6 @@ const initListedOnlyFilters = (mapTargets) => {
   const toggles = $$("[data-listed-only-toggle]");
   const apply = (checked) => {
     toggles.forEach((toggle) => { toggle.checked = checked; });
-    if (checked) {
-      const cityMode = $('input[name="map-view-mode"][value="municipalities"]');
-      if (cityMode && !cityMode.checked) {
-        cityMode.checked = true;
-        cityMode.dispatchEvent(new Event("change", { bubbles: true }));
-      }
-    }
     mapTargets.forEach((target) => {
       target.classList.toggle("is-listed-only", checked);
       target.querySelectorAll(".major-city-label, .major-city-leader, .major-city-anchor").forEach((labelPart) => {
@@ -1093,13 +1091,13 @@ const initMapZoom = (target) => {
     });
     const boundsWidth = bounds.right - bounds.left;
     const boundsHeight = bounds.bottom - bounds.top;
-    const preferredScale = event.detail?.mode === "region" ? 1.55 : 2;
+    const preferredScale = event.detail?.mode === "region" ? 1.16 : 1.38;
     const fitScale = Math.min(
       maxScale,
       baseView.width / Math.max(boundsWidth * 1.35, 1),
       baseView.height / Math.max(boundsHeight * 1.35, 1)
     );
-    const nextScale = Math.max(scale, Math.min(preferredScale, fitScale));
+    const nextScale = Math.max(minScale, Math.min(preferredScale, fitScale));
     const width = baseView.width / nextScale;
     const height = baseView.height / nextScale;
 
@@ -1131,7 +1129,7 @@ const initMapZoom = (target) => {
 
     const centerX = (bounds.left + bounds.right) / 2;
     const centerY = (bounds.top + bounds.bottom) / 2;
-    edgePaddingFactor = 0.65;
+    edgePaddingFactor = 0.28;
     animateToView({
       x: centerX - width * targetRatioX,
       y: centerY - height * targetRatioY,
@@ -1156,6 +1154,7 @@ const initMapZoom = (target) => {
         y: (first.clientY + second.clientY) / 2,
       };
     } else if (scale > 1) {
+      target.setPointerCapture?.(event.pointerId);
       panStart = { x: event.clientX, y: event.clientY, view: { ...view }, isPanning: false };
     }
   });
@@ -1338,7 +1337,6 @@ const createAreaPreviewHtml = (area, counts) => {
     <p>現在、このエリアの掲載店舗を募集中です。</p>
     <div class="area-preview-actions">
       <a class="button primary" href="${escapeHtml(getAreaCardUrl(area))}">この市区町村の掲載店舗へ</a>
-      <a class="button secondary" href="${escapeHtml(getShopContactUrl())}">掲載を希望する</a>
     </div>
   `;
 };

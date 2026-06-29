@@ -1194,6 +1194,7 @@ body[data-page="home"] .area-discovery-section {
     linear-gradient(150deg, rgba(239, 250, 245, 0.84), rgba(247, 252, 249, 0.34));
   scrollbar-color: rgba(23, 176, 110, 0.42) transparent;
   scrollbar-width: thin;
+  overscroll-behavior: contain;
   touch-action: pan-x pan-y;
 }
 
@@ -1208,6 +1209,7 @@ body[data-page="home"] .area-discovery-section {
 
 .area-map-viewport.is-map-zoomed {
   cursor: grab;
+  touch-action: none;
 }
 
 .area-map-viewport.is-map-zoomed:active {
@@ -1749,8 +1751,8 @@ body[data-page="home"] .store-point span {
   }
 
   [data-map-view-mode="municipalities"] .chiba-area-map {
-    width: 640px;
-    min-width: 640px;
+    width: 100%;
+    min-width: 0;
     max-height: none;
     margin: auto;
   }
@@ -2715,6 +2717,44 @@ h3 {
   stroke: #087247;
 }
 
+.is-listed-only[data-map-view-mode="regions"] .area-region.no-region-stores .area-region-shape {
+  fill: #d9dedc !important;
+  stroke: #87938e !important;
+  filter: grayscale(1) saturate(0) brightness(0.94);
+  opacity: 0.84;
+}
+
+.is-listed-only[data-map-view-mode="regions"] .area-region.has-region-stores .area-region-shape {
+  fill: #45be88 !important;
+  stroke: #087247 !important;
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+.is-listed-only[data-map-view-mode="regions"] .map-region-outline.no-region-stores .map-region-outline-shape {
+  stroke: #87938e !important;
+  opacity: 0.76 !important;
+}
+
+.is-listed-only[data-map-view-mode="regions"] .map-region-outline.has-region-stores .map-region-outline-shape {
+  stroke: #087247 !important;
+  opacity: 1 !important;
+}
+
+.is-listed-only[data-map-view-mode="regions"] .map-region-label.no-region-stores .map-label-variant rect {
+  fill: rgba(244, 247, 246, 0.92);
+  stroke: rgba(117, 130, 124, 0.62);
+}
+
+.is-listed-only[data-map-view-mode="regions"] .map-region-label.no-region-stores .map-label-variant text,
+.is-listed-only[data-map-view-mode="regions"] .map-region-label.no-region-stores .map-municipality-region-title {
+  fill: #65726d;
+}
+
+.is-listed-only[data-map-view-mode="regions"] .map-region-label.has-region-stores .map-municipality-region-title {
+  fill: #087247 !important;
+}
+
 @media (max-width: 760px) {
   h1 {
     font-size: clamp(23px, 7vw, 29px);
@@ -2758,8 +2798,10 @@ h3 {
   }
 
   .map-function-controls {
-    position: static;
-    width: auto;
+    position: sticky;
+    top: 8px;
+    left: 8px;
+    width: min(300px, calc(100vw - 40px));
     margin: 42px 4px 8px;
     padding: 8px;
   }
