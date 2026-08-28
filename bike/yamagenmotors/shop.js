@@ -1,46 +1,50 @@
-const shopNavLinks = Array.from(document.querySelectorAll(".shop_menu_scroller a")).filter((link) =>
-  link.getAttribute("href")?.startsWith("#")
-);
-const themeCompareToggle = document.querySelector(".theme_compare_toggle");
-const themeCompareToggleLabel = document.querySelector(".theme_compare_toggle_label");
-const themeStorageKey = "nearby-bike-shop-theme";
+const pistonToggle = document.querySelector(".piston_toggle");
+const pistonToggleText = document.querySelector(".piston_toggle_text");
+const pistonStorageKey = "yamagen-piston-background";
 
-const readStoredTheme = () => {
+const readStoredPistonPreference = () => {
   try {
-    return window.localStorage.getItem(themeStorageKey);
+    return window.localStorage.getItem(pistonStorageKey);
   } catch {
     return null;
   }
 };
 
-const writeStoredTheme = (theme) => {
+const writeStoredPistonPreference = (enabled) => {
   try {
-    window.localStorage.setItem(themeStorageKey, theme);
+    window.localStorage.setItem(pistonStorageKey, enabled ? "on" : "off");
   } catch {
-    // The comparison still works for the current page even when storage is unavailable.
+    // The switch remains usable for the current page when storage is unavailable.
   }
 };
 
-const setShopTheme = (theme) => {
-  const isLightTheme = theme === "light";
-  document.body.classList.toggle("is_light_theme", isLightTheme);
-  themeCompareToggle?.setAttribute("aria-pressed", String(isLightTheme));
+const setPistonEnabled = (enabled, { persist = false } = {}) => {
+  document.body.classList.toggle("is_piston_disabled", !enabled);
+  pistonToggle?.setAttribute("aria-pressed", String(enabled));
+  pistonToggle?.setAttribute("aria-label", `背景ピストンを${enabled ? "オフ" : "オン"}にする`);
 
-  if (themeCompareToggleLabel) {
-    themeCompareToggleLabel.textContent = isLightTheme ? "黒系で見る" : "白系で見る";
+  if (pistonToggleText) {
+    pistonToggleText.textContent = `ピストン ${enabled ? "ON" : "OFF"}`;
   }
 
-  window.dispatchEvent(new CustomEvent("shop-theme-change", { detail: { theme } }));
+  if (persist) {
+    writeStoredPistonPreference(enabled);
+  }
+
+  window.dispatchEvent(new CustomEvent("shop-piston-change", { detail: { enabled } }));
 };
 
-const savedTheme = readStoredTheme();
-setShopTheme(savedTheme === "light" ? "light" : "dark");
+const storedPistonPreference = readStoredPistonPreference();
+setPistonEnabled(storedPistonPreference !== "off");
 
-themeCompareToggle?.addEventListener("click", () => {
-  const nextTheme = document.body.classList.contains("is_light_theme") ? "dark" : "light";
-  writeStoredTheme(nextTheme);
-  setShopTheme(nextTheme);
+pistonToggle?.addEventListener("click", () => {
+  const nextEnabled = document.body.classList.contains("is_piston_disabled");
+  setPistonEnabled(nextEnabled, { persist: true });
 });
+
+const shopNavLinks = Array.from(document.querySelectorAll(".shop_menu_scroller a")).filter((link) =>
+  link.getAttribute("href")?.startsWith("#")
+);
 
 const shopNavTargets = shopNavLinks
   .map((link) => {
@@ -51,17 +55,22 @@ const shopNavTargets = shopNavLinks
 
 const setActiveShopLink = (id) => {
   shopNavLinks.forEach((link) => {
-    link.classList.toggle("is-active", link.getAttribute("href") === `#${id}`);
+    const isActive = link.getAttribute("href") === `#${id}`;
+    link.classList.toggle("is-active", isActive);
+
+    if (isActive) {
+      link.setAttribute("aria-current", "location");
+    } else {
+      link.removeAttribute("aria-current");
+    }
   });
 };
 
 const syncActiveShopLink = () => {
-  if (shopNavTargets.length === 0) {
-    return;
-  }
+  if (shopNavTargets.length === 0) return;
 
-  const fixedTop = parseFloat(getComputedStyle(document.body).getPropertyValue("--shop-fixed-top-height")) || 0;
-  const anchorLine = fixedTop + Math.max(24, window.innerHeight * 0.16);
+  const fixedTop = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--shop-fixed-top-height")) || 0;
+  const anchorLine = fixedTop + Math.max(24, window.innerHeight * 0.14);
   let activeId = shopNavTargets[0].section.id;
 
   shopNavTargets.forEach(({ section }) => {
@@ -76,9 +85,7 @@ const syncActiveShopLink = () => {
 let activeSyncQueued = false;
 
 const queueActiveShopLinkSync = () => {
-  if (activeSyncQueued) {
-    return;
-  }
+  if (activeSyncQueued) return;
 
   activeSyncQueued = true;
   requestAnimationFrame(() => {
@@ -94,30 +101,14 @@ shopNavTargets.forEach(({ link, section }) => {
   });
 });
 
-syncActiveShopLink();
-window.addEventListener("scroll", queueActiveShopLinkSync, { passive: true });
-window.addEventListener("resize", queueActiveShopLinkSync);
-
 const shopMenuBar = document.querySelector(".shop_menu_bar");
 const shopMenuScroller = document.querySelector(".shop_menu_scroller");
 
 if (shopMenuBar && shopMenuScroller) {
   const updateMenuHints = () => {
     const maxScroll = shopMenuScroller.scrollWidth - shopMenuScroller.clientWidth;
-    const leftVisible = shopMenuScroller.scrollLeft > 2;
-    const rightVisible = shopMenuScroller.scrollLeft < maxScroll - 2;
-    const hasOverflow = maxScroll > 2;
-    const thumbWidth = hasOverflow
-      ? Math.max((shopMenuScroller.clientWidth / shopMenuScroller.scrollWidth) * 100, 14)
-      : 100;
-    const thumbLeft = hasOverflow
-      ? (shopMenuScroller.scrollLeft / shopMenuScroller.scrollWidth) * 100
-      : 0;
-
-    shopMenuBar.classList.toggle("has_left_hint", leftVisible);
-    shopMenuBar.classList.toggle("has_right_hint", rightVisible);
-    shopMenuBar.style.setProperty("--menu-thumb-width", `${thumbWidth}%`);
-    shopMenuBar.style.setProperty("--menu-thumb-left", `${thumbLeft}%`);
+    shopMenuBar.classList.toggle("has_left_hint", shopMenuScroller.scrollLeft > 2);
+    shopMenuBar.classList.toggle("has_right_hint", maxScroll > 2 && shopMenuScroller.scrollLeft < maxScroll - 2);
   };
 
   updateMenuHints();
@@ -127,18 +118,15 @@ if (shopMenuBar && shopMenuScroller) {
 
 const shopHeader = document.querySelector(".shop_header");
 
-if (document.body.classList.contains("shop_page") && shopHeader && shopMenuBar) {
+if (shopHeader && shopMenuBar) {
   const updateShopChrome = () => {
     const headerHeight = shopHeader.offsetHeight;
     const menuHeight = shopMenuBar.offsetHeight;
     const fixedTopHeight = headerHeight + menuHeight;
 
     document.documentElement.style.setProperty("--shop-header-height", `${headerHeight}px`);
-    document.documentElement.style.setProperty("--shop-fixed-top-height", `${fixedTopHeight}px`);
     document.documentElement.style.setProperty("--shop-menu-height", `${menuHeight}px`);
-    document.body.style.setProperty("--shop-header-height", `${headerHeight}px`);
-    document.body.style.setProperty("--shop-fixed-top-height", `${fixedTopHeight}px`);
-    document.body.style.setProperty("--shop-menu-height", `${menuHeight}px`);
+    document.documentElement.style.setProperty("--shop-fixed-top-height", `${fixedTopHeight}px`);
     queueActiveShopLinkSync();
   };
 
@@ -151,25 +139,6 @@ if (document.body.classList.contains("shop_page") && shopHeader && shopMenuBar) 
   document.fonts?.ready.then(updateShopChrome).catch(() => {});
 }
 
-const rideTrack = document.querySelector(".bike_scroll_track");
-
-if (rideTrack) {
-  let lastScrollY = window.scrollY;
-
-  const updateRideTrack = () => {
-    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
-    const clamped = Math.min(1, Math.max(0, progress));
-    const direction = window.scrollY < lastScrollY ? -1 : 1;
-
-    document.documentElement.style.setProperty("--ride-progress", `${clamped * 100}%`);
-    document.documentElement.style.setProperty("--ride-ratio", clamped);
-    document.documentElement.style.setProperty("--ride-direction", direction);
-
-    lastScrollY = window.scrollY;
-  };
-
-  updateRideTrack();
-  window.addEventListener("scroll", updateRideTrack, { passive: true });
-  window.addEventListener("resize", updateRideTrack);
-}
+syncActiveShopLink();
+window.addEventListener("scroll", queueActiveShopLinkSync, { passive: true });
+window.addEventListener("resize", queueActiveShopLinkSync);

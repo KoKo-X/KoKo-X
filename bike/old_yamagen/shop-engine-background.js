@@ -26,8 +26,6 @@
     lastTime: performance.now(),
     lastDrawTime: 0,
     visible: !document.hidden,
-    enabled: !document.body.classList.contains("is_piston_disabled"),
-    needsStaticFrame: true,
     particles: [],
   };
 
@@ -77,7 +75,7 @@
   };
 
   function currentPalette() {
-    return themePalettes.dark;
+    return document.body.classList.contains("is_light_theme") ? themePalettes.light : themePalettes.dark;
   }
 
   function resize() {
@@ -96,23 +94,6 @@
     staticCtx.setTransform(state.dpr, 0, 0, state.dpr, 0, 0);
     updateChromeOffset();
     drawStaticBackdrop();
-    state.needsStaticFrame = true;
-  }
-
-  function clearPistonCanvas() {
-    ctx.clearRect(0, 0, state.width, state.height);
-    state.particles.length = 0;
-  }
-
-  function syncPistonState(event) {
-    state.enabled = event?.detail?.enabled ?? !document.body.classList.contains("is_piston_disabled");
-    state.lastTime = performance.now();
-    state.lastDrawTime = 0;
-    state.needsStaticFrame = true;
-
-    if (!state.enabled) {
-      clearPistonCanvas();
-    }
   }
 
   function drawStaticBackdrop() {
@@ -504,18 +485,8 @@
   }
 
   function frame(now) {
-    if (!state.enabled || !state.visible) {
+    if (!state.visible) {
       state.lastTime = now;
-      requestAnimationFrame(frame);
-      return;
-    }
-
-    if (reducedMotion) {
-      if (state.needsStaticFrame) {
-        state.needsStaticFrame = false;
-        drawBackdrop();
-        drawEngine();
-      }
       requestAnimationFrame(frame);
       return;
     }
@@ -542,10 +513,9 @@
 
   resize();
   window.addEventListener("resize", resize, { passive: true });
-  window.addEventListener("shop-piston-change", syncPistonState);
+  window.addEventListener("shop-theme-change", drawStaticBackdrop);
   document.addEventListener("visibilitychange", () => {
     state.visible = !document.hidden;
-    state.needsStaticFrame = true;
   });
   requestAnimationFrame(frame);
 })();
