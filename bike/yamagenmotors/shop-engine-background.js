@@ -325,7 +325,7 @@
     const minSide = Math.min(state.width, state.height);
     const scale = clamp(minSide / 760, 0.58, 1.05);
     const engine = {
-      cx: state.width * 0.5,
+      cx: state.width * (state.width >= 1040 ? 0.89 : 0.5),
       top: state.height * (state.width < 760 ? 0.15 : 0.11) + state.chromeOffset,
       cylinderWidth: 190 * scale,
       cylinderHeight: 360 * scale,

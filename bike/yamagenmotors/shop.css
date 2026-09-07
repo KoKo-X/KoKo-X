@@ -12,6 +12,9 @@
   --shop-header-height: 78px;
   --shop-menu-height: 50px;
   --shop-fixed-top-height: 128px;
+  --ride-progress: 0%;
+  --ride-ratio: 0;
+  --ride-direction: 1;
   color-scheme: dark;
   scroll-behavior: smooth;
 }
@@ -27,6 +30,7 @@ html {
 
 body {
   margin: 0;
+  padding-bottom: 64px;
   color: var(--ym-paper);
   background: var(--ym-ink);
   font-family: "Noto Sans JP", "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
@@ -58,11 +62,12 @@ summary {
 .shop_engine_canvas {
   position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: 2;
   width: 100%;
   height: 100%;
   pointer-events: none;
   opacity: 0.34;
+  mix-blend-mode: screen;
   transition: opacity 220ms ease;
 }
 
@@ -82,9 +87,95 @@ main,
   z-index: 30;
 }
 
-main,
 .site_footer {
   z-index: 1;
+}
+
+main {
+  z-index: auto;
+}
+
+.shop_hero,
+.service_section,
+.price_section,
+.koko_interview,
+.flow_section,
+.faq_section {
+  position: relative;
+  z-index: 1;
+}
+
+.quick_facts,
+.smile_section,
+.work_section,
+.owner_section,
+.access_section,
+.contact_section,
+.site_footer {
+  position: relative;
+  z-index: 3;
+}
+
+.bike_scroll_track {
+  position: fixed;
+  right: clamp(10px, 4vw, 42px);
+  bottom: 8px;
+  left: clamp(10px, 4vw, 42px);
+  z-index: 26;
+  height: 56px;
+  pointer-events: none;
+}
+
+.track_road {
+  position: absolute;
+  right: 42px;
+  bottom: 13px;
+  left: 42px;
+  height: 10px;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, var(--ym-orange), var(--ym-orange)) left / var(--ride-progress) 100% no-repeat,
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.76) 0 16px, transparent 16px 30px),
+    #292c2b;
+  border: 2px solid rgba(255, 255, 255, 0.82);
+  border-radius: 99px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.34);
+}
+
+.scroll_bike {
+  position: absolute;
+  bottom: 12px;
+  left: calc(42px + (100% - 116px) * var(--ride-ratio));
+  width: 74px;
+  height: 52px;
+  filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.38));
+  transform: scaleX(var(--ride-direction));
+  transform-origin: center;
+  transition: left 120ms linear, transform 160ms ease;
+}
+
+.scroll_bike img,
+.track_flag img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.track_flag {
+  position: absolute;
+  bottom: 8px;
+  width: 44px;
+  height: 44px;
+  filter: drop-shadow(0 4px 7px rgba(0, 0, 0, 0.32));
+}
+
+.start_flag {
+  left: 0;
+}
+
+.goal_flag {
+  right: 0;
 }
 
 .shop_header {
@@ -368,7 +459,7 @@ main,
   flex-direction: column;
   justify-content: center;
   padding: 70px clamp(28px, 5.5vw, 82px) 62px clamp(30px, 4vw, 66px);
-  background: rgba(16, 17, 18, 0.94);
+  background: rgba(16, 17, 18, 0.78);
 }
 
 .hero_content::before {
@@ -558,7 +649,7 @@ main,
 }
 
 .service_section {
-  background: rgba(16, 17, 18, 0.86);
+  background: rgba(16, 17, 18, 0.68);
 }
 
 .service_grid {
@@ -575,7 +666,7 @@ main,
   gap: 24px;
   align-items: start;
   padding: 34px clamp(24px, 3vw, 42px);
-  background: rgba(18, 19, 20, 0.72);
+  background: rgba(18, 19, 20, 0.62);
   border-right: 1px solid var(--ym-line);
   border-bottom: 1px solid var(--ym-line);
 }
@@ -645,29 +736,8 @@ main,
   background: var(--ym-paper);
 }
 
-.smile_graphic {
+.smile_visual {
   min-height: 500px;
-  display: grid;
-  place-content: center;
-  overflow: hidden;
-  color: var(--ym-ink);
-  background: var(--ym-orange);
-  text-align: center;
-}
-
-.smile_word {
-  font-size: clamp(72px, 10vw, 145px);
-  font-weight: 900;
-  line-height: 0.7;
-  letter-spacing: -0.08em;
-  opacity: 0.18;
-  transform: rotate(-90deg);
-}
-
-.smile_face {
-  font-size: clamp(110px, 13vw, 180px);
-  font-weight: 900;
-  line-height: 0.6;
 }
 
 .smile_copy {
@@ -700,7 +770,7 @@ main,
 }
 
 .price_section {
-  background: rgba(26, 27, 29, 0.9);
+  background: rgba(26, 27, 29, 0.68);
 }
 
 .price_heading {
@@ -756,10 +826,53 @@ main,
 }
 
 .work_visual {
+  position: relative;
   min-height: 420px;
-  background:
-    linear-gradient(90deg, rgba(16, 17, 18, 0.05), rgba(16, 17, 18, 0.55)),
-    url("../../assets/bike-shop-hero.png") 68% center / cover no-repeat;
+}
+
+.concept_visual {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  background: var(--ym-ink-soft);
+}
+
+.concept_visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(16, 17, 18, 0.46), transparent 36%);
+  pointer-events: none;
+}
+
+.concept_visual img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.smile_visual img {
+  object-position: center 34%;
+}
+
+.work_visual img {
+  object-position: center;
+}
+
+.concept_visual figcaption {
+  position: absolute;
+  z-index: 1;
+  right: 16px;
+  bottom: 14px;
+  left: 16px;
+  margin: 0;
+  padding: 8px 10px;
+  color: var(--ym-paper);
+  background: rgba(16, 17, 18, 0.78);
+  font-size: 10px;
+  line-height: 1.5;
+  text-align: center;
 }
 
 .work_copy {
@@ -804,20 +917,10 @@ main,
 
 .owner_photo {
   min-height: 520px;
-  display: grid;
-  place-items: end center;
-  color: var(--ym-paper);
-  background:
-    linear-gradient(0deg, rgba(16, 17, 18, 0.8), transparent 40%),
-    repeating-linear-gradient(90deg, transparent 0 48px, rgba(255, 255, 255, 0.04) 48px 49px),
-    linear-gradient(145deg, #55514b, #1b1c1e);
 }
 
-.owner_photo span {
-  margin: 0 0 20px;
-  padding: 9px 12px;
-  background: rgba(16, 17, 18, 0.75);
-  font-size: 11px;
+.owner_photo img {
+  object-position: center 24%;
 }
 
 .owner_copy {
@@ -845,7 +948,7 @@ main,
   gap: 44px;
   padding: clamp(64px, 8vw, 108px) clamp(22px, 7vw, 100px);
   color: var(--ym-paper);
-  background: rgba(33, 35, 38, 0.94);
+  background: rgba(33, 35, 38, 0.72);
   border-top: 8px solid var(--ym-orange);
 }
 
@@ -868,7 +971,7 @@ main,
 
 .flow_section,
 .faq_section {
-  background: rgba(16, 17, 18, 0.86);
+  background: rgba(16, 17, 18, 0.68);
 }
 
 .flow_list {
@@ -1151,12 +1254,8 @@ main,
     grid-template-columns: 1fr;
   }
 
-  .smile_graphic {
+  .smile_visual {
     min-height: 290px;
-  }
-
-  .smile_word {
-    transform: none;
   }
 
   .price_heading {
@@ -1280,7 +1379,7 @@ main,
     font-size: 19px;
   }
 
-  .smile_graphic {
+  .smile_visual {
     min-height: 240px;
   }
 
@@ -1317,6 +1416,33 @@ main,
   .site_footer {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .bike_scroll_track {
+    right: 8px;
+    bottom: 5px;
+    left: 8px;
+    height: 48px;
+  }
+
+  .track_road {
+    right: 32px;
+    bottom: 11px;
+    left: 32px;
+    height: 8px;
+  }
+
+  .scroll_bike {
+    bottom: 10px;
+    left: calc(32px + (100% - 96px) * var(--ride-ratio));
+    width: 64px;
+    height: 46px;
+  }
+
+  .track_flag {
+    bottom: 6px;
+    width: 36px;
+    height: 36px;
   }
 }
 

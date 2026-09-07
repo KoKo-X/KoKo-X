@@ -142,3 +142,36 @@ if (shopHeader && shopMenuBar) {
 syncActiveShopLink();
 window.addEventListener("scroll", queueActiveShopLinkSync, { passive: true });
 window.addEventListener("resize", queueActiveShopLinkSync);
+
+const rideTrack = document.querySelector(".bike_scroll_track");
+
+if (rideTrack) {
+  let lastScrollY = window.scrollY;
+  let rideUpdateQueued = false;
+
+  const updateRideTrack = () => {
+    rideUpdateQueued = false;
+
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+    const clamped = Math.min(1, Math.max(0, progress));
+    const direction = window.scrollY < lastScrollY ? -1 : 1;
+
+    document.documentElement.style.setProperty("--ride-progress", `${clamped * 100}%`);
+    document.documentElement.style.setProperty("--ride-ratio", clamped);
+    document.documentElement.style.setProperty("--ride-direction", direction);
+    lastScrollY = window.scrollY;
+  };
+
+  const queueRideTrackUpdate = () => {
+    if (rideUpdateQueued) return;
+
+    rideUpdateQueued = true;
+    requestAnimationFrame(updateRideTrack);
+  };
+
+  updateRideTrack();
+  window.addEventListener("scroll", queueRideTrackUpdate, { passive: true });
+  window.addEventListener("resize", queueRideTrackUpdate);
+  window.addEventListener("load", queueRideTrackUpdate);
+}

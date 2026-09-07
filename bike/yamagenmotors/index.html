@@ -12,9 +12,9 @@
   <meta property="og:locale" content="ja_JP">
   <link rel="canonical" href="https://koko-x.github.io/KoKo-X/bike/yamagenmotors/">
   <title>ヤマゲンモータース | 気楽に話せる我孫子市のバイクショップ</title>
-  <link rel="stylesheet" href="./shop.css?v=yamagen-production-2">
-  <script src="./shop.js?v=yamagen-production-2" defer></script>
-  <script src="./shop-engine-background.js?v=yamagen-production-2" defer></script>
+  <link rel="stylesheet" href="./shop.css?v=yamagen-production-3">
+  <script src="./shop.js?v=yamagen-production-3" defer></script>
+  <script src="./shop-engine-background.js?v=yamagen-production-3" defer></script>
 </head>
 <body class="shop_page">
   <canvas id="shop-engine-canvas" class="shop_engine_canvas" aria-hidden="true"></canvas>
@@ -56,6 +56,13 @@
   </nav>
 
   <main id="top">
+    <div class="bike_scroll_track" aria-hidden="true">
+      <span class="track_flag start_flag"><img src="../../assets/scroll-start-flag.png" alt=""></span>
+      <span class="track_road"></span>
+      <span class="track_flag goal_flag"><img src="../../assets/scroll-goal-flag.png" alt=""></span>
+      <span class="scroll_bike"><img src="../../assets/scroll-bike.png" alt=""></span>
+    </div>
+
     <section class="shop_hero" aria-labelledby="hero_title">
       <div class="hero_visual">
         <picture>
@@ -115,7 +122,10 @@
     </section>
 
     <section id="difference" class="smile_section" aria-labelledby="difference_title">
-      <div class="smile_graphic" aria-hidden="true"><span class="smile_word">SMILE</span><span class="smile_face">◡</span></div>
+      <figure class="smile_visual concept_visual">
+        <img src="../../assets/yamagen-smile-concept.webp" alt="笑顔でお客様の話を聞くバイク整備士のイメージ画像" width="1024" height="1536" loading="lazy">
+        <figcaption>実際の接客風景を撮影するまでのイメージ画像です</figcaption>
+      </figure>
       <div class="smile_copy">
         <p class="eyebrow">OUR DIFFERENCE</p>
         <h2 id="difference_title">笑顔で話せることも、<br>技術のひとつだと思う。</h2>
@@ -139,7 +149,10 @@
     </section>
 
     <section id="works" class="work_section" aria-labelledby="works_title">
-      <div class="work_visual" role="img" aria-label="整備作業実績のイメージ"></div>
+      <figure class="work_visual concept_visual">
+        <img src="../../assets/yamagen-work-concept.webp" alt="バイクのエンジン周辺を整備する作業イメージ" width="1751" height="898" loading="lazy">
+        <figcaption>実際の作業写真へ差し替えるまでのイメージ画像です</figcaption>
+      </figure>
       <div class="work_copy">
         <p class="eyebrow">REAL WORK</p><h2 id="works_title">作業実績が、いちばん正直なプロフィール。</h2>
         <ul class="work_meta" aria-label="作業実績例"><li>RZ250</li><li>キャブレターO/H</li><li>2025.12</li></ul>
@@ -149,7 +162,10 @@
     </section>
 
     <section id="owner" class="section owner_section" aria-labelledby="owner_title">
-      <div class="owner_photo" role="img" aria-label="店主の写真を掲載する予定のエリア"><span>店主の実写真へ差し替え予定</span></div>
+      <figure class="owner_photo concept_visual">
+        <img src="../../assets/yamagen-owner-concept.webp" alt="バイクと一緒に笑顔で立つ整備士のイメージ画像" width="1024" height="1536" loading="lazy">
+        <figcaption>店主の実写真へ差し替えるまでのイメージ画像です</figcaption>
+      </figure>
       <div class="owner_copy">
         <p class="eyebrow">MEET THE MECHANIC</p><h2 id="owner_title">整備する人の顔が見える安心。</h2>
         <p class="owner_name">代表　宮原 太郎</p>
