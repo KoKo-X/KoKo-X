@@ -233,29 +233,11 @@ main {
   letter-spacing: 0.18em;
 }
 
-.shop_header_nav {
-  display: flex;
-  align-items: center;
-  gap: clamp(18px, 3vw, 34px);
-  margin-left: auto;
-}
-
-.shop_header_nav a {
-  color: var(--ym-text-soft);
-  font-size: 12px;
-  font-weight: 700;
-  text-decoration: none;
-  transition: color 160ms ease;
-}
-
-.shop_header_nav a:hover {
-  color: var(--ym-white);
-}
-
 .shop_header_actions {
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-left: auto;
   flex: 0 0 auto;
 }
 
@@ -1163,10 +1145,6 @@ main {
 }
 
 @media (max-width: 1040px) {
-  .shop_header_nav {
-    display: none;
-  }
-
   .shop_hero {
     grid-template-columns: 1fr;
   }
