@@ -324,29 +324,30 @@
     const palette = currentPalette();
     const minSide = Math.min(state.width, state.height);
     const scale = clamp(minSide / 760, 0.58, 1.05);
+    const engineTop = state.height * (state.width < 760 ? 0.15 : 0.11) + state.chromeOffset;
+    const crankRadius = 76 * scale;
     const engine = {
       cx: state.width * (state.width >= 1040 ? 0.89 : 0.5),
-      top: state.height * (state.width < 760 ? 0.15 : 0.11) + state.chromeOffset,
+      top: engineTop,
       cylinderWidth: 190 * scale,
       cylinderHeight: 360 * scale,
       pistonHeight: 72 * scale,
-      crankRadius: 76 * scale,
-      crankY: state.height * (state.width < 760 ? 0.67 : 0.68) + state.chromeOffset,
+      pistonPinOffset: 42 * scale,
+      crankRadius,
+      connectingRodLength: crankRadius * 3.4,
+      crankY: engineTop + 464 * scale,
       scale,
     };
 
     const crankAngle = (state.angle * Math.PI) / 180;
     const crankX = engine.cx + Math.sin(crankAngle) * engine.crankRadius;
     const crankPinY = engine.crankY - Math.cos(crankAngle) * engine.crankRadius;
-    const pistonTopClearance = 88 * scale;
-    const pistonBottomClearance = 24 * scale;
-    const pistonTravel =
-      engine.cylinderHeight - pistonTopClearance - pistonBottomClearance - engine.pistonHeight;
-    const pistonY =
-      engine.top +
-      pistonTopClearance +
-      engine.pistonHeight +
-      ((1 - Math.cos(crankAngle)) / 2) * pistonTravel;
+    const rodHorizontalOffset = crankX - engine.cx;
+    const rodVerticalOffset = Math.sqrt(
+      Math.max(0, engine.connectingRodLength ** 2 - rodHorizontalOffset ** 2),
+    );
+    const pistonPinY = crankPinY - rodVerticalOffset;
+    const pistonY = pistonPinY + engine.pistonHeight - engine.pistonPinOffset;
     const cycle = getCycle(state.angle);
     const chamberTop = engine.top + 24 * scale;
     const chamberBottom = pistonY - engine.pistonHeight * 0.12;
@@ -405,7 +406,7 @@
     ctx.strokeStyle = palette.rod;
     ctx.lineWidth = 11 * scale;
     ctx.beginPath();
-    ctx.moveTo(engine.cx, pistonY);
+    ctx.moveTo(engine.cx, pistonPinY);
     ctx.lineTo(crankX, crankPinY);
     ctx.stroke();
     ctx.strokeStyle = palette.rodShadow;
